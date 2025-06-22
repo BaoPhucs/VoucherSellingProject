@@ -1,0 +1,94 @@
+﻿<Page x:Class="VoucherSales_WPF.Pages.CartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="CartPage">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- DataGrid: nhớ đóng dấu '>' sau attribute cuối -->
+        <DataGrid x:Name="dgCart"
+              ItemsSource="{Binding CartItems}"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              IsReadOnly="False"
+              SelectionMode="Extended"
+              SelectionUnit="FullRow"
+              Margin="0,0,0,10">
+
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Chọn"
+                            Binding="{Binding IsSelected, Mode=TwoWay}"
+                            Width="50"/>
+                
+                <!-- Voucher Name -->
+                <DataGridTextColumn Header="Voucher"
+                            Binding="{Binding VoucherName}"
+                            IsReadOnly="True"
+                            Width="2*"/>
+
+                <!-- Qty: chuyển sang Template để cập nhật ngay -->
+                <DataGridTemplateColumn Header="Qty" Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Quantity}"
+                         HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Quantity,
+                               Mode=TwoWay,
+                               UpdateSourceTrigger=PropertyChanged}"
+                       HorizontalContentAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Unit Price -->
+                <DataGridTextColumn Header="Unit Price"
+                            Binding="{Binding UnitPrice, StringFormat=C}"
+                            IsReadOnly="True"
+                            Width="100"/>
+
+                <!-- Subtotal -->
+                <DataGridTextColumn Header="Subtotal"
+                            Binding="{Binding Subtotal, StringFormat=C}"
+                            IsReadOnly="True"
+                            Width="100"/>
+
+                <!-- Remove button -->
+                <DataGridTemplateColumn Header="Remove" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Xóa"
+                      Click="OnRemoveFromCart"
+                      Tag="{Binding CartItemId}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <!-- Đóng DataGrid -->
+
+        <!-- Footer: Tổng & Checkout -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                HorizontalAlignment="Right" Margin="0,10,0,0">
+            <TextBlock Text="Tổng:" FontSize="16" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding CartTotal, StringFormat=C}"
+                 FontSize="16" FontWeight="Bold"
+                 VerticalAlignment="Center" Margin="10,0"/>
+            <Button Content="Thanh toán"
+              Style="{StaticResource PrimaryButton}"
+              Width="120"
+              Click="OnCheckout"/>
+        </StackPanel>
+
+    </Grid>
+    <!-- Đóng Grid -->
+</Page>
+<!-- Đóng Page -->

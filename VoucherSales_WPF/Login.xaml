@@ -1,0 +1,156 @@
+﻿<Window x:Class="VoucherSales_WPF.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VoucherSales_WPF"
+        mc:Ignorable="d"
+        Title="Voucher Sales"
+        Height="600
+        " Width="900
+        "
+        Background="#F0F4F8"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- 1. Định nghĩa màu & style chung -->
+    <Window.Resources>
+        <!-- Bảng màu -->
+        <Color x:Key="PrimaryColor">#0078D7</Color>
+        <Color x:Key="PrimaryDarkColor">#005A9E</Color>
+        <Color x:Key="AccentColor">#2A9D8F</Color>
+        <Color x:Key="BackgroundColor">#F0F4F8</Color>
+
+        <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
+        <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDarkColor}"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+
+        <!-- Style cho Button chính -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="0,15,0,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Opacity" Value="0.8"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style cho TextBox và PasswordBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="0,5,0,0"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="BorderBrush" Value="#CCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+        <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type TextBox}}"/>
+
+        <!-- Style cho TabControl -->
+        <Style TargetType="TabControl">
+            <Setter Property="Margin" Value="0,20,0,0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#666"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid AutomationProperties.IsOffscreenBehavior="FromClip">
+        <!-- Bao form trong một panel chính giữa màn hình -->
+        <Border Background="White"
+                CornerRadius="8"
+                Padding="30"
+                MaxWidth="400"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" Width="403" Height="491" >
+            <Border.Effect>
+                <DropShadowEffect 
+                    Color="Black"
+                    BlurRadius="8"
+                    ShadowDepth="2"
+                    Opacity="0.2" />
+            </Border.Effect>
+
+            <StackPanel Margin="0,14,0,1">
+                <!-- Logo / Tựa đề -->
+                <TextBlock x:Name="tbVoucherSales" Text="Voucher Sales"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource AccentBrush}"
+                           HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <TabControl x:Name="tabControlLoginRegister" Height="348" Width="282">
+                    <!-- Login Tab -->
+                    <TabItem x:Name="tbiLogin" Header="Login">
+                        <StackPanel Height="250">
+                            <TextBlock x:Name="tbUserNameLogin" Text="Username" Margin="0,15,0,0"/>
+                            <TextBox x:Name="txtLoginUsername" Height="30"/>
+
+                            <TextBlock x:Name="tbPasswordLogin" Text="Password" Margin="0,15,0,0"/>
+                            <TextBox x:Name="txtLoginPassword" Height="30"/>
+                            <Button x:Name="btnLogin" Content="Login"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Command="{Binding LoginCommand}" Height="25" Click="btnLogin_Click"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <!-- Register Tab -->
+                    <TabItem x:Name="tbiRegister" Header="Register">
+                        <StackPanel Height="303">
+                            <TextBlock x:Name="tbUserNameRegister" Text="Username" Margin="0,5,0,0"/>
+                            <TextBox x:Name="txtRegisterUsername" Height="30" Margin="0,0,0,0"/>
+
+                            <TextBlock Text="Full Name" Margin="0,5,0,0"/>
+                            <TextBox x:Name="txtRegisterFullName" Height="30"/>
+
+                            <TextBlock x:Name="tbEmailRegister" Text="Email" Margin="0,5,0,0"/>
+                            <TextBox x:Name="txtRegisterEmail" Height="30" BorderBrush="#FFCCCCCC" Margin="0,0,0,0"/>
+
+                            <TextBlock x:Name="tbPasswordRegister" Text="Password" Margin="0,5,0,0"/>
+                            <TextBox x:Name="txtRegisterPassword" Height="30" Background="White" BorderBrush="#FFB3B3B3" Margin="0,0,0,0"/>
+
+                            <TextBlock x:Name="tbConfirmPasswordRegister" Text="Confirm Password" Margin="0,5,0,0"/>
+                            <TextBox x:Name="txtRegisterConfirmPassword" Height="30" BorderBrush="#FFCCCCCC" Margin="0,0,0,0"/>
+                            <Button x:Name="btnRegister" Content="Register"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Command="{Binding RegisterCommand}" Height="25" Margin="0,15,0,0" Click="btnRegister_Click"/>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+
+                <!-- Tab cho Login / Register -->
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

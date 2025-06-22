@@ -1,0 +1,80 @@
+﻿<Window x:Class="VoucherSales_WPF.CustomerMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Voucher Sales - Customer"
+        Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F4F8">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryBrush"     Color="#0078D7"/>
+        <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#005A9E"/>
+        <SolidColorBrush x:Key="AccentBrush"      Color="#2A9D8F"/>
+
+        <Style x:Key="SidebarButton" TargetType="Button">
+            <Setter Property="Background"       Value="Transparent"/>
+            <Setter Property="Foreground"       Value="White"/>
+            <Setter Property="FontWeight"       Value="SemiBold"/>
+            <Setter Property="Padding"          Value="10"/>
+            <Setter Property="Margin"           Value="0,5,0,0"/>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Left" Margin="10,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- cột sidebar -->
+            <ColumnDefinition Width="200"/>
+            <!-- cột nội dung chính -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0"
+                Background="{StaticResource PrimaryBrush}"
+                Padding="20">
+            <StackPanel>
+                <TextBlock Text="Voucher Sales"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="White"
+                           Margin="0,0,0,20"/>
+                <Button x:Name="btnCatalogue"
+                        Content="Catalogue"
+                        Style="{StaticResource SidebarButton}"/>
+                <Button x:Name="btnCart"
+                        Content="Cart"
+                        Style="{StaticResource SidebarButton}"/>
+                <Button x:Name="btnOrders"
+                        Content="Orders"
+                        Style="{StaticResource SidebarButton}"/>
+                <Button x:Name="btnLogout"
+                        Content="Logout"
+                        Style="{StaticResource SidebarButton}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Frame để hiển thị Page ở cột phải -->
+        <Frame x:Name="MainFrame"
+               Grid.Column="1"
+               NavigationUIVisibility="Hidden"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               Background="White"/>
+    </Grid>
+</Window>

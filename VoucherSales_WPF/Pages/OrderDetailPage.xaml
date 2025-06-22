@@ -1,0 +1,91 @@
+﻿<Page x:Class="VoucherSales_WPF.Pages.OrderDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VoucherSales_WPF.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OrderDetailPage">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header + Back -->
+            <RowDefinition Height="Auto"/>
+            <!-- Order info -->
+            <RowDefinition Height="*"/>
+            <!-- OrderItems -->
+            <RowDefinition Height="Auto"/>
+            <!-- Payment info -->
+        </Grid.RowDefinitions>
+
+        <!-- 1) Header + Back -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Button Content="← Back" Click="OnBack" Margin="0,0,20,0"/>
+            <TextBlock Text="Order Details" FontSize="20" FontWeight="Bold"/>
+        </StackPanel>
+
+        <!-- 2) Order basic info -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10">
+            <TextBlock Text="Order ID: " FontWeight="SemiBold"/>
+            <TextBlock Text="{Binding CurrentOrder.OrderId}" Margin="0,0,20,0"/>
+            <TextBlock Text="Date: " FontWeight="SemiBold"/>
+            <TextBlock Text="{Binding CurrentOrder.OrderDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}"/>
+            <TextBlock Text="  Status: " FontWeight="SemiBold" Margin="20,0,0,0"/>
+            <TextBlock Text="{Binding CurrentOrder.PaymentStatus}"/>
+        </StackPanel>
+
+        <!-- 3) OrderItems -->
+        <DataGrid Grid.Row="2"
+              ItemsSource="{Binding CurrentOrder.OrderItems}"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              IsReadOnly="True"
+              Margin="0,10,0,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Voucher"
+                            Binding="{Binding VoucherType.Name}"
+                            Width="2*"/>
+                <DataGridTextColumn Header="Qty"
+                            Binding="{Binding Quantity}"
+                            Width="60"/>
+                <DataGridTextColumn Header="Unit Price"
+                            Binding="{Binding UnitPrice, StringFormat=C}"
+                            Width="100"/>
+                <DataGridTextColumn Header="Subtotal"
+                            Binding="{Binding Subtotal, StringFormat=C}"
+                            Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- 4) Payment Information -->
+        <Border Grid.Row="3" 
+            BorderBrush="#DDD" BorderThickness="1" 
+            Padding="10" CornerRadius="4">
+            <StackPanel>
+                <TextBlock Text="Payment Information" 
+                   FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                <UniformGrid Columns="2" Rows="3" Margin="0,0,0,5">
+                    <TextBlock Text="Method:" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding CurrentPayment.PaymentMethod}"/>
+
+                    <TextBlock Text="Amount:" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding CurrentPayment.Amount, StringFormat=C}"/>
+
+                    <TextBlock Text="Date:" FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding CurrentPayment.TransactionDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}"/>
+                </UniformGrid>
+
+                <TextBlock Text="Transaction Ref:" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding CurrentPayment.TransactionRef}" 
+                   Foreground="#555" Margin="0,0,0,5"/>
+
+                <TextBlock Text="Status:" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding CurrentPayment.Status}"
+           Foreground="{StaticResource AccentBrush}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
