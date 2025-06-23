@@ -94,7 +94,7 @@
                 Padding="30"
                 MaxWidth="400"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center" Width="403" Height="491" >
+                VerticalAlignment="Center" Width="456" Height="564" >
             <Border.Effect>
                 <DropShadowEffect 
                     Color="Black"
@@ -110,7 +110,7 @@
                            FontWeight="Bold"
                            Foreground="{StaticResource AccentBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TabControl x:Name="tabControlLoginRegister" Height="348" Width="282">
+                <TabControl x:Name="tabControlLoginRegister" Height="400" Width="282">
                     <!-- Login Tab -->
                     <TabItem x:Name="tbiLogin" Header="Login">
                         <StackPanel Height="250">
@@ -127,7 +127,7 @@
 
                     <!-- Register Tab -->
                     <TabItem x:Name="tbiRegister" Header="Register">
-                        <StackPanel Height="303">
+                        <StackPanel Height="351">
                             <TextBlock x:Name="tbUserNameRegister" Text="Username" Margin="0,5,0,0"/>
                             <TextBox x:Name="txtRegisterUsername" Height="30" Margin="0,0,0,0"/>
 
@@ -136,6 +136,9 @@
 
                             <TextBlock x:Name="tbEmailRegister" Text="Email" Margin="0,5,0,0"/>
                             <TextBox x:Name="txtRegisterEmail" Height="30" BorderBrush="#FFCCCCCC" Margin="0,0,0,0"/>
+
+                            <TextBlock x:Name="tbPhoneRegister" Text="Phone" Margin="0,5,0,0"/>
+                            <TextBox x:Name="txtRegisterPhone" Height="30" BorderBrush="#FFCCCCCC" Margin="0,0,0,0"/>
 
                             <TextBlock x:Name="tbPasswordRegister" Text="Password" Margin="0,5,0,0"/>
                             <TextBox x:Name="txtRegisterPassword" Height="30" Background="White" BorderBrush="#FFB3B3B3" Margin="0,0,0,0"/>

@@ -13,11 +13,7 @@ public partial class VoucherRedemption
 
     public DateTime RedeemedAt { get; set; }
 
-    public int? OrderId { get; set; }
-
     public string? Location { get; set; }
-
-    public Order? Order { get; set; }
 
     public User RedeemedByUser { get; set; } 
 

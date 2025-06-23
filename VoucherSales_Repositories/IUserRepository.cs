@@ -10,6 +10,8 @@ namespace VoucherSales_Repositories
     public interface IUserRepository
     {
         User? ValidateLogin(string username, string password);
-        bool Register(string fillname, string username, string email, string password);
+        bool Register(string fillname, string username, string email, string phone, string password);
+        bool UpdateProfile(User user);
+        bool ChangePassword(int userId, string currentPassword, string newPassword);
     }
 }

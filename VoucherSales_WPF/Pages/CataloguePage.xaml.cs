@@ -60,18 +60,54 @@ namespace VoucherSales_WPF.Pages
 
         private void OnApplyFilters(object sender, RoutedEventArgs e)
         {
+            // 1. Lấy giá trị keyword, category, location
             string keyword = txtSearch.Text.Trim().ToLower();
             string cat = cbCategory.SelectedItem as string;
             string loc = cbLocation.SelectedItem as string;
 
+            // 2. Parse price range (nếu người dùng nhập)
+            decimal? minPrice = null;
+            decimal? maxPrice = null;
+
+            if (!string.IsNullOrWhiteSpace(txtMinPrice.Text))
+            {
+                if (decimal.TryParse(txtMinPrice.Text, out var mp))
+                    minPrice = mp;
+                else
+                {
+                    MessageBox.Show("Invalid Min Price", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtMaxPrice.Text))
+            {
+                if (decimal.TryParse(txtMaxPrice.Text, out var xp))
+                    maxPrice = xp;
+                else
+                {
+                    MessageBox.Show("Invalid Max Price", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+
+            // 3. Lọc danh sách gốc (_voucherTypes) theo tất cả điều kiện
             var filtered = _voucherTypes.Where(v =>
+                // keyword (tìm trong Name hoặc Description)
                 (string.IsNullOrEmpty(keyword)
                     || v.Name.ToLower().Contains(keyword)
                     || (v.Description?.ToLower().Contains(keyword) ?? false))
+                // category
                 && (string.IsNullOrEmpty(cat) || v.Category == cat)
+                // location
                 && (string.IsNullOrEmpty(loc) || v.Location == loc)
+                // minPrice
+                && (!minPrice.HasValue || v.DiscountValue >= minPrice.Value)
+                // maxPrice
+                && (!maxPrice.HasValue || v.DiscountValue <= maxPrice.Value)
             ).ToList();
 
+            // 4. Đưa lên UI
             icVouchers.ItemsSource = filtered;
         }
 

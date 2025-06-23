@@ -63,6 +63,12 @@
                 <Button x:Name="btnOrders"
                         Content="Orders"
                         Style="{StaticResource SidebarButton}"/>
+                <Button x:Name="btnWallet"
+                        Content="Voucher Wallet"
+                        Style="{StaticResource SidebarButton}"/>        
+                <Button x:Name="btnProfile"
+                        Content="User Profile"
+                        Style="{StaticResource SidebarButton}"/>
                 <Button x:Name="btnLogout"
                         Content="Logout"
                         Style="{StaticResource SidebarButton}"/>

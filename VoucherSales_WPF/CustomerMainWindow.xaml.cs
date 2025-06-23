@@ -32,8 +32,9 @@ namespace VoucherSales_WPF
             btnCatalogue.Click += (s, e) => MainFrame.Navigate(new CataloguePage());
             btnCart.Click += (s, e) => MainFrame.Navigate(new CartPage());
             btnOrders.Click += (s, e) => MainFrame.Navigate(new OrdersPage());
-            btnOrders.Click += (s, e) => MainFrame.Navigate(new OrdersPage());
-
+            //btnOrders.Click += (s, e) => MainFrame.Navigate(new OrdersPage());
+            btnProfile.Click += (s, e) => MainFrame.Navigate(new ProfilePage());
+            btnWallet.Click += (s, e) => MainFrame.Navigate(new VoucherWalletPage());
             // Logout: quay về login
             btnLogout.Click += (s, e) =>
             {

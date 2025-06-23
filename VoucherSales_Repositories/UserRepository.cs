@@ -10,13 +10,14 @@ namespace VoucherSales_Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public bool Register(string fullname, string username, string email, string password)
+        public bool Register(string fullname, string username, string email, string phone, string password)
         {
             var user = new User
             {
                 Username = username,
                 FullName = fullname,
                 Email = email,
+                Phone = phone,
                 PasswordHash = password,
                 RoleId = 3,            // mặc định Customer
                 IsActive = true,
@@ -25,9 +26,19 @@ namespace VoucherSales_Repositories
             return UserDAO.Instance.CreateUser(user);
         }
 
+        public bool UpdateProfile(User user)
+        {
+            return UserDAO.Instance.UpdateProfile(user);
+        }
+
         public User? ValidateLogin(string username, string password)
         {
             return UserDAO.Instance.GetByUsernameAndPassword(username, password);
+        }
+
+        public bool ChangePassword(int userId, string currentPassword, string newPassword)
+        {
+            return UserDAO.Instance.ChangePassword(userId, currentPassword, newPassword);
         }
     }
 }

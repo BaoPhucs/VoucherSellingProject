@@ -39,30 +39,49 @@ namespace VoucherSales_WPF.Pages
 
         private void OnAddToCart(object sender, RoutedEventArgs e)
         {
+            // 1) Thêm vào cart
             _cartItemRepository.AddOrUpdate(
                 App.CurrentUser.UserId,
                 SelectedVoucher.VoucherTypeId,
                 SelectedQuantity);
 
-            MessageBox.Show(
-                "Added to cart!",
+            // 2) Hỏi xem có chuyển sang CartPage không
+            var result = MessageBox.Show(
+                "Added to cart successfully.\n\nDo you want to go to your Cart now?",
                 "Success",
-                MessageBoxButton.OK,
+                MessageBoxButton.YesNo,
                 MessageBoxImage.Information);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // 3) Navigate vào CartPage
+                // Nếu page này đang được host trong một Frame của CustomerMainWindow
+                var main = Window.GetWindow(this) as CustomerMainWindow;
+                if (main != null)
+                {
+                    main.MainFrame.Navigate(new CartPage());
+                }
+                else if (NavigationService != null)
+                {
+                    // fallback nếu chỉ có NavigationService
+                    NavigationService.Navigate(new CartPage());
+                }
+            }
+            // nếu No thì cứ ở lại VoucherDetailPage
         }
 
         private void OnBuyNow(object sender, RoutedEventArgs e)
         {
             // 1) Map thông tin thành OrderItem
             var orderItems = new List<OrderItem>
-    {
-        new OrderItem {
-            VoucherTypeId = SelectedVoucher.VoucherTypeId,
-            Quantity      = SelectedQuantity,
-            UnitPrice     = SelectedVoucher.DiscountValue,
-            Subtotal      = SelectedVoucher.DiscountValue * SelectedQuantity
-        }
-    };
+            {
+                new OrderItem {
+                    VoucherTypeId = SelectedVoucher.VoucherTypeId,
+                    Quantity      = SelectedQuantity,
+                    UnitPrice     = SelectedVoucher.DiscountValue,
+                    Subtotal      = SelectedVoucher.DiscountValue * SelectedQuantity
+                }
+            };
 
             // 2) Tạo Order (Pending)
             var order = new Order
@@ -73,7 +92,6 @@ namespace VoucherSales_WPF.Pages
                 PaymentStatus = "Pending",
                 Notes = $"BuyNow: {SelectedVoucher.Name} x{SelectedQuantity}"
             };
-            _orderRepository.CreateOrder(order, orderItems);
 
             // 3) Navigate sang PaymentPage (dùng overload không xóa cart)
             var main = Window.GetWindow(this) as CustomerMainWindow;

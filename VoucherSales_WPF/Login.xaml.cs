@@ -71,6 +71,7 @@ namespace VoucherSales_WPF
             string username = txtRegisterUsername.Text.Trim();
             string fullname = txtRegisterFullName.Text.Trim();
             string email = txtRegisterEmail.Text.Trim();
+            string phone = txtRegisterPhone.Text.Trim();
             string pass = txtRegisterPassword.Text;
             string confirm = txtRegisterConfirmPassword.Text;
 
@@ -78,6 +79,7 @@ namespace VoucherSales_WPF
             if (string.IsNullOrWhiteSpace(username) ||
                 string.IsNullOrWhiteSpace(fullname) ||
                 string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(phone) ||
                 string.IsNullOrWhiteSpace(pass))
             {
                 MessageBox.Show("Please fill in all fields.", "Validation Error",
@@ -92,7 +94,7 @@ namespace VoucherSales_WPF
             }
 
             // 3. Gọi repository
-            bool created = _userRepository.Register(fullname, username, email, pass);
+            bool created = _userRepository.Register(fullname, username, email, phone, pass);
             if (!created)
             {
                 MessageBox.Show("Username or Email already exists.", "Register Failed",
@@ -107,6 +109,7 @@ namespace VoucherSales_WPF
             // Clear form & chuyển về tab Login
             txtRegisterUsername.Clear();
             txtRegisterEmail.Clear();
+            txtRegisterPhone.Clear();
             txtRegisterPassword.Clear();
             txtRegisterConfirmPassword.Clear();
             tbiLogin.IsSelected = true;
