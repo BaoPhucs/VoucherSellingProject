@@ -83,8 +83,22 @@
                    Foreground="#555" Margin="0,0,0,5"/>
 
                 <TextBlock Text="Status:" FontWeight="SemiBold"/>
-                <TextBlock Text="{Binding CurrentPayment.Status}"
-           Foreground="{StaticResource AccentBrush}"/>
+                <TextBlock Text="{Binding CurrentPayment.Status}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentPayment.Status}" Value="Success">
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentPayment.Status}" Value="Failed">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+                                <!-- bạn có thể thêm Pending màu xám nếu thích -->
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </StackPanel>
         </Border>
     </Grid>

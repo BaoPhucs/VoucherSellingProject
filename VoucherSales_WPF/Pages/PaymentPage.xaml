@@ -61,8 +61,7 @@
         <!-- Thông tin order + voucher items -->
         <StackPanel Grid.Row="1" Margin="0,10,0,0">
             <!-- Thông tin chung về Order -->
-            <TextBlock Text="{Binding OrderSummary}" 
-                 FontSize="16" Margin="0,0,0,10"/>
+            
 
             <!-- Danh sách Voucher trong order -->
             <DataGrid ItemsSource="{Binding OrderItems}"

@@ -109,7 +109,7 @@ namespace VoucherSales_WPF.Pages
                 PaymentStatus = "Pending",
                 Notes = "Purchased via Cart"
             };
-            _orderRepository.CreateOrder(order, orderItems);
+            //_orderRepository.CreateOrder(order, orderItems);
 
             // 4) Chuyển vào PaymentPage để chọn phương thức và xác nhận
             var main = Window.GetWindow(this) as CustomerMainWindow;

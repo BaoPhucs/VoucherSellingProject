@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VoucherSales_BO;
 
@@ -34,4 +35,13 @@ public partial class VoucherType
     public ICollection<Voucher> Vouchers { get; set; }
 
     public ICollection<CartItem> CartItems { get; set; }
+
+    [NotMapped]
+    public int TotalIssued { get; set; }
+
+    [NotMapped]
+    public int RedeemedCount { get; set; }
+
+    [NotMapped]
+    public int AvailableCount => TotalIssued - RedeemedCount;
 }

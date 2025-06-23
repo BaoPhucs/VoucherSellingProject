@@ -45,5 +45,25 @@ namespace VoucherSales_DAO
             _context.SaveChanges();
             return true;
         }
+
+        public bool UpdateProfile(User user)
+        {
+            var exist = _context.Users.Find(user.UserId);
+            if (exist == null) return false;
+            exist.FullName = user.FullName;
+            exist.Email = user.Email;
+            exist.Phone = user.Phone;
+            _context.SaveChanges();
+            return true;
+        }
+
+        public bool ChangePassword(int userId, string currentPassword, string newPassword)
+        {
+            var ex = _context.Users.FirstOrDefault(x => x.UserId == userId && x.PasswordHash == currentPassword);
+            if (ex == null) return false;
+            ex.PasswordHash = newPassword;
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

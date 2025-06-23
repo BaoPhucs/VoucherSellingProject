@@ -151,10 +151,6 @@ public partial class VoucherSalesDbContext : DbContext
                 .HasForeignKey(d => d.IssuedToUserId)
                 .HasConstraintName("FK_Vouchers_Users");
 
-            entity.HasOne(d => d.Order).WithMany(p => p.Vouchers)
-                .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK_Vouchers_Orders");
-
             entity.HasOne(d => d.VoucherType).WithMany(p => p.Vouchers)
                 .HasForeignKey(d => d.VoucherTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -169,10 +165,6 @@ public partial class VoucherSalesDbContext : DbContext
             entity.Property(e => e.RedeemedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-
-            entity.HasOne(d => d.Order).WithMany(p => p.VoucherRedemptions)
-                .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK_VoucherRedemptions_Orders");
 
             entity.HasOne(d => d.RedeemedByUser).WithMany(p => p.VoucherRedemptions)
                 .HasForeignKey(d => d.RedeemedByUserId)

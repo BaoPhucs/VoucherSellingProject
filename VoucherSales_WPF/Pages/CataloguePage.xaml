@@ -43,20 +43,44 @@
         </Grid.RowDefinitions>
 
         <!-- Filters & Search -->
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBox x:Name="txtSearch"
-               Width="200" Height="30"
-               Margin="0,0,10,0"/>
-            <ComboBox x:Name="cbCategory"
-                Width="150" Height="30"
-                Margin="0,0,10,0"/>
-            <ComboBox x:Name="cbLocation"
-                Width="150" Height="30"
-                Margin="0,0,10,0"/>
-            <Button Content="Áp dụng"
-              Width="80"
-              Style="{StaticResource PrimaryButton}"
-              Click="OnApplyFilters"/>
+        <!-- Filters & Search -->
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">
+
+            <!-- Search -->
+            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                <TextBlock Text="Search" FontSize="11" Foreground="Gray"/>
+                <TextBox x:Name="txtSearch" Width="200" Height="30"/>
+            </StackPanel>
+
+            <!-- Category -->
+            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                <TextBlock Text="Category" FontSize="11" Foreground="Gray"/>
+                <ComboBox x:Name="cbCategory" Width="150" Height="30"/>
+            </StackPanel>
+
+            <!-- Location -->
+            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                <TextBlock Text="Location" FontSize="11" Foreground="Gray"/>
+                <ComboBox x:Name="cbLocation" Width="150" Height="30"/>
+            </StackPanel>
+
+            <!-- Price From -->
+            <StackPanel Orientation="Vertical" Margin="0,0,5,0">
+                <TextBlock Text="Min Price" FontSize="11" Foreground="Gray"/>
+                <TextBox x:Name="txtMinPrice" Width="80" Height="30" />
+            </StackPanel>
+
+            <!-- Price To -->
+            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                <TextBlock Text="Max Price" FontSize="11" Foreground="Gray" Margin="10,0,0,0"/>
+                <TextBox x:Name="txtMaxPrice" Width="80" Height="30" Margin="5,0,0,0" />
+            </StackPanel>
+
+            <!-- Apply -->
+            <Button Content="Apply"
+                    Width="80" Height="30"
+                    Style="{StaticResource PrimaryButton}"
+                    Click="OnApplyFilters" Margin="5,13,0,0"/>
         </StackPanel>
 
         <!-- Voucher Grid -->

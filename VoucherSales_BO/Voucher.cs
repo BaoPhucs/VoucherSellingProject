@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VoucherSales_BO;
 
@@ -15,17 +16,17 @@ public partial class Voucher
 
     public DateTime? RedeemedAt { get; set; }
 
-    public int? OrderId { get; set; }
-
     public int? IssuedToUserId { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
     public User? IssuedToUser { get; set; }
 
-    public Order? Order { get; set; }
-
     public ICollection<VoucherRedemption> VoucherRedemptions { get; set; } 
 
     public VoucherType VoucherType { get; set; }
+
+
+    [NotMapped]
+    public bool IsSelected { get; set; }
 }

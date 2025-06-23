@@ -21,7 +21,7 @@ public partial class Order
 
     public User User { get; set; } 
 
-    public ICollection<VoucherRedemption> VoucherRedemptions { get; set; } 
+    //public ICollection<VoucherRedemption> VoucherRedemptions { get; set; } 
 
-    public ICollection<Voucher> Vouchers { get; set; } 
+    //public ICollection<Voucher> Vouchers { get; set; } 
 }

@@ -45,10 +45,12 @@ namespace VoucherSales_WPF.Pages
             Order = order;
             OrderItems = orderItems;
             Amount = orderItems.Sum(i => i.Subtotal);
-            OrderSummary = $"Order #{order.OrderId} - total {Amount:C}";
+            //OrderSummary = $"Order #{order.OrderId} - total {Amount:C}";
             PaymentMethods = new List<string> { "Credit Card", "E-Wallet", "Cash" };
             SelectedMethod = PaymentMethods[0];
 
+            
+            
             _paymentRepo = new PaymentRepository();
             _orderRepo = new OrderRepository();
             _cartRepo = new CartItemRepository();
@@ -66,6 +68,13 @@ namespace VoucherSales_WPF.Pages
 
         private void OnConfirmPayment(object sender, RoutedEventArgs e)
         {
+            if (_order.OrderId == 0)
+            {
+                _orderRepo.CreateOrder(_order, _orderItems);
+                // Sau CreateOrder, EF sẽ set Order.OrderId = giá trị identity từ DB
+            }
+
+
             // 1) Lưu payment
             var payment = new Payment
             {
