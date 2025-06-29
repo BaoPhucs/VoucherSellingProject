@@ -11,5 +11,6 @@ namespace VoucherSales_Repositories
     {
         List<Voucher> GetMyWallet(int userId);
         void Redeem(Guid voucherId, string location = null);
+        void GenerateForOrder(int orderId);
     }
 }

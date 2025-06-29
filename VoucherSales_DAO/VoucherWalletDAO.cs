@@ -31,13 +31,23 @@ namespace VoucherSales_DAO
 
             // 3) Build result
             var types = _ctx.VoucherTypes.ToList();
+            var result = new List<VoucherType>();
             foreach (var vt in types)
             {
                 vt.TotalIssued = issued.TryGetValue(vt.VoucherTypeId, out var i) ? i : 0;
                 vt.RedeemedCount = redeemed.TryGetValue(vt.VoucherTypeId, out var r) ? r : 0;
                 // AvailableCount là NotMapped => tự động tính
+
+                if (vt.AvailableCount > 0)
+                {
+                    result.Add(vt);
+                }
             }
-            return types;
+
+
+
+            return result;
+
         }
     }
 }

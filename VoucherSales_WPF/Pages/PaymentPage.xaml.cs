@@ -90,6 +90,9 @@ namespace VoucherSales_WPF.Pages
             // 2) Cập nhật trạng thái order
             _orderRepo.UpdateOrderStatus(_order.OrderId, "Success");
 
+            var voucherRepo = new VoucherRepository();
+            voucherRepo.GenerateForOrder(_order.OrderId);
+
             // 3) Chỉ xóa những CartItem đã được chọn
             foreach (var cartItemId in _cartItemIds)
             {
