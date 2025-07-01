@@ -67,13 +67,17 @@
             <!-- Price From -->
             <StackPanel Orientation="Vertical" Margin="0,0,5,0">
                 <TextBlock Text="Min Price" FontSize="11" Foreground="Gray"/>
-                <TextBox x:Name="txtMinPrice" Width="80" Height="30" />
+                <TextBox x:Name="txtMinPrice" Width="80" Height="30"
+         PreviewTextInput="NumericOnly_PreviewTextInput"
+         DataObject.Pasting="NumericOnly_Pasting"/>
             </StackPanel>
 
             <!-- Price To -->
             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
                 <TextBlock Text="Max Price" FontSize="11" Foreground="Gray" Margin="10,0,0,0"/>
-                <TextBox x:Name="txtMaxPrice" Width="80" Height="30" Margin="5,0,0,0" />
+                <TextBox x:Name="txtMaxPrice" Width="80" Height="30"
+         PreviewTextInput="NumericOnly_PreviewTextInput"
+         DataObject.Pasting="NumericOnly_Pasting"/>
             </StackPanel>
 
             <!-- Apply -->

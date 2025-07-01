@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +21,28 @@ namespace VoucherSales_WPF.Pages
     /// <summary>
     /// Interaction logic for VoucherDetailPage.xaml
     /// </summary>
-    public partial class VoucherDetailPage : Page
+    public partial class VoucherDetailPage : Page, INotifyPropertyChanged
     {
         public VoucherType SelectedVoucher { get; set; }
         private readonly IOrderRepository _orderRepository;
         private readonly ICartItemRepository _cartItemRepository;
-        public int SelectedQuantity { get; set; } = 1;
+        private int _selectedQuantity = 1;
+        public int SelectedQuantity
+        {
+            get => _selectedQuantity;
+            set
+            {
+                if (_selectedQuantity != value)
+                {
+                    _selectedQuantity = value;
+                    OnPropertyChanged(nameof(SelectedQuantity));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged(string name)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         public VoucherDetailPage(VoucherType voucher)
         {
             InitializeComponent();
@@ -39,6 +56,16 @@ namespace VoucherSales_WPF.Pages
 
         private void OnAddToCart(object sender, RoutedEventArgs e)
         {
+            if (SelectedQuantity <= 0)
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập số lượng lớn hơn 0.",
+                    "Invalid Quantity",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             // 1) Thêm vào cart
             _cartItemRepository.AddOrUpdate(
                 App.CurrentUser.UserId,
@@ -72,6 +99,16 @@ namespace VoucherSales_WPF.Pages
 
         private void OnBuyNow(object sender, RoutedEventArgs e)
         {
+            if (SelectedQuantity <= 0)
+            {
+                MessageBox.Show(
+                    "Vui lòng nhập số lượng lớn hơn 0.",
+                    "Invalid Quantity",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
             // 1) Map thông tin thành OrderItem
             var orderItems = new List<OrderItem>
             {
