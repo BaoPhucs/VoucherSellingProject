@@ -59,33 +59,53 @@ namespace VoucherSales_DAO
         /// </summary>
         public void GenerateForOrder(int orderId)
         {
-            // 1) Lấy Order và các OrderItem
-            var items = _ctx.OrderItems
-                .Include(oi => oi.Order)
-                .Where(oi => oi.OrderId == orderId && oi.Order.PaymentStatus == "Success")
-                .ToList();
+            using var tx = _ctx.Database.BeginTransaction();
 
-            // 2) Với mỗi OrderItem, tạo đúng Quantity bản ghi Voucher
-            foreach (var oi in items)
+            // 1) Lấy Order kèm OrderItems
+            var order = _ctx.Orders
+                .Include(o => o.OrderItems)
+                .First(o => o.OrderId == orderId);
+
+            // 2) Gom nhóm theo loại voucher, tính tổng Quantity
+            var grouped = order.OrderItems
+                .GroupBy(oi => oi.VoucherTypeId)
+                .Select(g => new {
+                    VoucherTypeId = g.Key,
+                    TotalQty = g.Sum(oi => oi.Quantity)
+                });
+
+            foreach (var grp in grouped)
             {
-                var userId = oi.Order.UserId;
-                for (int i = 0; i < oi.Quantity; i++)
-                {
-                    // generate code, ví dụ: TYPEID-YYYYMMDD-N        
-                    var code = $"{oi.VoucherTypeId}-{DateTime.Now:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8)}";
+                // 3) Lấy kiểu voucher
+                var vt = _ctx.VoucherTypes.Find(grp.VoucherTypeId);
+                if (vt == null)
+                    throw new Exception($"Không tìm thấy VoucherType {grp.VoucherTypeId}.");
 
+                // 4) Kiểm tra còn đủ
+                if (vt.TotalQuantity < grp.TotalQty)
+                    throw new Exception(
+                        $"Loại '{vt.Name}' chỉ còn {vt.TotalQuantity} mã, bạn yêu cầu {grp.TotalQty}.");
+
+                // 5) Giảm TotalQuantity 1 lần
+                vt.TotalQuantity -= grp.TotalQty;
+                _ctx.VoucherTypes.Update(vt);
+
+                // 6) Phát hành đúng số TotalQty
+                for (int i = 0; i < grp.TotalQty; i++)
+                {
                     _ctx.Vouchers.Add(new Voucher
                     {
-                        VoucherTypeId = oi.VoucherTypeId,
-                        Code = code,
+                        VoucherTypeId = vt.VoucherTypeId,
+                        IssuedToUserId = order.UserId,
+                        Code = $"{vt.VoucherTypeId}-{DateTime.Now:yyyyMMdd}-{Guid.NewGuid():N}".Substring(0, 24),
                         IsRedeemed = false,
-                        IssuedToUserId = userId,
                         CreatedAt = DateTime.Now
                     });
                 }
             }
 
             _ctx.SaveChanges();
+            tx.Commit();
         }
     }
 }

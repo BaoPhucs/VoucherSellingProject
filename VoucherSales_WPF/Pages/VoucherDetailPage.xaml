@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VoucherSales_WPF.Pages"
+      xmlns:vr="clr-namespace:VoucherSales_WPF.ValidationRules"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="VoucherDetailPage">
@@ -84,23 +85,46 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,20,0,10" VerticalAlignment="Center">
                 <TextBlock Text="Quantity:" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                <TextBox Width="50"
-             Text="{Binding SelectedQuantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-             HorizontalContentAlignment="Center"/>
+                <TextBox x:Name="txtQuantity"
+             Width="50"
+             HorizontalContentAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="SelectedQuantity"
+                     Mode="TwoWay"
+                     UpdateSourceTrigger="PropertyChanged"
+                     ValidatesOnDataErrors="True"
+                     NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <vr:PositiveIntRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" >
                 <Button Content="Add to Cart"
-                Style="{StaticResource PrimaryButton}"
-                Width="120"
-                Click="OnAddToCart" Margin="10,0,30,0" Height="16"/>
+                    Style="{StaticResource PrimaryButton}"
+                    Width="120"
+                    Click="OnAddToCart"
+                    Margin="10,0,30,0"
+                    Height="30"
+                    IsEnabled="{Binding ElementName=txtQuantity,
+                                Path=(Validation.HasError),
+                                Converter={StaticResource ValidationOKConverter}}"/>
+
                 <Button Content="Buy Now"
-                Style="{StaticResource PrimaryButton}"
-                Width="120"
-                Click="OnBuyNow" Margin="0,0,30,0" Height="16"/>
+                    Style="{StaticResource PrimaryButton}"
+                    Width="120"
+                    Click="OnBuyNow"
+                    Margin="0,0,30,0"
+                    Height="30"
+                    IsEnabled="{Binding ElementName=txtQuantity,
+                                Path=(Validation.HasError),
+                                Converter={StaticResource ValidationOKConverter}}"/>
                 <Button Content="← Back to Catalogue"
-                Style="{StaticResource PrimaryButton}"
-                Width="120"
-                Click="OnBackToCatalogue" Height="15.96" Margin="0,100,10,10"/>
+                    Style="{StaticResource PrimaryButton}"
+                    Width="120"
+                    Click="OnBackToCatalogue" Height="15.96" Margin="0,100,10,10"/>
             </StackPanel>
         </StackPanel>
 
