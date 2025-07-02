@@ -10,12 +10,12 @@ namespace VoucherSales_Repositories
 {
     public class VoucherRepository : IVoucherRepository
     {
-        public List<Voucher> GetMyWallet(int userId)
+        public List<Voucher> GetMyWalletVouchers(int userId)
         {
             return VoucherDAO.Instance.GetUnredeemedByUser(userId);
         }
 
         public void Redeem(Guid voucherId, string location = null) => VoucherDAO.Instance.MarkRedeemed(voucherId, location);
-        
+     
     }
 }

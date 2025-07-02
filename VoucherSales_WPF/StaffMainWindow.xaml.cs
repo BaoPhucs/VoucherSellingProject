@@ -33,7 +33,7 @@ namespace VoucherSales_WPF
         {
             _voucherTypes = _voucherTypeRepo.GetAll();
             // Assume PaymentStatusList is defined in resources
-            Resources["PaymentStatusList"] = new List<string> { "Pending", "Paid", "Cancelled" };
+            Resources["PaymentStatusList"] = new List<string> { "Pending", "Success", "Cancelled" };
         }
         private void LoadUsers()
         {
@@ -53,7 +53,9 @@ namespace VoucherSales_WPF
         {
             if (UserComboBox.SelectedValue is int userId)
             {
-                _currentVouchers = _voucherRepo.GetMyWallet(userId);
+                _currentVouchers = _voucherRepo.GetMyWalletVouchers(userId);
+                   // load *all* vouchers, not just unredeemed
+
                 VoucherGrid.ItemsSource = _currentVouchers;
             }
         }
@@ -66,7 +68,7 @@ namespace VoucherSales_WPF
                 {
                     VoucherId = Guid.NewGuid(),
                     VoucherTypeId = 0, // set appropriately
-                    Code = string.Empty,
+                    Code = 'newCode',
                     IsRedeemed = false,
                     IssuedToUserId = userId,
                     CreatedAt = DateTime.Now
