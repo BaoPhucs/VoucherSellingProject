@@ -72,7 +72,7 @@
                 GridLinesVisibility="None"
                 RowBackground="White" AlternatingRowBackground="#F8F8F8"
                 BorderThickness="0" ColumnHeaderHeight="30">
-                <DataGrid.Columns>
+                <!--<DataGrid.Columns>
                     <DataGridTextColumn Header="Voucher"
                               Binding="{Binding VoucherType.Name}"
                               Width="2*"/>
@@ -85,6 +85,16 @@
                     <DataGridTextColumn Header="Subtotal"
                               Binding="{Binding Subtotal, StringFormat=C}"
                               Width="100"/>
+                </DataGrid.Columns>-->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Voucher"
+        Binding="{Binding VoucherName}" Width="2*"/>
+                    <DataGridTextColumn Header="Qty"
+        Binding="{Binding Quantity}" Width="60"/>
+                    <DataGridTextColumn Header="Unit Price"
+        Binding="{Binding UnitPrice, StringFormat=C}" Width="100"/>
+                    <DataGridTextColumn Header="Subtotal"
+        Binding="{Binding Subtotal,   StringFormat=C}" Width="100"/>
                 </DataGrid.Columns>
             </DataGrid>
 
