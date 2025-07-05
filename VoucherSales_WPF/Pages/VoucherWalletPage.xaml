@@ -89,7 +89,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1"
-             Text="Bạn chưa có voucher khả dụng."
+             Text="You do not have a valid voucher."
              FontStyle="Italic"
              Foreground="Gray"
              FontSize="16"
@@ -127,7 +127,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="3"
-             Text="Chưa có lịch sử sử dụng."
+             Text="No usage history."
              FontStyle="Italic"
              Foreground="Gray"
              FontSize="16"

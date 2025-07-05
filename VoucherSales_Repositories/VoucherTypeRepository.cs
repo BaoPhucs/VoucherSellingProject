@@ -14,5 +14,10 @@ namespace VoucherSales_Repositories
         {
             return VoucherTypeDAO.Instance.GetAllVoucherTypes();
         }
+
+        public VoucherType GetByID(int id)
+        {
+            return VoucherTypeDAO.Instance.GetByID(id);
+        }
     }
 }

@@ -2,25 +2,25 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Background="White"
-      Title="CataloguePage">
+      Title="Catalogue">
 
     <!-- Nếu chưa khai PrimaryButton ở App.xaml, bạn phải khai lại ở đây -->
     <Page.Resources>
         <Style x:Key="PrimaryButton" TargetType="Button">
             <Setter Property="Background" Value="#0078D7"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="8,4"/>
-            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="FontWeight"   Value="SemiBold"/>
+            <Setter Property="Padding"      Value="8,4"/>
+            <Setter Property="Margin"       Value="0,0,0,0"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Cursor"       Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
-                    CornerRadius="4">
+                                CornerRadius="4">
                             <ContentPresenter HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
+                                              VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -43,93 +43,94 @@
         </Grid.RowDefinitions>
 
         <!-- Filters & Search -->
-        <!-- Filters & Search -->
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10" VerticalAlignment="Center">
-
             <!-- Search -->
             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
-                <TextBlock Text="Search" FontSize="11" Foreground="Gray"/>
-                <TextBox x:Name="txtSearch" Width="200" Height="30"/>
+                <TextBlock Text="Search"       FontSize="11" Foreground="Gray"/>
+                <TextBox   x:Name="txtSearch"  Width="200"  Height="30"/>
             </StackPanel>
 
             <!-- Category -->
             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
-                <TextBlock Text="Category" FontSize="11" Foreground="Gray"/>
+                <TextBlock Text="Category"    FontSize="11" Foreground="Gray"/>
                 <ComboBox x:Name="cbCategory" Width="150" Height="30"/>
             </StackPanel>
 
             <!-- Location -->
             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
-                <TextBlock Text="Location" FontSize="11" Foreground="Gray"/>
+                <TextBlock Text="Location"    FontSize="11" Foreground="Gray"/>
                 <ComboBox x:Name="cbLocation" Width="150" Height="30"/>
             </StackPanel>
 
-            <!-- Price From -->
+            <!-- Min Price -->
             <StackPanel Orientation="Vertical" Margin="0,0,5,0">
-                <TextBlock Text="Min Price" FontSize="11" Foreground="Gray"/>
-                <TextBox x:Name="txtMinPrice" Width="80" Height="30"
-         PreviewTextInput="NumericOnly_PreviewTextInput"
-         DataObject.Pasting="NumericOnly_Pasting"/>
+                <TextBlock Text="Min Price"   FontSize="11" Foreground="Gray"/>
+                <TextBox   x:Name="txtMinPrice"
+                           Width="80" Height="30"
+                           PreviewTextInput="NumericOnly_PreviewTextInput"
+                           DataObject.Pasting="NumericOnly_Pasting"/>
             </StackPanel>
 
-            <!-- Price To -->
+            <!-- Max Price -->
             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
-                <TextBlock Text="Max Price" FontSize="11" Foreground="Gray" Margin="10,0,0,0"/>
-                <TextBox x:Name="txtMaxPrice" Width="80" Height="30"
-         PreviewTextInput="NumericOnly_PreviewTextInput"
-         DataObject.Pasting="NumericOnly_Pasting"/>
+                <TextBlock Text="Max Price"   FontSize="11" Foreground="Gray"/>
+                <TextBox   x:Name="txtMaxPrice"
+                           Width="80" Height="30"
+                           PreviewTextInput="NumericOnly_PreviewTextInput"
+                           DataObject.Pasting="NumericOnly_Pasting"/>
             </StackPanel>
 
-            <!-- Apply -->
+            <!-- Apply Filters -->
             <Button Content="Apply"
                     Width="80" Height="30"
                     Style="{StaticResource PrimaryButton}"
-                    Click="OnApplyFilters" Margin="5,13,0,0"/>
+                    Click="OnApplyFilters"
+                    Margin="5,13,0,0"/>
         </StackPanel>
 
         <!-- Voucher Grid -->
         <ScrollViewer Grid.Row="1"
-                  VerticalScrollBarVisibility="Auto">
+                      VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="icVouchers">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel ItemWidth="250"
-                       ItemHeight="350"
-                       Margin="0,10"/>
+                                   ItemHeight="350"
+                                   Margin="0,10"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Width="240" Height="340"
-                    Margin="5"
-                    Background="White"
-                    CornerRadius="8"
-                    Padding="10">
+                                Margin="5"
+                                Background="White"
+                                CornerRadius="8"
+                                Padding="10">
                             <StackPanel>
-                                <Image Source="{Binding ImagePath}"
-                       Height="140"
-                       Stretch="UniformToFill"/>
+                                <Image Source="{Binding ImagePath}" 
+                                       Height="140"
+                                       Stretch="UniformToFill"/>
                                 <TextBlock Text="{Binding Name}"
-                           FontWeight="Bold"
-                           Margin="0,10,0,0"/>
+                                           FontWeight="Bold"
+                                           Margin="0,10,0,0"/>
                                 <TextBlock Text="{Binding ShortDescription}"
-                           TextWrapping="Wrap"
-                           FontSize="12"
-                           Height="40"/>
+                                           TextWrapping="Wrap"
+                                           FontSize="12"
+                                           Height="40"/>
                                 <StackPanel Orientation="Horizontal"
-                            Margin="0,5,0,0">
+                                            Margin="0,5,0,0">
                                     <TextBlock Text="{Binding DiscountedPrice, StringFormat=C}"
-                             FontWeight="Bold"/>
+                                               FontWeight="Bold"/>
                                     <TextBlock Text="  "/>
                                     <TextBlock Text="{Binding OriginalPrice, StringFormat=C}"
-                             TextDecorations="Strikethrough"
-                             Foreground="Gray"/>
+                                               TextDecorations="Strikethrough"
+                                               Foreground="Gray"/>
                                 </StackPanel>
-                                <Button Content="Xem chi tiết"
-                        Style="{StaticResource PrimaryButton}"
-                        Margin="0,10,0,0"
-                        Click="OnViewDetail"
-                        Tag="{Binding}"/>
+                                <Button Content="View Details"
+                                        Style="{StaticResource PrimaryButton}"
+                                        Margin="0,10,0,0"
+                                        Click="OnViewDetail"
+                                        Tag="{Binding}"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

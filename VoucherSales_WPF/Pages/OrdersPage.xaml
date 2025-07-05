@@ -4,82 +4,91 @@
       xmlns:conv="clr-namespace:VoucherSales_WPF.Converters"
       Title="OrdersPage">
 
+    <Page.Resources>
+        <!-- Converter to show watermark when the TextBox is empty -->
+        <conv:StringNullOrEmptyToVisibilityConverter 
+            x:Key="StringNullOrEmptyToVisibility"/>
+        <!-- Converter to show empty‐state when Orders.Count == 0 -->
+        <conv:ZeroToVisibleConverter 
+            x:Key="ZeroToVisible"/>
+    </Page.Resources>
+
     <Grid Margin="20">
-        <!-- 4 hàng: header, search, grid, empty-state -->
+        <!-- 4 rows: header, search, grid, empty‐state -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Row 0: tiêu đề -->
+            <!-- Row 0: Header -->
             <RowDefinition Height="Auto"/>
-            <!-- Row 1: search box -->
+            <!-- Row 1: Search box -->
             <RowDefinition Height="*"/>
             <!-- Row 2: DataGrid -->
             <RowDefinition Height="Auto"/>
-            <!-- Row 3: empty-state -->
+            <!-- Row 3: Empty‐state -->
         </Grid.RowDefinitions>
 
         <!-- Row 0: Header -->
         <TextBlock Grid.Row="0"
-               Text="Lịch sử đơn hàng"
-               FontSize="20"
-               FontWeight="Bold"
-               Margin="0,0,0,10"/>
+                   Text="Order History"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"/>
 
-        <!-- Row 1: Search Box với watermark -->
+        <!-- Row 1: Search Box with watermark -->
         <Grid Grid.Row="1" Margin="0,0,0,10">
             <TextBox x:Name="txtOrderSearch"
-               Width="200"
-               TextChanged="OnOrderSearch"/>
-            <TextBlock Text="Tìm theo Order ID..."
-                 Foreground="Gray"
-                 Margin="5,0,0,0"
-                 VerticalAlignment="Center"
-                 IsHitTestVisible="False"
-                 Visibility="{Binding Text,
-                              ElementName=txtOrderSearch,
-                              Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}"/>
+                     Width="200"
+                     TextChanged="OnOrderSearch"/>
+            <TextBlock Text="Search by Order ID or Date..."
+                       Foreground="Gray"
+                       Margin="5,0,0,0"
+                       VerticalAlignment="Center"
+                       IsHitTestVisible="False"
+                       Visibility="{Binding Text,
+                                    ElementName=txtOrderSearch,
+                                    Converter={StaticResource StringNullOrEmptyToVisibility}}"/>
         </Grid>
 
         <!-- Row 2: DataGrid -->
         <DataGrid x:Name="dgOrders"
-              Grid.Row="2"
-              AutoGenerateColumns="False"
-              CanUserAddRows="False"
-              IsReadOnly="True"
-              ItemsSource="{Binding Orders}">
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Orders}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Order ID"
-                            Binding="{Binding OrderId}"
-                            Width="80"/>
-                <DataGridTextColumn Header="Ngày"
-                            Binding="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy}}"
-                            Width="120"/>
-                <DataGridTextColumn Header="Tổng"
-                            Binding="{Binding TotalAmount, StringFormat=C}"
-                            Width="100"/>
-                <DataGridTextColumn Header="Trạng thái"
-                            Binding="{Binding PaymentStatus}"
-                            Width="100"/>
-                <DataGridTemplateColumn Header="Chi tiết" Width="80">
+                                    Binding="{Binding OrderId}"
+                                    Width="80"/>
+                <DataGridTextColumn Header="Date"
+                                    Binding="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy}}"
+                                    Width="120"/>
+                <DataGridTextColumn Header="Total"
+                                    Binding="{Binding TotalAmount, StringFormat=C}"
+                                    Width="100"/>
+                <DataGridTextColumn Header="Status"
+                                    Binding="{Binding PaymentStatus}"
+                                    Width="100"/>
+                <DataGridTemplateColumn Header="Details" Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Xem"
-                      Tag="{Binding OrderId}"
-                      Click="OnViewOrderDetail"/>
+                            <Button Content="View"
+                                    Tag="{Binding OrderId}"
+                                    Click="OnViewOrderDetail"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Row 3: Empty-state -->
+        <!-- Row 3: Empty‐state -->
         <TextBlock Grid.Row="3"
-               Text="Bạn chưa có đơn hàng nào."
-               FontStyle="Italic"
-               Foreground="Gray"
-               FontSize="16"
-               HorizontalAlignment="Center"
-               Margin="0,10,0,0"
-               Visibility="{Binding Orders.Count,
-                            Converter={StaticResource ZeroToVisible}}"/>
+                   Text="You have no orders."
+                   FontStyle="Italic"
+                   Foreground="Gray"
+                   FontSize="16"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,0"
+                   Visibility="{Binding Orders.Count,
+                                Converter={StaticResource ZeroToVisible}}"/>
     </Grid>
 </Page>
