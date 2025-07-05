@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- DataGrid: bỏ RowValidationRules, nó không tồn tại -->
+        <!-- DataGrid: dòng sản phẩm trong giỏ -->
         <DataGrid x:Name="dgCart"
                   ItemsSource="{Binding CartItems}"
                   AutoGenerateColumns="False"
@@ -20,18 +20,18 @@
                   ColumnWidth="Auto">
 
             <DataGrid.Columns>
-                <!-- Chọn -->
-                <DataGridCheckBoxColumn Header="Chọn"
-                    Binding="{Binding IsSelected, Mode=TwoWay}"
-                    Width="50"/>
+                <!-- Select -->
+                <DataGridCheckBoxColumn Header="Select"
+                                        Binding="{Binding IsSelected, Mode=TwoWay}"
+                                        Width="50"/>
 
                 <!-- Voucher Name -->
                 <DataGridTextColumn Header="Voucher"
-                    Binding="{Binding VoucherName}"
-                    IsReadOnly="True"
-                    Width="2*"/>
+                                    Binding="{Binding VoucherName}"
+                                    IsReadOnly="True"
+                                    Width="2*"/>
 
-                <!-- Qty with Validation -->
+                <!-- Quantity with Validation -->
                 <DataGridTemplateColumn Header="Qty" Width="60">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -41,7 +41,6 @@
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
-                            <!-- Chỉ khai Binding dưới TextBox.Text, không dùng Text="..." nữa -->
                             <TextBox HorizontalContentAlignment="Center">
                                 <TextBox.Text>
                                     <Binding Path="Quantity"
@@ -61,21 +60,21 @@
 
                 <!-- Unit Price -->
                 <DataGridTextColumn Header="Unit Price"
-                    Binding="{Binding UnitPrice, StringFormat=C}"
-                    IsReadOnly="True"
-                    Width="100"/>
+                                    Binding="{Binding UnitPrice, StringFormat=C}"
+                                    IsReadOnly="True"
+                                    Width="100"/>
 
                 <!-- Subtotal -->
                 <DataGridTextColumn Header="Subtotal"
-                    Binding="{Binding Subtotal, StringFormat=C}"
-                    IsReadOnly="True"
-                    Width="100"/>
+                                    Binding="{Binding Subtotal, StringFormat=C}"
+                                    IsReadOnly="True"
+                                    Width="100"/>
 
                 <!-- Remove button -->
-                <DataGridTemplateColumn Header="Xóa" Width="80">
+                <DataGridTemplateColumn Header="Remove" Width="80">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Xóa"
+                            <Button Content="Remove"
                                     Click="OnRemoveFromCart"
                                     Tag="{Binding CartItemId}"/>
                         </DataTemplate>
@@ -84,19 +83,19 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Footer: Tổng & Checkout -->
+        <!-- Footer: Total & Checkout -->
         <StackPanel Grid.Row="1"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Margin="0,10,0,0">
-            <TextBlock Text="Tổng:" FontSize="16" VerticalAlignment="Center"/>
+            <TextBlock Text="Total:" FontSize="16" VerticalAlignment="Center"/>
             <TextBlock Text="{Binding CartTotal, StringFormat=C}"
                        FontSize="16"
                        FontWeight="Bold"
                        VerticalAlignment="Center"
                        Margin="10,0"/>
 
-            <Button Content="Thanh toán"
+            <Button Content="Checkout"
                     Style="{StaticResource PrimaryButton}"
                     Width="120"
                     Click="OnCheckout"
@@ -106,7 +105,7 @@
         </StackPanel>
 
         <!-- Empty state -->
-        <TextBlock Text="Giỏ hàng trống."
+        <TextBlock Text="Your cart is empty."
                    FontStyle="Italic"
                    Foreground="Gray"
                    FontSize="16"

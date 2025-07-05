@@ -10,5 +10,7 @@ namespace VoucherSales_Repositories
     public interface IVoucherTypeRepository
     {
         List<VoucherType> GetAll();
+
+        VoucherType GetByID(int id);
     }
 }
