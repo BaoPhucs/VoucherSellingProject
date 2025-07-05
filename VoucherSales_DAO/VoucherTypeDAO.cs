@@ -24,5 +24,10 @@ namespace VoucherSales_DAO
         {
             return _context.VoucherTypes.ToList();
         }
+
+        public VoucherType GetByID(int id)
+        {
+            return _context.VoucherTypes.FirstOrDefault(vt => vt.VoucherTypeId == id);
+        }
     }
 }

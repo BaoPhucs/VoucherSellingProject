@@ -26,6 +26,7 @@ namespace VoucherSales_WPF.Pages
         private readonly IOrderRepository _orderRepo;
         private readonly ICartItemRepository _cartRepo;
         private readonly IVoucherRepository _voucherRepo;
+        private readonly IVoucherTypeRepository _voucherTypeRepo;
 
         private readonly Order _order;
         private readonly List<OrderItem> _orderItems;
@@ -56,10 +57,16 @@ namespace VoucherSales_WPF.Pages
             _orderRepo = new OrderRepository();
             _cartRepo = new CartItemRepository();
             _voucherRepo = new VoucherRepository();
+            _voucherTypeRepo = new VoucherTypeRepository();
 
             _order = order;
             _orderItems = orderItems;
             _cartItemIds = cartItemIds;
+
+            foreach (var oi in OrderItems)
+            {
+                oi.VoucherType = _voucherTypeRepo.GetByID(oi.VoucherTypeId);
+            }
 
             DataContext = this;
         }
