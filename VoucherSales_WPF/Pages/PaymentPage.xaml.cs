@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,8 @@ namespace VoucherSales_WPF.Pages
         public string SelectedMethod { get; set; }
 
         public List<OrderItem> OrderItems { get; }
-
+        public ObservableCollection<PaymentItemVM> DisplayItems { get; }
+    = new ObservableCollection<PaymentItemVM>();
         public PaymentPage(Order order, List<OrderItem> orderItems, List<int> cartItemIds)
         {
             InitializeComponent();
@@ -63,9 +65,16 @@ namespace VoucherSales_WPF.Pages
             _orderItems = orderItems;
             _cartItemIds = cartItemIds;
 
-            foreach (var oi in OrderItems)
+            foreach (var oi in orderItems)
             {
-                oi.VoucherType = _voucherTypeRepo.GetByID(oi.VoucherTypeId);
+                var vt = _voucherTypeRepo.GetByID(oi.VoucherTypeId);
+                DisplayItems.Add(new PaymentItemVM
+                {
+                    VoucherName = vt.Name,
+                    Quantity = oi.Quantity,
+                    UnitPrice = oi.UnitPrice,
+                    Subtotal = oi.Subtotal
+                });
             }
 
             DataContext = this;
