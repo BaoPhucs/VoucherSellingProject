@@ -25,6 +25,7 @@ namespace VoucherSales_WPF.Pages
         private readonly IPaymentRepository _paymentRepo;
         private readonly IOrderRepository _orderRepo;
         private readonly ICartItemRepository _cartRepo;
+        private readonly IVoucherRepository _voucherRepo;
 
         private readonly Order _order;
         private readonly List<OrderItem> _orderItems;
@@ -49,11 +50,12 @@ namespace VoucherSales_WPF.Pages
             PaymentMethods = new List<string> { "Credit Card", "E-Wallet", "Cash" };
             SelectedMethod = PaymentMethods[0];
 
-            
-            
+
+
             _paymentRepo = new PaymentRepository();
             _orderRepo = new OrderRepository();
             _cartRepo = new CartItemRepository();
+            _voucherRepo = new VoucherRepository();
 
             _order = order;
             _orderItems = orderItems;
@@ -89,6 +91,22 @@ namespace VoucherSales_WPF.Pages
 
             // 2) Cập nhật trạng thái order
             _orderRepo.UpdateOrderStatus(_order.OrderId, "Success");
+
+            //var voucherRepo = new VoucherRepository();
+            //voucherRepo.GenerateForOrder(_order.OrderId);
+
+            // Sinh voucher, kèm kiểm soát số lượng
+            try
+            {
+                _voucherRepo.GenerateForOrder(_order.OrderId);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể sinh mã voucher: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             // 3) Chỉ xóa những CartItem đã được chọn
             foreach (var cartItemId in _cartItemIds)

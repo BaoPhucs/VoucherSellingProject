@@ -10,7 +10,9 @@ namespace VoucherSales_Repositories
 {
     public class VoucherRepository : IVoucherRepository
     {
-        public List<Voucher> GetMyWalletVouchers(int userId)
+        public void GenerateForOrder(int orderId) => VoucherDAO.Instance.GenerateForOrder(orderId);
+
+        public List<Voucher> GetMyWallet(int userId)
         {
             return VoucherDAO.Instance.GetUnredeemedByUser(userId);
         }
@@ -19,3 +21,4 @@ namespace VoucherSales_Repositories
      
     }
 }
+         

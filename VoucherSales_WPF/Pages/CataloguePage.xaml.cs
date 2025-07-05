@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,7 @@ namespace VoucherSales_WPF.Pages
     {
         private readonly IVoucherTypeRepository _voucherTypeRepository;
         private List<VoucherType> _voucherTypes;
+        private static readonly Regex _numericRegex = new(@"^[0-9]*(?:\.[0-9]*)?$");
         public CataloguePage()
         {
             InitializeComponent();
@@ -115,6 +117,23 @@ namespace VoucherSales_WPF.Pages
         {
             var voucher = (VoucherType)((Button)sender).Tag;
             NavigationService?.Navigate(new VoucherDetailPage(voucher));
+        }
+
+        private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // giả sử đang đầy đủ chuỗi: existingText + newChar
+            var textBox = (TextBox)sender;
+            string full = textBox.Text.Insert(textBox.SelectionStart, e.Text);
+            e.Handled = !_numericRegex.IsMatch(full);
+        }
+
+        private void NumericOnly_Pasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (!(e.DataObject.GetData(typeof(string)) is string paste)) return;
+            var textBox = (TextBox)sender;
+            string full = textBox.Text.Insert(textBox.SelectionStart, paste);
+            if (!_numericRegex.IsMatch(full))
+                e.CancelCommand();
         }
     }
 }

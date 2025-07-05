@@ -88,6 +88,15 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock Grid.Row="1"
+             Text="Bạn chưa có voucher khả dụng."
+             FontStyle="Italic"
+             Foreground="Gray"
+             FontSize="16"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             Visibility="{Binding Wallet.Count,
+                          Converter={StaticResource ZeroToVisible}}"/>
 
         <!-- Row 2 -->
         <TextBlock Grid.Row="2"
@@ -117,5 +126,14 @@
                             Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock Grid.Row="3"
+             Text="Chưa có lịch sử sử dụng."
+             FontStyle="Italic"
+             Foreground="Gray"
+             FontSize="16"
+             HorizontalAlignment="Center"
+             VerticalAlignment="Center"
+             Visibility="{Binding Redemptions.Count,
+                          Converter={StaticResource ZeroToVisible}}"/>
     </Grid>
 </Page>

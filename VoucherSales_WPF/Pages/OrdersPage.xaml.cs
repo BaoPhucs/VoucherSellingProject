@@ -24,6 +24,7 @@ namespace VoucherSales_WPF.Pages
     public partial class OrdersPage : Page
     {
         private readonly IOrderRepository _orderRepository;
+        private List<Order> _allOrders;
         public ObservableCollection<Order> Orders { get; set; } = new();
         public OrdersPage()
         {
@@ -35,9 +36,29 @@ namespace VoucherSales_WPF.Pages
 
         private void LoadOrders()
         {
-            var list = _orderRepository.GetByUser(App.CurrentUser.UserId);
+            // 1) LẤY và lưu danh sách gốc
+            _allOrders = _orderRepository
+                            .GetByUser(App.CurrentUser.UserId)
+                            .ToList();
+
+            // 2) Hiển thị lên UI
             Orders.Clear();
-            foreach (var o in list)
+            foreach (var o in _allOrders)
+                Orders.Add(o);
+        }
+
+        private void OnOrderSearch(object sender, TextChangedEventArgs e)
+        {
+            // Nếu _allOrders chưa được load thì bỏ qua
+            if (_allOrders == null) return;
+
+            string kw = txtOrderSearch.Text.Trim();
+            var filtered = _allOrders
+                .Where(o => o.OrderId.ToString().Contains(kw))
+                .ToList();
+
+            Orders.Clear();
+            foreach (var o in filtered)
                 Orders.Add(o);
         }
 
