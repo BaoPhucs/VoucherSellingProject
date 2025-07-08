@@ -15,7 +15,6 @@ namespace VoucherSales_WPF
         private readonly IOrderRepository _orderRepo = new OrderRepository();
         private readonly IUserRepository _userRepo = new UserRepository();
         private readonly IVoucherTypeRepository _voucherTypeRepo = new VoucherTypeRepository();
-
         private List<Voucher> _currentVouchers = new List<Voucher>();
         private List<Order> _currentOrders = new List<Order>();
         private List<VoucherType> _voucherTypes = new List<VoucherType>();
@@ -64,17 +63,41 @@ namespace VoucherSales_WPF
         {
             if (UserComboBox.SelectedValue is int userId)
             {
-                var voucher = new Voucher
+                // Prompt user to select a VoucherType
+                var voucherTypeSelectWindow = new VoucherTypeSelectWindow(_voucherTypes);
+                if (voucherTypeSelectWindow.ShowDialog() == true)
                 {
-                    VoucherId = Guid.NewGuid(),
-                    VoucherTypeId = 0, // set appropriately
-                    Code = 'newCode',
-                    IsRedeemed = false,
-                    IssuedToUserId = userId,
-                    CreatedAt = DateTime.Now
-                };
-                _currentVouchers.Add(voucher);
-                VoucherGrid.Items.Refresh();
+                    var selectedType = voucherTypeSelectWindow.SelectedVoucherType;
+                    if (selectedType == null)
+                    {
+                        MessageBox.Show("No voucher type selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    // Generate a unique code (could be improved)
+                    string code = Guid.NewGuid().ToString("N").Substring(0, 10).ToUpper();
+
+                    var voucher = new Voucher
+                    {
+                        VoucherId = Guid.NewGuid(),
+                        VoucherTypeId = selectedType.VoucherTypeId,
+                        Code = code,
+                        IsRedeemed = false,
+                        IssuedToUserId = userId,
+                        CreatedAt = DateTime.Now
+                    };
+
+                    try
+                    {
+                        _voucherRepo.AddVoucher(voucher);
+                        LoadVouchers();
+                        MessageBox.Show("Voucher added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Failed to add voucher: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
             }
         }
 
@@ -82,9 +105,16 @@ namespace VoucherSales_WPF
         {
             if (VoucherGrid.SelectedItem is Voucher selected)
             {
-                selected.IsRedeemed = !selected.IsRedeemed;
-                _voucherRepo.Redeem(selected.VoucherId, null);
-                LoadVouchers();
+                try
+                {
+                    selected.IsRedeemed = !selected.IsRedeemed;
+                    _voucherRepo.Redeem(selected.VoucherId, null);
+                    LoadVouchers();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Voucher Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
@@ -96,7 +126,9 @@ namespace VoucherSales_WPF
         {
             if (VoucherGrid.SelectedItem is Voucher selected)
             {
-                _currentVouchers.Remove(selected);
+                //remove
+                _voucherRepo.DeleteVoucher(selected.VoucherId);
+                MessageBox.Show("Voucher deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 LoadVouchers();            }
             else
             {
