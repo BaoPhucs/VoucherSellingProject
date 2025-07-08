@@ -105,11 +105,11 @@
 
             <StackPanel Margin="0,14,0,1">
                 <!-- Logo / Tựa đề -->
-                <TextBlock x:Name="tbVoucherSales" Text="Voucher Sales"
+                <!-- Logo / Tựa đề -->
+                <TextBlock x:Name="tbVoucherSales"
                            FontSize="26"
                            FontWeight="Bold"
-                           Foreground="{StaticResource AccentBrush}"
-                           HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                           Foreground="{StaticResource AccentBrush}" Width="251" Text="Vouchers Shopping " Height="49"/>
                 <TabControl x:Name="tabControlLoginRegister" Height="400" Width="282">
                     <!-- Login Tab -->
                     <TabItem x:Name="tbiLogin" Header="Login">

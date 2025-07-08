@@ -12,7 +12,7 @@ namespace VoucherSales_Repositories
     {
         public void GenerateForOrder(int orderId) => VoucherDAO.Instance.GenerateForOrder(orderId);
 
-        public List<Voucher> GetMyWallet(int userId)
+        public List<Voucher> GetMyWalletVouchers(int userId)
         {
             return VoucherDAO.Instance.GetUnredeemedByUser(userId);
         }

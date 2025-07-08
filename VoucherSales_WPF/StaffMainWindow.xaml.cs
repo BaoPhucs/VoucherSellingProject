@@ -68,7 +68,7 @@ namespace VoucherSales_WPF
                 {
                     VoucherId = Guid.NewGuid(),
                     VoucherTypeId = 0, // set appropriately
-                    Code = 'newCode',
+                    Code = "newCode",
                     IsRedeemed = false,
                     IssuedToUserId = userId,
                     CreatedAt = DateTime.Now

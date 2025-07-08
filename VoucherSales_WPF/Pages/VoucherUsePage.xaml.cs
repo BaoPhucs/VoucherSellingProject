@@ -51,7 +51,7 @@ namespace VoucherSales_WPF.Pages
         {
             Vouchers.Clear();
             // Lấy tất cả mã unused, rồi filter theo Type:
-            var list = _voucherRepo.GetMyWallet(App.CurrentUser.UserId)
+            var list = _voucherRepo.GetMyWalletVouchers(App.CurrentUser.UserId)
                                    .Where(v => v.VoucherTypeId == _voucherTypeId);
             foreach (var v in list)
                 Vouchers.Add(v);
@@ -63,7 +63,7 @@ namespace VoucherSales_WPF.Pages
         {
             // Ví dụ: lấy tất cả location từ voucher types
             var locs = _voucherRepo
-                          .GetMyWallet(App.CurrentUser.UserId)
+                          .GetMyWalletVouchers(App.CurrentUser.UserId)
                           .Select(v => v.VoucherType.Location)
                           .Distinct()
                           .ToList();

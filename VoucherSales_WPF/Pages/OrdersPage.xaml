@@ -40,12 +40,12 @@
                      TextChanged="OnOrderSearch"/>
             <TextBlock Text="Search by Order ID or Date..."
                        Foreground="Gray"
-                       Margin="5,0,0,0"
+                       Margin="-25,0,30,0"
                        VerticalAlignment="Center"
                        IsHitTestVisible="False"
                        Visibility="{Binding Text,
                                     ElementName=txtOrderSearch,
-                                    Converter={StaticResource StringNullOrEmptyToVisibility}}"/>
+                                    Converter={StaticResource StringNullOrEmptyToVisibility}}" FontWeight="Bold" FontStyle="Italic"/>
         </Grid>
 
         <!-- Row 2: DataGrid -->
@@ -54,7 +54,7 @@
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   IsReadOnly="True"
-                  ItemsSource="{Binding Orders}">
+                  ItemsSource="{Binding Orders}" FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Order ID"
                                     Binding="{Binding OrderId}"

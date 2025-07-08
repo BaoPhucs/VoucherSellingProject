@@ -48,17 +48,16 @@
         <!-- Ảnh / Demo placeholder -->
         <Border Grid.Column="0" Background="#EEE" CornerRadius="8" Padding="10">
             <Image Source="{Binding SelectedVoucher.ImagePath}" 
-             Stretch="Uniform" />
+             Stretch="Uniform" OpacityMask="#00000000" />
         </Border>
 
         <!-- Thông tin chi tiết ở cột phải -->
-        <StackPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Top" Height="410">
+        <StackPanel Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Top" Height="410" Background="Snow">
             <TextBlock Text="{Binding SelectedVoucher.Name}" 
                  FontSize="24" FontWeight="Bold" />
             <TextBlock Text="{Binding SelectedVoucher.Category}" 
                  FontStyle="Italic" Foreground="#666" Margin="0,5,0,10"/>
-
-            <TextBlock Text="Description:" FontWeight="SemiBold" />
+            <TextBlock Text="Description:" FontWeight="SemiBold" Width="99" FontSize="16" HorizontalAlignment="Left" />
             <TextBlock Text="{Binding SelectedVoucher.Description}" 
                  TextWrapping="Wrap" Margin="0,0,0,10"/>
 
@@ -84,9 +83,9 @@
                    Margin="10,0" Foreground="#666"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,20,0,10" VerticalAlignment="Center">
-                <TextBlock Text="Quantity:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <TextBlock Text="Quantity:" VerticalAlignment="Center" Margin="0,0,5,0" FontSize="16"/>
                 <TextBox x:Name="txtQuantity"
-             Width="50"
+             Width="127"
              HorizontalContentAlignment="Center">
                     <TextBox.Text>
                         <Binding Path="SelectedQuantity"
@@ -124,7 +123,7 @@
                 <Button Content="← Back to Catalogue"
                     Style="{StaticResource PrimaryButton}"
                     Width="120"
-                    Click="OnBackToCatalogue" Height="15.96" Margin="0,100,10,10"/>
+                    Click="OnBackToCatalogue" Height="19" Margin="0,100,10,10" Background="#FFA1A7AB"/>
             </StackPanel>
         </StackPanel>
 

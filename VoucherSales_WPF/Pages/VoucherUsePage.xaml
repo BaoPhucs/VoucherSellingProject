@@ -39,7 +39,7 @@
             </Style.Triggers>
         </Style>
     </Page.Resources>
-    <Grid Margin="20">
+    <Grid Margin="20" Background="#FF97CFF4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -51,24 +51,24 @@
         <TextBlock Grid.Row="0"
                Text="Use Vouchers"
                FontSize="24" FontWeight="Bold"
-               Margin="0,0,0,10"/>
+               Margin="25,0,-25,10"/>
 
         <!-- 1) Dòng chọn Location -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="45,0,-45,10">
             <TextBlock Text="Location:" 
                  VerticalAlignment="Center" 
                  Margin="0,0,5,0"/>
             <ComboBox x:Name="cbLocation"
                 Width="200" Height="30"
                 ItemsSource="{Binding Locations}"
-                SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"/>
+                SelectedItem="{Binding SelectedLocation, Mode=TwoWay}" Background="#00000000"/>
         </StackPanel>
 
         <!-- 2) DataGrid hiển thị các mã voucher -->
         <DataGrid Grid.Row="2"
               ItemsSource="{Binding Vouchers}"
               AutoGenerateColumns="False"
-              CanUserAddRows="False">
+              CanUserAddRows="False" Background="#FFD5E6E8" FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Select"
                                 Binding="{Binding IsSelected, Mode=TwoWay}"
@@ -84,15 +84,13 @@
 
         <!-- 3) Nút Confirm & Cancel -->
         <StackPanel Grid.Row="3" Orientation="Horizontal"
-                HorizontalAlignment="Right" Margin="0,10,0,0">
+                HorizontalAlignment="Right" Margin="0,10,0,0" Width="215">
             <Button Content="Confirm Use"
               Style="{StaticResource PrimaryButton}"
-              Click="OnConfirmUse"
-              Width="120"/>
+              Click="OnConfirmUse" Height="42" Width="111"/>
             <Button Content="Cancel"
-              Margin="10,0,0,0"
               Click="OnCancel"
-              Width="80"/>
+              Width="106" Height="42" VerticalAlignment="Bottom" FontWeight="Bold"/>
         </StackPanel>
     </Grid>
 </Page>
