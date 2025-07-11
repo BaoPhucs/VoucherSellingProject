@@ -13,7 +13,7 @@
         </Grid.Background>
         <!-- User Selection -->
         <StackPanel Orientation="Horizontal" Margin="0,0,0,20" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <TextBlock Text="Select User:" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14" Background="#FF00E3FF"/>
+            <TextBlock Text="Select User:" FontWeight="SemiBold" FontSize="14" Background="#FF00E3FF" Height="20"/>
             <ComboBox x:Name="UserComboBox"
                       Width="200"
                       Margin="10,0"
@@ -27,6 +27,8 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
+
+     
 
         <!-- Tabs -->
         <TabControl Name="MainTabControl" Margin="0,50,0,0" FontWeight="Bold">

@@ -2,7 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:conv="clr-namespace:VoucherSales_WPF.Converters"
-      Title="OrdersPage">
+      Title="OrdersPage" Background="#FFF2F3A3">
 
     <Page.Resources>
         <!-- Converter to show watermark when the TextBox is empty -->
@@ -37,10 +37,10 @@
         <Grid Grid.Row="1" Margin="0,0,0,10">
             <TextBox x:Name="txtOrderSearch"
                      Width="200"
-                     TextChanged="OnOrderSearch"/>
+                     TextChanged="OnOrderSearch" Margin="218,0,64,0"/>
             <TextBlock Text="Search by Order ID or Date..."
                        Foreground="Gray"
-                       Margin="-25,0,30,0"
+                       Margin="10,0,-6,0"
                        VerticalAlignment="Center"
                        IsHitTestVisible="False"
                        Visibility="{Binding Text,
