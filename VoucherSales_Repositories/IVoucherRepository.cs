@@ -9,7 +9,7 @@ namespace VoucherSales_Repositories
 {
     public interface IVoucherRepository
     {
-        List<Voucher> GetMyWallet(int userId);
+        List<Voucher> GetMyWalletVouchers(int userId);
         void Redeem(Guid voucherId, string location = null);
         void GenerateForOrder(int orderId);
     }

@@ -6,6 +6,7 @@
              StartupUri="Login.xaml">
     <Application.Resources>
 
+        
         <!-- Bảng màu dùng chung toàn app -->
         <SolidColorBrush x:Key="PrimaryBrush"     Color="#0078D7"/>
         <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#005A9E"/>

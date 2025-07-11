@@ -40,5 +40,9 @@ namespace VoucherSales_Repositories
         {
             return UserDAO.Instance.ChangePassword(userId, currentPassword, newPassword);
         }
+        public List<User> GetAllUsers()
+        {
+            return UserDAO.Instance.GetAllUsers();
+        }
     }
 }

@@ -65,5 +65,14 @@ namespace VoucherSales_DAO
             _context.SaveChanges();
             return true;
         }
+
+        public List<User> GetAllUsers()
+        {
+            //return all users in the list
+            using (var ctx = new VoucherSalesDbContext())
+            {
+                return ctx.Users.ToList();
+            }
+        }
     }
 }

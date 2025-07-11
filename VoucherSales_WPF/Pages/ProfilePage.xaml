@@ -68,41 +68,41 @@
             </Grid.ColumnDefinitions>
 
             <!-- Left: edit basic info -->
-            <StackPanel Grid.Column="0">
+            <StackPanel Grid.Column="0" Background="#FFE1E8E5">
                 <TextBlock Text="Username:" FontWeight="SemiBold"/>
-                <TextBox x:Name="txtUsername" IsReadOnly="True"/>
+                <TextBox x:Name="txtUsername" IsReadOnly="True" Height="32"/>
 
                 <TextBlock Text="Full Name:" FontWeight="SemiBold" Margin="0,10,0,0"/>
-                <TextBox x:Name="txtFullName"/>
+                <TextBox x:Name="txtFullName" Height="35"/>
 
                 <TextBlock Text="Email:" FontWeight="SemiBold" Margin="0,10,0,0"/>
-                <TextBox x:Name="txtEmail"/>
+                <TextBox x:Name="txtEmail" Height="31"/>
 
                 <TextBlock Text="Phone:" FontWeight="SemiBold" Margin="0,10,0,0"/>
-                <TextBox x:Name="txtPhone"/>
+                <TextBox x:Name="txtPhone" Height="38"/>
 
                 <Button Content="Save Profile"
                 Style="{StaticResource PrimaryButton}"
                 Width="140"
-                Click="OnSaveProfile"/>
+                Click="OnSaveProfile" Height="27"/>
             </StackPanel>
 
             <!-- Right: change password -->
-            <StackPanel Grid.Column="2">
-                <TextBlock Text="Change Password" FontSize="18" FontWeight="Bold"/>
+            <StackPanel Grid.Column="2" Background="#FFC4E6FF">
+                <TextBlock Text="Change Password" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Red"/>
                 <TextBlock Text="Current Password:" FontWeight="SemiBold" Margin="0,10,0,0"/>
-                <PasswordBox x:Name="pbCurrent"/>
+                <PasswordBox x:Name="pbCurrent" Height="35"/>
 
                 <TextBlock Text="New Password:" FontWeight="SemiBold" Margin="0,10,0,0"/>
-                <PasswordBox x:Name="pbNew"/>
+                <PasswordBox x:Name="pbNew" Height="36"/>
 
                 <TextBlock Text="Confirm New:" FontWeight="SemiBold" Margin="0,10,0,0"/>
-                <PasswordBox x:Name="pbConfirm"/>
+                <PasswordBox x:Name="pbConfirm" Height="37"/>
 
                 <Button Content="Change Password"
                 Style="{StaticResource PrimaryButton}"
                 Width="160"
-                Click="OnChangePassword"/>
+                Click="OnChangePassword" Height="35"/>
             </StackPanel>
         </Grid>
     </Grid>

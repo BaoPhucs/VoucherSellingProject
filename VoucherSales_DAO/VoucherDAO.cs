@@ -29,6 +29,8 @@ namespace VoucherSales_DAO
             }
 
         }
+        //get all vouchers
+
         public List<Voucher> GetUnredeemedByUser(int userId)
         {
             return _ctx.Vouchers
