@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using VoucherSales_BO;
 using VoucherSales_DAO;
 using VoucherSales_Repositories;
+using VoucherSales_WPF.Pages;
 
 namespace VoucherSales_WPF
 {
