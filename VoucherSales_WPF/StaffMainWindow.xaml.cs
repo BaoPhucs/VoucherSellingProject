@@ -152,7 +152,6 @@ namespace VoucherSales_WPF
             {
                 var order = new Order
                 {
-                    OrderId = new Random().Next(10000, 99999),
                     UserId = userId,
                     OrderDate = DateTime.Now,
                     TotalAmount = 0m,
