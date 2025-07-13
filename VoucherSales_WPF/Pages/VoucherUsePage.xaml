@@ -84,11 +84,11 @@
 
         <!-- 3) Nút Confirm & Cancel -->
         <StackPanel Grid.Row="3" Orientation="Horizontal"
-                HorizontalAlignment="Right" Margin="0,10,0,0" Width="215">
+                HorizontalAlignment="Right" Margin="0,10,0,0" Width="235">
             <Button Content="Confirm Use"
               Style="{StaticResource PrimaryButton}"
-              Click="OnConfirmUse" Height="42" Width="111"/>
-            <Button Content="Cancel"
+              Click="OnConfirmUse" Height="42" Width="106" Margin="0,0,15,0"/>
+            <Button Content="Back"
               Click="OnCancel"
               Width="106" Height="42" VerticalAlignment="Bottom" FontWeight="Bold"/>
         </StackPanel>

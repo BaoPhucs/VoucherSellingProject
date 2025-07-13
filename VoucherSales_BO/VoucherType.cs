@@ -30,6 +30,8 @@ public partial class VoucherType
 
     public string Location { get; set; }
 
+    public string? ImageUrl { get; set; }
+
     public ICollection<OrderItem> OrderItems { get; set; }
 
     public ICollection<Voucher> Vouchers { get; set; }
