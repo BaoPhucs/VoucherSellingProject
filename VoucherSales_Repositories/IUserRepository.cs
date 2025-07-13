@@ -14,8 +14,10 @@ namespace VoucherSales_Repositories
         bool UpdateProfile(User user);
         bool ChangePassword(int userId, string currentPassword, string newPassword);
 
+
         //get all user IDs
         List<User> GetAllUsers();
+
 
     }
 }

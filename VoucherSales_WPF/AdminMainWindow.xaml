@@ -1,18 +1,19 @@
-﻿<Window x:Class="VoucherSales_WPF.AdminMainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="VoucherSales_WPF.AdminMainWindow"
         Title="Admin Dashboard" Height="600" Width="900">
     <DockPanel>
 
         <!-- Menu trái -->
-        <ListBox DockPanel.Dock="Left" Width="200" x:Name="lbAdminMenu">
+        <ListBox DockPanel.Dock="Left" Width="200" x:Name="lbAdminMenu" SelectionChanged="lbAdminMenu_SelectionChanged">
             <ListBoxItem Content="Quản lý Người dùng" />
             <ListBoxItem Content="Quản lý Loại Voucher" />
             <ListBoxItem Content="Báo cáo Doanh thu" />
         </ListBox>
 
         <!-- Nội dung chính -->
-        <ContentControl x:Name="ccAdminContent" />
-
+        <ContentControl x:Name="ccAdminContent" >
+        </ContentControl>
     </DockPanel>
 </Window>

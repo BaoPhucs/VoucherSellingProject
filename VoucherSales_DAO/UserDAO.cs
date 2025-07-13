@@ -66,6 +66,7 @@ namespace VoucherSales_DAO
             return true;
         }
 
+
         public List<User> GetAllUsers()
         {
             //return all users in the list
@@ -74,5 +75,6 @@ namespace VoucherSales_DAO
                 return ctx.Users.ToList();
             }
         }
+
     }
 }
