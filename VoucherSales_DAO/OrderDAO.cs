@@ -51,6 +51,7 @@ namespace VoucherSales_DAO
             .FirstOrDefault(o => o.OrderId == orderId)!;
         }
 
+        //check constraint : Failed Success or Pending
         public void UpdateOrderStatus(int orderId, string newStatus)
         {
             var o = _context.Orders.Find(orderId);

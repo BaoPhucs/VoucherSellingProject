@@ -29,6 +29,8 @@ namespace VoucherSales_DAO
             }
 
         }
+        //get all vouchers
+
         public List<Voucher> GetUnredeemedByUser(int userId)
         {
             return _ctx.Vouchers
@@ -69,7 +71,8 @@ namespace VoucherSales_DAO
             // 2) Gom nhóm theo loại voucher, tính tổng Quantity
             var grouped = order.OrderItems
                 .GroupBy(oi => oi.VoucherTypeId)
-                .Select(g => new {
+                .Select(g => new
+                {
                     VoucherTypeId = g.Key,
                     TotalQty = g.Sum(oi => oi.Quantity)
                 });
@@ -107,5 +110,22 @@ namespace VoucherSales_DAO
             _ctx.SaveChanges();
             tx.Commit();
         }
+
+        //AddVoucher
+        public void AddVoucher(Voucher voucher)
+        {
+            if (voucher == null) throw new ArgumentNullException(nameof(voucher));
+            _ctx.Vouchers.Add(voucher);
+            _ctx.SaveChanges();
+        }
+        //DeleteVoucher
+        public void DeleteVoucher(Guid voucherId)
+        {
+            var voucher = _ctx.Vouchers.Find(voucherId);
+            if (voucher == null) throw new Exception("Voucher not found");
+            _ctx.Vouchers.Remove(voucher);
+            _ctx.SaveChanges();
+        }
+
     }
 }

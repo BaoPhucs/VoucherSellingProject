@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VoucherSales_BO;
 using VoucherSales_Repositories;
 using VoucherSales_WPF.Pages;
 
@@ -22,9 +23,16 @@ namespace VoucherSales_WPF
     public partial class CustomerMainWindow : Window
     {
         private readonly ICartItemRepository _cartItemRepository;
+        private  User _currentUser;
+
+
+
+
+        // Update the constructor to accept and store the user
         public CustomerMainWindow(VoucherSales_BO.User user)
         {
             InitializeComponent();
+            _currentUser = user;
             _cartItemRepository = new CartItemRepository();
             Loaded += (s, e) => MainFrame.Navigate(new CataloguePage());
 
@@ -32,10 +40,8 @@ namespace VoucherSales_WPF
             btnCatalogue.Click += (s, e) => MainFrame.Navigate(new CataloguePage());
             btnCart.Click += (s, e) => MainFrame.Navigate(new CartPage());
             btnOrders.Click += (s, e) => MainFrame.Navigate(new OrdersPage());
-            //btnOrders.Click += (s, e) => MainFrame.Navigate(new OrdersPage());
             btnProfile.Click += (s, e) => MainFrame.Navigate(new ProfilePage());
             btnWallet.Click += (s, e) => MainFrame.Navigate(new VoucherWalletPage());
-            // Logout: quay về login
             btnLogout.Click += (s, e) =>
             {
                 var result = MessageBox.Show(
@@ -52,5 +58,24 @@ namespace VoucherSales_WPF
             };
         }
 
+     
+
+        // Call this function in Window_Loaded
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // display welcome User
+
+            if(_currentUser != null)
+            {
+                txtWelcome.Text = $"Welcome, {_currentUser.FullName}!";
+            }
+            else
+            {
+                txtWelcome.Text = "Welcome!";
+            }
+        }
+
+
+      
     }
 }

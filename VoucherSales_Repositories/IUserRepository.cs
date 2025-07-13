@@ -13,6 +13,11 @@ namespace VoucherSales_Repositories
         bool Register(string fillname, string username, string email, string phone, string password);
         bool UpdateProfile(User user);
         bool ChangePassword(int userId, string currentPassword, string newPassword);
+
+
+        //get all user IDs
         List<User> GetAllUsers();
+
+
     }
 }
