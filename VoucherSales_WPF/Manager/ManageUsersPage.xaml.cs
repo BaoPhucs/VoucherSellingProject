@@ -2,13 +2,16 @@
 using System.Windows.Controls;
 using VoucherSales_BO;
 using VoucherSales_DAO;
+using VoucherSales_Repositories;
 
 namespace VoucherSales_WPF.Manager
 {
     public partial class ManageUsersPage : UserControl
     {
         private User? selectedUser;
+        private int? UserSelectedId;
         private List<User> allUsers = new List<User>();
+        private IUserRepository _userRepo = new UserRepository();
 
         public ManageUsersPage()
         {
@@ -26,16 +29,25 @@ namespace VoucherSales_WPF.Manager
         // Khi chọn một dòng trong DataGrid
         private void dgUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedUser = dgUsers.SelectedItem as User;
-
-            if (selectedUser != null)
+            if (dgUsers.SelectedItem != null)
             {
-                txtUsername.Text = selectedUser.Username;
-                txtFullName.Text = selectedUser.FullName;
-                txtEmail.Text = selectedUser.Email;
-                txtPhone.Text = selectedUser.Phone;
-                txtPassword.Password = selectedUser.PasswordHash;
+                dynamic row = dgUsers.SelectedItem;
+                UserSelectedId = row.UserId;
+
+                User user = _userRepo.GetById(UserSelectedId.Value);
+                if (user != null)
+                {
+
+                    MessageBox.Show($"RoleID: {row.RoleId.ToString()}");
+
+                    txtUsername.Text = user.Username;
+                    txtFullName.Text = user.FullName;
+                    txtEmail.Text = user.Email;
+                    txtPhone.Text = user.Phone;
+                    txtPassword.Password = user.PasswordHash;
+                }
             }
+
         }
 
         // Thêm người dùng mới
@@ -78,6 +90,15 @@ namespace VoucherSales_WPF.Manager
             selectedUser.FullName = txtFullName.Text;
             selectedUser.Email = txtEmail.Text;
             selectedUser.Phone = txtPhone.Text;
+            // Cập nhật mật khẩu nếu có thay đổi
+            // Không cập nhật mật khẩu nếu không thay đổi
+            if (!string.IsNullOrEmpty(txtPassword.Password))
+            {
+                selectedUser.PasswordHash = txtPassword.Password;
+            }
+
+            selectedUser.Username = txtUsername.Text;
+
 
             bool result = UserDAO.Instance.UpdateProfile(selectedUser);
 

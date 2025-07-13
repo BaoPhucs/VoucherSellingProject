@@ -44,6 +44,10 @@ namespace VoucherSales_Repositories
         {
             return UserDAO.Instance.GetAllUsers();
         }
+        public User? GetById(int userId)
+        {
+            return UserDAO.Instance.GetById(userId);
 
+        }
     }
 }

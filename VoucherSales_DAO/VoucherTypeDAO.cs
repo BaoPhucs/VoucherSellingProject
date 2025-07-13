@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VoucherSales_BO;
 
 namespace VoucherSales_DAO
@@ -10,24 +8,71 @@ namespace VoucherSales_DAO
     public class VoucherTypeDAO
     {
         private static VoucherTypeDAO? _instance;
-        private readonly VoucherSalesDbContext _context;
+        public static VoucherTypeDAO Instance => _instance ??= new VoucherTypeDAO();
 
-        private VoucherTypeDAO()
-        {
-            _context = new VoucherSalesDbContext();
-        }
-
-        public static VoucherTypeDAO Instance
-            => _instance ??= new VoucherTypeDAO();
+        private VoucherTypeDAO() { }
 
         public List<VoucherType> GetAllVoucherTypes()
         {
-            return _context.VoucherTypes.ToList();
+            using var ctx = new VoucherSalesDbContext();
+            return ctx.VoucherTypes.ToList();
         }
 
-        public VoucherType GetByID(int id)
+        public VoucherType? GetById(int id)
         {
-            return _context.VoucherTypes.FirstOrDefault(vt => vt.VoucherTypeId == id);
+            using var ctx = new VoucherSalesDbContext();
+            return ctx.VoucherTypes.Find(id);
+        }
+
+        public bool CreateVoucherType(VoucherType voucherType)
+        {
+            try
+            {
+                using var ctx = new VoucherSalesDbContext();
+                ctx.VoucherTypes.Add(voucherType);
+                ctx.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateVoucherType(VoucherType voucherType)
+        {
+            try
+            {
+                using var ctx = new VoucherSalesDbContext();
+                var existing = ctx.VoucherTypes.Find(voucherType.VoucherTypeId);
+                if (existing == null) return false;
+
+                ctx.Entry(existing).CurrentValues.SetValues(voucherType);
+                ctx.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteVoucherType(int id)
+        {
+            try
+            {
+                using var ctx = new VoucherSalesDbContext();
+                var voucherType = ctx.VoucherTypes.Find(id);
+                if (voucherType == null) return false;
+
+                ctx.VoucherTypes.Remove(voucherType);
+                ctx.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

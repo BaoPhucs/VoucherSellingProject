@@ -3,9 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:VoucherSales_WPF.Manager"
-             mc:Ignorable="d">
-    <Grid Margin="10">
-        <DataGrid x:Name="dgVoucherTypes" AutoGenerateColumns="True"/>
+             mc:Ignorable="d" Background="#FFE5B9B9" Height="500" Width="1303">
+
+    <Grid Margin="20,20,102,39" Background="#FFDAD57F">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Editable DataGrid for Voucher Types -->
+        <DataGrid x:Name="dgVoucherTypes"
+               Grid.Row="0"
+               AutoGenerateColumns="False"
+               IsReadOnly="False"
+               CanUserAddRows="False"
+               SelectionMode="Single"
+               Margin="0,0,-71,0" Height="392" VerticalAlignment="Top">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding VoucherTypeId}" IsReadOnly="True" Width="60"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100"/>
+                <DataGridTextColumn Header="Discount Type" Binding="{Binding DiscountType}" Width="100"/>
+                <DataGridTextColumn Header="Discount Value" Binding="{Binding DiscountValue}" Width="100"/>
+                <DataGridTextColumn Header="Min Order Value" Binding="{Binding MinOrderValue}" Width="100"/>
+                <DataGridTextColumn Header="Total Quantity" Binding="{Binding TotalQuantity}" Width="100"/>
+                <DataGridTextColumn Header="Valid From" Binding="{Binding ValidFrom}" Width="120"/>
+                <DataGridTextColumn Header="Valid To" Binding="{Binding ValidTo}" Width="120"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
+                <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="100"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="200"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
+            <Button x:Name="btnAdd" Content="Add" Width="80" Margin="0,0,10,0" Click="btnAdd_Click" Background="#FF49FF08" FontWeight="Bold"/>
+            <Button x:Name="btnUpdate" Content="Update" Width="80" Margin="0,0,10,0" Click="btnUpdate_Click"/>
+            <Button x:Name="btnDelete" Content="Delete" Width="80" Margin="0,0,10,0" Click="btnDelete_Click" Background="#FFC83737" FontWeight="Bold"/>
+            <Button x:Name="btnRefresh" Content="Refresh" Width="80" Click="btnRefresh_Click"/>
+        </StackPanel>
     </Grid>
 </UserControl>
