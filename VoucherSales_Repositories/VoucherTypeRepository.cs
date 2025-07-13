@@ -17,7 +17,20 @@ namespace VoucherSales_Repositories
 
         public VoucherType GetByID(int id)
         {
-            return VoucherTypeDAO.Instance.GetByID(id);
+            return VoucherTypeDAO.Instance.GetById(id);
+        }
+        public bool CreateVoucherType(VoucherType voucherType)
+        {
+            return VoucherTypeDAO.Instance.CreateVoucherType(voucherType);
+        }
+        public bool UpdateVoucherType(VoucherType voucherType)
+        {
+            return VoucherTypeDAO.Instance.UpdateVoucherType(voucherType);
+        }
+        public bool DeleteVoucherType(int id)
+        {
+            return VoucherTypeDAO.Instance.DeleteVoucherType(id);
+
         }
     }
 }
