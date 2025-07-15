@@ -17,7 +17,6 @@ namespace VoucherSales_Repositories
 
         //get all user IDs
         List<User> GetAllUsers();
-
-
+        bool Delete(int userId);
     }
 }

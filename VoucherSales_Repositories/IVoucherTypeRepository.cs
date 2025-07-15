@@ -12,5 +12,9 @@ namespace VoucherSales_Repositories
         List<VoucherType> GetAll();
 
         VoucherType GetByID(int id);
+
+        bool Create(VoucherType voucherType);
+        bool Update(VoucherType voucherType);
+        bool Delete(int id);
     }
 }

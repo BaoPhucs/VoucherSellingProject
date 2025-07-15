@@ -5,16 +5,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:VoucherSales_WPF.Manager"
              mc:Ignorable="d">
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <!-- Form nhập -->
-            <RowDefinition Height="Auto" />
-            <!-- Danh sách người dùng -->
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Form người dùng với Label + TextBox -->
         <StackPanel Grid.Row="0" Margin="0,0,0,10">
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Label Content="Tìm kiếm:" VerticalAlignment="Center" Margin="5"/>
+                <TextBox x:Name="txtSearch"
+                         Width="220" Margin="5"
+                         KeyDown="txtSearch_KeyDown"/>
+                <Button Content="Tìm"     Width="80" Margin="5"
+                        Click="btnSearch_Click"/>
+                <Button Content="Xoá tìm" Width="80" Margin="5"
+                        Click="btnClearSearch_Click"/>
+            </StackPanel>
+
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -28,41 +38,51 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Grid.Column="0" Content="Tên đăng nhập:" VerticalAlignment="Center" Margin="5"/>
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtUsername" Margin="5"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Tên đăng nhập:"
+                       Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="1"
+                         x:Name="txtUsername" Margin="5"/>
 
-                <Label Grid.Row="0" Grid.Column="2" Content="Mật khẩu:" VerticalAlignment="Center" Margin="5"/>
-                <PasswordBox Grid.Row="0" Grid.Column="3" x:Name="txtPassword" Margin="5"/>
+                <Label Grid.Row="0" Grid.Column="2" Content="Mật khẩu:"
+                       Margin="5" VerticalAlignment="Center"/>
+                <PasswordBox Grid.Row="0" Grid.Column="3"
+                             x:Name="txtPassword" Margin="5"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Content="Họ tên:" VerticalAlignment="Center" Margin="5"/>
-                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtFullName" Margin="5"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Họ tên:"
+                       Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1"
+                         x:Name="txtFullName" Margin="5"/>
 
-                <Label Grid.Row="1" Grid.Column="2" Content="Email:" VerticalAlignment="Center" Margin="5"/>
-                <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtEmail" Margin="5"/>
+                <Label Grid.Row="1" Grid.Column="2" Content="Email:"
+                       Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="3"
+                         x:Name="txtEmail" Margin="5"/>
 
-                <Label Grid.Row="2" Grid.Column="0" Content="Số điện thoại:" VerticalAlignment="Center" Margin="5"/>
-                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtPhone" Margin="5"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Số điện thoại:"
+                       Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="1"
+                         x:Name="txtPhone" Margin="5"/>
             </Grid>
-            <!-- KHUNG TÌM KIẾM -->
 
-            <!-- Nút CRUD -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
-                <Button Content="Thêm" Width="80" Margin="5" Click="btnAdd_Click"/>
-                <Button Content="Sửa" Width="80" Margin="5" Click="btnUpdate_Click"/>
-                <Button Content="Xoá" Width="80" Margin="5" Click="btnDelete_Click"/>
-                <Button Content="Làm mới" Width="80" Margin="5" Click="btnRefresh_Click"/>
+                <Button Content="Thêm"     Width="80" Margin="5" Click="btnAdd_Click"/>
+                <Button Content="Sửa"      Width="80" Margin="5" Click="btnUpdate_Click"/>
+                <Button Content="Xoá"      Width="80" Margin="5" Click="btnDelete_Click"/>
+                <Button Content="Làm mới"  Width="80" Margin="5" Click="btnRefresh_Click"/>
             </StackPanel>
         </StackPanel>
 
-        <!-- Danh sách người dùng -->
-        <DataGrid x:Name="dgUsers" Grid.Row="1" AutoGenerateColumns="False" SelectionChanged="dgUsers_SelectionChanged">
+        <DataGrid x:Name="dgUsers"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  SelectionChanged="dgUsers_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding UserId}" Width="50"/>
-                <DataGridTextColumn Header="Tên đăng nhập" Binding="{Binding Username}" />
-                <DataGridTextColumn Header="Họ tên" Binding="{Binding FullName}" />
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
-                <DataGridTextColumn Header="SĐT" Binding="{Binding Phone}" />
-                <DataGridCheckBoxColumn Header="Kích hoạt" Binding="{Binding IsActive}" />
+                <DataGridTextColumn Header="ID"             Binding="{Binding UserId}"    Width="50"/>
+                <DataGridTextColumn Header="Tên đăng nhập"  Binding="{Binding Username}"/>
+                <DataGridTextColumn Header="Họ tên"         Binding="{Binding FullName}"/>
+                <DataGridTextColumn Header="Email"          Binding="{Binding Email}"/>
+                <DataGridTextColumn Header="SĐT"            Binding="{Binding Phone}"/>
+                <DataGridCheckBoxColumn Header="Kích hoạt"  Binding="{Binding IsActive}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
