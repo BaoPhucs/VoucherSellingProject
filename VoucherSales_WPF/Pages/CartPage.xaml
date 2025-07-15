@@ -60,13 +60,13 @@
 
                 <!-- Unit Price -->
                 <DataGridTextColumn Header="Unit Price"
-                                    Binding="{Binding UnitPrice, StringFormat=C}"
+                                    Binding="{Binding UnitPrice, StringFormat={}{0:N0} VNĐ}"
                                     IsReadOnly="True"
                                     Width="100"/>
 
                 <!-- Subtotal -->
                 <DataGridTextColumn Header="Subtotal"
-                                    Binding="{Binding Subtotal, StringFormat=C}"
+                                    Binding="{Binding Subtotal, StringFormat={}{0:N0} VNĐ}"
                                     IsReadOnly="True"
                                     Width="100"/>
 
@@ -89,7 +89,7 @@
                     HorizontalAlignment="Right"
                     Margin="0,10,0,0">
             <TextBlock Text="Total:" FontSize="16" VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding CartTotal, StringFormat=C}"
+            <TextBlock Text="{Binding CartTotal, StringFormat={}{0:N0} VNĐ}"
                        FontSize="16"
                        FontWeight="Bold"
                        VerticalAlignment="Center"
@@ -98,6 +98,7 @@
             <Button Content="Checkout"
                     Style="{StaticResource PrimaryButton}"
                     Width="120"
+                    Height="30"
                     Click="OnCheckout"
                     IsEnabled="{Binding (Validation.HasError),
                                 ElementName=dgCart,

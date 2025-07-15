@@ -2,7 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:conv="clr-namespace:VoucherSales_WPF.Converters"
-      Title="OrdersPage" Background="#FFF2F3A3">
+      Title="OrdersPage">
 
     <Page.Resources>
         <!-- Converter to show watermark when the TextBox is empty -->
@@ -37,10 +37,10 @@
         <Grid Grid.Row="1" Margin="0,0,0,10">
             <TextBox x:Name="txtOrderSearch"
                      Width="200"
-                     TextChanged="OnOrderSearch" Margin="218,0,64,0"/>
+                     TextChanged="OnOrderSearch"/>
             <TextBlock Text="Search by Order ID or Date..."
                        Foreground="Gray"
-                       Margin="10,0,-6,0"
+                       Margin="-25,0,30,0"
                        VerticalAlignment="Center"
                        IsHitTestVisible="False"
                        Visibility="{Binding Text,
@@ -58,17 +58,17 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Order ID"
                                     Binding="{Binding OrderId}"
-                                    Width="80"/>
+                                    Width="200"/>
                 <DataGridTextColumn Header="Date"
                                     Binding="{Binding OrderDate, StringFormat={}{0:dd/MM/yyyy}}"
-                                    Width="120"/>
+                                    Width="200"/>
                 <DataGridTextColumn Header="Total"
-                                    Binding="{Binding TotalAmount, StringFormat=C}"
-                                    Width="100"/>
+                                    Binding="{Binding TotalAmount, StringFormat={}{0:N0} VNĐ}"
+                                    Width="200"/>
                 <DataGridTextColumn Header="Status"
                                     Binding="{Binding PaymentStatus}"
-                                    Width="100"/>
-                <DataGridTemplateColumn Header="Details" Width="80">
+                                    Width="200"/>
+                <DataGridTemplateColumn Header="Details" Width="200">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="View"
