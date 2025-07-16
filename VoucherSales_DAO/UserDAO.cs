@@ -29,6 +29,13 @@ namespace VoucherSales_DAO
             }
 
         }
+        //write GetAllRoleIds
+        public List<int> GetAllRoleIds()
+        {
+            return _context.Roles.Select(r => r.RoleId).ToList();
+                                
+        }
+
 
         public User GetById(int userId) => _context.Users.Include(u => u.Role).FirstOrDefault(u => u.UserId == userId);
 

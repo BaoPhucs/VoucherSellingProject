@@ -24,33 +24,39 @@ namespace VoucherSales_WPF.Manager
         {
             allUsers = UserDAO.Instance.GetAllUsers();
             dgUsers.ItemsSource = allUsers;
+            cmbRoleId.ItemsSource = UserDAO.Instance.GetAllRoleIds(); // Lấy danh sách RoleId từ UserDAO
         }
 
         // Khi chọn một dòng trong DataGrid
         private void dgUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgUsers.SelectedItem != null)
+            if (dgUsers.SelectedItem is User row)
             {
-                dynamic row = dgUsers.SelectedItem;
                 UserSelectedId = row.UserId;
+
 
                 User user = _userRepo.GetById(UserSelectedId.Value);
                 if (user != null)
                 {
 
-                    MessageBox.Show($"RoleID: {row.RoleId.ToString()}");
+                    MessageBox.Show($"RoleID: {row.RoleId}");
 
                     txtUsername.Text = user.Username;
                     txtFullName.Text = user.FullName;
                     txtEmail.Text = user.Email;
                     txtPhone.Text = user.Phone;
                     txtPassword.Password = user.PasswordHash;
+                    cmbRoleId.SelectedItem = user.RoleId;
+
+                    selectedUser = user; // Lưu người dùng đã chọn để cập nhật hoặc xoá
+
+
                 }
             }
 
         }
 
-        // Thêm người dùng mới
+        // Fix for CS0266: Explicitly cast the selected item to 'int'  
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             var user = new User
@@ -60,8 +66,11 @@ namespace VoucherSales_WPF.Manager
                 FullName = txtFullName.Text,
                 Email = txtEmail.Text,
                 Phone = txtPhone.Text,
-                RoleId = 3, // giả sử 2 là User
+                RoleId = (int)cmbRoleId.SelectedItem, // Explicit cast to 'int'  
+                CreatedAt = DateTime.Now,
+
                 IsActive = true
+
             };
 
             bool success = UserDAO.Instance.CreateUser(user);
@@ -98,6 +107,16 @@ namespace VoucherSales_WPF.Manager
             }
 
             selectedUser.Username = txtUsername.Text;
+            //update the role via comboBox
+            if (cmbRoleId.SelectedItem is int selectedRoleId)
+            {
+                selectedUser.RoleId = selectedRoleId;
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn vai trò hợp lệ.");
+                return;
+            }
 
 
             bool result = UserDAO.Instance.UpdateProfile(selectedUser);
@@ -157,6 +176,7 @@ namespace VoucherSales_WPF.Manager
             txtFullName.Text = "";
             txtEmail.Text = "";
             txtPhone.Text = "";
+            cmbRoleId.SelectedIndex = -1;
             selectedUser = null;
         }
     }

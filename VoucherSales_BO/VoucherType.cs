@@ -6,6 +6,7 @@ namespace VoucherSales_BO;
 
 public partial class VoucherType
 {
+    public VoucherType() { }
     public int VoucherTypeId { get; set; }
 
     public string Name { get; set; } = null!;
