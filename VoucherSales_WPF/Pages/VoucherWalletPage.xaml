@@ -115,7 +115,7 @@
                 <DataGridTextColumn Header="Code"
                             Binding="{Binding Voucher.Code}"
                             Width="2*"/>
-                <DataGridTextColumn Header="Type"
+                <DataGridTextColumn Header="Voucher Name"
                             Binding="{Binding Voucher.VoucherType.Name}"
                             Width="*"/>
                 <DataGridTextColumn Header="Redeemed At"

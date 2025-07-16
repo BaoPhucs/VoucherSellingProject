@@ -9,9 +9,144 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\11-dealtoday-cong-vien-nuoc-Mikazuki-Water-Park-365--2-_26032025144947.jpg" />
+    <None Remove="Images\2-dealtoday-cong-vien-nuoc-Mikazuki-Water-Park-365_26032025144943.jpg" />
+    <None Remove="Images\4-dealtoday-vu-nhac-kich-duong-dai-tien-sa-show_27032025115357.jpg" />
+    <None Remove="Images\6a284f62764e4ba38a5973cc53631c3a.jpg" />
+    <None Remove="Images\ava-1-Best-Western-Premier-Sapphire-Ha-Long-Hotel_22082024112017.jpg" />
+    <None Remove="Images\ava-3-Best-Western-Premier-Sapphire-Ha-Long-Hotel_22082024133633.jpg" />
+    <None Remove="Images\Buffet-Lau-Dai-Loan-Hon-80-Mon-Chay-Chuyen-Tren-Tho-Trua-T2-T6-Nha-Hang-Yuhua-ava_13122024095242.jpg" />
+    <None Remove="Images\buffet-yakihokube-buffet-special-ap-dung-buoi-toi-thu-2-thu-6-ca-ngay-thu-7-chu-nhat-ava_27062025095554.jpg" />
+    <None Remove="Images\Cheo-SUP-ngam-canh-giai-tri-tren-song-Sai-Gon-Sup-rise-Saigon-avt_12062024111044.jpg" />
+    <None Remove="Images\Combo-20-xien-thap-cam-tai-Niuben-Hotpot-ava-1_15052025095859.jpg" />
+    <None Remove="Images\Combo-bay-phap-phoi-hen-ho-ngam-song-chi-159K-tai-Matsuri-Nguyen-Hue-ava_23012025150142.jpg" />
+    <None Remove="Images\combo-healthy-salad-eat-clean-tang-kem-tra-gao-lut-thai-doc-giam-can-tai-mr-eco-healthy-food-avt_07062024092423.jpg" />
+    <None Remove="Images\Combo-tham-quan-va-an-toi-khung-gio-14h-21h-Khu-du-lich-Lang-Toom-Sara-Da-Nang-ava_21052025104951.jpg" />
+    <None Remove="Images\Combo-tron-vi-tai-Niuben-Hotpot-ava_15052025104401.jpg" />
+    <None Remove="Images\combo-ve-tham-quan-va-vui-choi-tai-khu-du-lich-thac-prenn-da-lat-ava_24062025111126.jpg" />
+    <None Remove="Images\Combo-ve-vao-cua-va-2-show-3D-Mapping-Tour-Dem-Van-Mieu-KH-tu-1m00-den-1m29-ava_27052025145939.jpg" />
+    <None Remove="Images\Dealtoday-Ve-vui-choi-Samten-Hills-Da-Lat-tre-em-ava_11022025151623.jpg" />
+    <None Remove="Images\dealtoday-voucher-1000-000-vnd-tai-nha-hang-mor-fai-ava_24022025165100.jpg" />
+    <None Remove="Images\dealtoday-voucher-500-000-vnd-tai-nha-hang-mor-fai-ava_24022025165106.jpg" />
+    <None Remove="Images\dealtoday-voucher-Sunworld-Ba-Ha-Hills-avt--2-_13062025144008.jpg" />
+    <None Remove="Images\Dich-vu-luu-tru-Chezvous-Bungalow-Khu-du-lich-Lang-Toom-Sara-Da-Nang-ava_21052025134412.jpg" />
+    <None Remove="Images\Du-thuyen-Luna-Cruise-Tour-du-ngoan-tham-quan-Vinh-Ha-Long-trong-ngay-ava_16052025152903.jpg" />
+    <None Remove="Images\E-Voucher-uu-dai-set-combo-4-mon-tai-Matsuri-Japanese-Restaurant-Nguyen-Hue-avt-1_06082024154241.jpg" />
+    <None Remove="Images\Mini-bus-Ha-Noi-City-Tour-Ve-tham-quan-1-ngay-ava_13062025092020.jpg" />
+    <None Remove="Images\Nghi-duong-phong-Classic-Queen-tai-SC-Luxury-Ha-Long-avt_13082024094802.jpg" />
+    <None Remove="Images\Nghi-duong-phong-Deluxe-Double-tai-khach-san-Minh-Chien-Da-Lat-avt_15052024111515.jpg" />
+    <None Remove="Images\Nghi-duong-phong-Superior-Garden-tai-Wyndham-Garden-Legend-Ha-Long-ava_23122024100551.jpg" />
+    <None Remove="Images\Nha-hang-THAI-MARTKET-2--2-_27122024145159.jpg" />
+    <None Remove="Images\Nha-hang-THAI-MARTKET-2_27122024145156.jpg" />
+    <None Remove="Images\ve-special-l-ticket-thu-7-chu-nhat-le-tet-tai-trien-lam-metashow-ava_20062025135606.jpg" />
+    <None Remove="Images\ve-special-l-ticket-tu-thu-2-den-thu-6-tai-trien-lam-metashow-ava_20062025135603.jpg" />
+    <None Remove="Images\Ve-tham-quan-trong-ngay-Khu-du-lich-Lang-Toom-Sara-Da-Nang-ava_21052025095505.jpg" />
+    <None Remove="Images\Ve-vao-cong-khu-vui-choi-Ccomaya-Kids-Thao-Dien-Ap-dung-thu-2-den-thu-6-avt_07082024104457.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\VoucherSales_Repositories\VoucherSales_Repositories.csproj">
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\2-dealtoday-cong-vien-nuoc-Mikazuki-Water-Park-365_26032025144943.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\4-dealtoday-vu-nhac-kich-duong-dai-tien-sa-show_27032025115357.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\6a284f62764e4ba38a5973cc53631c3a.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ava-1-Best-Western-Premier-Sapphire-Ha-Long-Hotel_22082024112017.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ava-3-Best-Western-Premier-Sapphire-Ha-Long-Hotel_22082024133633.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Buffet-Lau-Dai-Loan-Hon-80-Mon-Chay-Chuyen-Tren-Tho-Trua-T2-T6-Nha-Hang-Yuhua-ava_13122024095242.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\buffet-yakihokube-buffet-special-ap-dung-buoi-toi-thu-2-thu-6-ca-ngay-thu-7-chu-nhat-ava_27062025095554.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Cheo-SUP-ngam-canh-giai-tri-tren-song-Sai-Gon-Sup-rise-Saigon-avt_12062024111044.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Combo-20-xien-thap-cam-tai-Niuben-Hotpot-ava-1_15052025095859.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Combo-bay-phap-phoi-hen-ho-ngam-song-chi-159K-tai-Matsuri-Nguyen-Hue-ava_23012025150142.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\combo-healthy-salad-eat-clean-tang-kem-tra-gao-lut-thai-doc-giam-can-tai-mr-eco-healthy-food-avt_07062024092423.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Combo-tham-quan-va-an-toi-khung-gio-14h-21h-Khu-du-lich-Lang-Toom-Sara-Da-Nang-ava_21052025104951.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Combo-tron-vi-tai-Niuben-Hotpot-ava_15052025104401.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\combo-ve-tham-quan-va-vui-choi-tai-khu-du-lich-thac-prenn-da-lat-ava_24062025111126.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Combo-ve-vao-cua-va-2-show-3D-Mapping-Tour-Dem-Van-Mieu-KH-tu-1m00-den-1m29-ava_27052025145939.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Dealtoday-Ve-vui-choi-Samten-Hills-Da-Lat-tre-em-ava_11022025151623.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\dealtoday-voucher-1000-000-vnd-tai-nha-hang-mor-fai-ava_24022025165100.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\dealtoday-voucher-500-000-vnd-tai-nha-hang-mor-fai-ava_24022025165106.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\dealtoday-voucher-Sunworld-Ba-Ha-Hills-avt--2-_13062025144008.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Dich-vu-luu-tru-Chezvous-Bungalow-Khu-du-lich-Lang-Toom-Sara-Da-Nang-ava_21052025134412.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Du-thuyen-Luna-Cruise-Tour-du-ngoan-tham-quan-Vinh-Ha-Long-trong-ngay-ava_16052025152903.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\E-Voucher-uu-dai-set-combo-4-mon-tai-Matsuri-Japanese-Restaurant-Nguyen-Hue-avt-1_06082024154241.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Mini-bus-Ha-Noi-City-Tour-Ve-tham-quan-1-ngay-ava_13062025092020.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Nghi-duong-phong-Classic-Queen-tai-SC-Luxury-Ha-Long-avt_13082024094802.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Nghi-duong-phong-Deluxe-Double-tai-khach-san-Minh-Chien-Da-Lat-avt_15052024111515.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Nghi-duong-phong-Superior-Garden-tai-Wyndham-Garden-Legend-Ha-Long-ava_23122024100551.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Nha-hang-THAI-MARTKET-2--2-_27122024145159.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Nha-hang-THAI-MARTKET-2_27122024145156.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ve-special-l-ticket-thu-7-chu-nhat-le-tet-tai-trien-lam-metashow-ava_20062025135606.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ve-special-l-ticket-tu-thu-2-den-thu-6-tai-trien-lam-metashow-ava_20062025135603.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Ve-tham-quan-trong-ngay-Khu-du-lich-Lang-Toom-Sara-Da-Nang-ava_21052025095505.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Ve-vao-cong-khu-vui-choi-Ccomaya-Kids-Thao-Dien-Ap-dung-thu-2-den-thu-6-avt_07082024104457.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
