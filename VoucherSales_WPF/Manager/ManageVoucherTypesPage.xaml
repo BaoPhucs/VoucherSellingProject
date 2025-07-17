@@ -3,43 +3,86 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" Background="#FFE5B9B9" Height="500" Width="1303">
+             xmlns:local="clr-namespace:VoucherSales_WPF.Manager"
+             mc:Ignorable="d">
 
-    <Grid Margin="20,20,102,39" Background="#FFDAD57F">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Editable DataGrid for Voucher Types -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Label Content="Tìm kiếm:" VerticalAlignment="Center"  Margin="5"/>
+                <TextBox x:Name="txtSearch" Width="250" Margin="5"
+                         KeyDown="txtSearch_KeyDown"/>
+                <Button Content="Tìm"     Width="80" Margin="5"
+                        Click="btnSearch_Click"/>
+                <Button Content="Xoá tìm" Width="80" Margin="5"
+                        Click="btnClearSearch_Click"/>
+            </StackPanel>
+
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="220"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Tên:" Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtName" Margin="5"/>
+
+                <Label Grid.Row="0" Grid.Column="2" Content="Kiểu giảm:" Margin="5" VerticalAlignment="Center"/>
+                <ComboBox Grid.Row="0" Grid.Column="3" x:Name="cbDiscountType"
+                          Margin="5" Width="210">
+                    <ComboBoxItem Content="Percentage"/>
+                    <ComboBoxItem Content="FixedAmount"/>
+                </ComboBox>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Giá trị giảm:" Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtDiscountValue" Margin="5"/>
+
+                <Label Grid.Row="1" Grid.Column="2" Content="Tổng SL:" Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtTotalQty" Margin="5"/>
+
+                <Label Grid.Row="2" Grid.Column="0" Content="Mô tả:" Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtDescription" Margin="5"/>
+
+                <Label Grid.Row="2" Grid.Column="2" Content="Min Order Value:" Margin="5" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="2" Grid.Column="3" x:Name="txtMinOrder" Margin="5"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
+                <Button Content="Thêm"     Width="80" Margin="5" Click="btnAdd_Click"/>
+                <Button Content="Sửa"      Width="80" Margin="5" Click="btnUpdate_Click"/>
+                <Button Content="Xoá"      Width="80" Margin="5" Click="btnDelete_Click"/>
+                <Button Content="Làm mới"  Width="80" Margin="5" Click="btnRefresh_Click"/>
+            </StackPanel>
+        </StackPanel>
+
         <DataGrid x:Name="dgVoucherTypes"
-  
-               AutoGenerateColumns="False"
-               IsReadOnly="False"
-                CanUserAddRows="True"
-                SelectionUnit="FullRow"
-               SelectionMode="Single"
-               Margin="10"  VerticalAlignment="Top" AddingNewItem="dgVoucherTypes_AddingNewItem" RowEditEnding="dgVoucherTypes_RowEditEnding_1">
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  SelectionChanged="dgVoucherTypes_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding VoucherTypeId}" IsReadOnly="True" Width="60"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
-                <DataGridTextColumn Header="Discount Type" Binding="{Binding DiscountType}" Width="100"/>
-                <DataGridTextColumn Header="Discount Value" Binding="{Binding DiscountValue}" Width="100"/>
-                <DataGridTextColumn Header="Min Order Value" Binding="{Binding MinOrderValue}" Width="100"/>
-                <DataGridTextColumn Header="Total Quantity" Binding="{Binding TotalQuantity}" Width="100"/>
-                <DataGridTextColumn Header="Valid From" Binding="{Binding ValidFrom}" Width="120"/>
-                <DataGridTextColumn Header="Valid To" Binding="{Binding ValidTo}" Width="120"/>
-                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="100"/>
-                <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="100"/>
-                <DataGridTextColumn Header="Description" Binding="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="200"/>
+                <DataGridTextColumn Header="ID"            Binding="{Binding VoucherTypeId}" Width="50"/>
+                <DataGridTextColumn Header="Tên"           Binding="{Binding Name}"          Width="150"/>
+                <DataGridTextColumn Header="Mô tả"         Binding="{Binding Description}"   Width="200"/>
+                <DataGridTextColumn Header="Kiểu giảm"     Binding="{Binding DiscountType}" Width="100"/>
+                <DataGridTextColumn Header="Giá trị"       Binding="{Binding DiscountValue}" Width="80"/>
+                <DataGridTextColumn Header="MinOrder"      Binding="{Binding MinOrderValue}" Width="80"/>
+                <DataGridTextColumn Header="Tổng SL"       Binding="{Binding TotalQuantity}" Width="80"/>
+                <DataGridTextColumn Header="ValidFrom"     Binding="{Binding ValidFrom, StringFormat=d}" Width="90"/>
+                <DataGridTextColumn Header="ValidTo"       Binding="{Binding ValidTo, StringFormat=d}"   Width="90"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <!-- Buttons -->
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
-            <Button x:Name="btnUpdate" Content="Update" Width="80" Margin="0,0,10,0" Click="btnUpdate_Click" Background="Yellow" FontWeight="Bold"/>
-            <Button x:Name="btnDelete" Content="Delete" Width="80" Margin="0,0,10,0" Click="btnDelete_Click" Background="#FFC83737" FontWeight="Bold"/>
-            <Button x:Name="btnRefresh" Content="Refresh" Width="80" Click="btnRefresh_Click"/>
-        </StackPanel>
     </Grid>
 </UserControl>

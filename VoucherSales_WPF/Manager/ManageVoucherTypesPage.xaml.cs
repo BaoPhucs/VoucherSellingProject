@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using VoucherSales_BO;
-using VoucherSales_DAO;
+using VoucherSales_Repositories;   // <‑‑ nơi đặt VoucherTypeRepository + interface
 
 namespace VoucherSales_WPF.Manager
 {
     public partial class ManageVoucherTypesPage : UserControl
     {
-        private List<VoucherType> allVoucherTypes = new List<VoucherType>();
+        /*──────────  DEPENDENCY  ──────────*/
+        private readonly IVoucherTypeRepository _repo = new VoucherTypeRepository();
+
+        /*──────────  STATE  ──────────*/
+        private VoucherType? selectedVT;
+        private List<VoucherType> allVoucherTypes = new();
 
         public ManageVoucherTypesPage()
         {
@@ -17,166 +24,166 @@ namespace VoucherSales_WPF.Manager
             LoadVoucherTypes();
         }
 
+        /*────────────  LOAD / RESET  ────────────*/
         private void LoadVoucherTypes()
         {
-            allVoucherTypes = VoucherTypeDAO.Instance.GetAllVoucherTypes();
+            allVoucherTypes = _repo.GetAll();
             dgVoucherTypes.ItemsSource = allVoucherTypes;
+        }
+
+        private void ClearForm()
+        {
+            txtName.Text = "";
+            txtDescription.Text = "";
+            cbDiscountType.SelectedIndex = -1;
+            txtDiscountValue.Text = "";
+            txtMinOrder.Text = "";
+            txtTotalQty.Text = "";
+            txtSearch.Text = "";
+            selectedVT = null;
+        }
+
+        /*────────────  TÌM KIẾM  ────────────*/
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            var kw = txtSearch.Text.Trim().ToLower();
+            dgVoucherTypes.ItemsSource = string.IsNullOrEmpty(kw)
+                ? allVoucherTypes
+                : allVoucherTypes.Where(vt =>
+                        vt.VoucherTypeId.ToString().Contains(kw) ||
+                        (vt.Name?.ToLower().Contains(kw) ?? false))
+                                 .ToList();
+        }
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) btnSearch_Click(sender, e);
+        }
+
+        private void btnClearSearch_Click(object sender, RoutedEventArgs e)
+        {
+            txtSearch.Text = "";
+            dgVoucherTypes.ItemsSource = allVoucherTypes;
+        }
+
+        /*────────────  CHỌN DÒNG  ────────────*/
+        private void dgVoucherTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedVT = dgVoucherTypes.SelectedItem as VoucherType;
+            if (selectedVT == null) return;
+
+            txtName.Text = selectedVT.Name;
+            txtDescription.Text = selectedVT.Description;
+            cbDiscountType.Text = selectedVT.DiscountType;
+            txtDiscountValue.Text = selectedVT.DiscountValue.ToString();
+            txtMinOrder.Text = selectedVT.MinOrderValue?.ToString() ?? "";
+            txtTotalQty.Text = selectedVT.TotalQuantity.ToString();
+        }
+
+        /*────────────  CRUD  ────────────*/
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (!decimal.TryParse(txtDiscountValue.Text, out var discount) ||
+                !int.TryParse(txtTotalQty.Text, out var qty))
+            {
+                MessageBox.Show("Giá trị giảm hoặc Tổng SL không hợp lệ.");
+                return;
+            }
+
+            var vt = new VoucherType
+            {
+                Name = txtName.Text.Trim(),
+                Description = txtDescription.Text.Trim(),
+                DiscountType = (cbDiscountType.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Percentage",
+                DiscountValue = discount,
+                MinOrderValue = string.IsNullOrWhiteSpace(txtMinOrder.Text)
+                                    ? null
+                                    : decimal.Parse(txtMinOrder.Text),
+                TotalQuantity = qty,
+                CreatedAt = DateTime.Now,
+                ValidFrom = DateTime.Now,
+                ValidTo = DateTime.Now.AddMonths(6),
+                Category = "General",
+                Location = "All"
+            };
+
+            if (_repo.Create(vt))
+            {
+                MessageBox.Show("Thêm loại voucher thành công.");
+                LoadVoucherTypes();
+                ClearForm();
+            }
+            else
+            {
+                MessageBox.Show("Tên voucher đã tồn tại?");
+            }
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (dgVoucherTypes.SelectedItem is VoucherType vt)
+            if (selectedVT == null)
             {
-                if (!ValidateVoucherType(vt, out string error))
-                {
-                    MessageBox.Show(error);
-                    return;
-                }
+                MessageBox.Show("Chọn dòng để cập nhật.");
+                return;
+            }
 
-                bool result = VoucherTypeDAO.Instance.UpdateVoucherType(vt);
-                if (result)
-                {
-                    MessageBox.Show("Voucher type updated successfully.");
-                    LoadVoucherTypes();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to update voucher type.");
-                }
+            if (!decimal.TryParse(txtDiscountValue.Text, out var discount) ||
+                !int.TryParse(txtTotalQty.Text, out var qty))
+            {
+                MessageBox.Show("Giá trị giảm hoặc Tổng SL không hợp lệ.");
+                return;
+            }
+
+            selectedVT.Name = txtName.Text.Trim();
+            selectedVT.Description = txtDescription.Text.Trim();
+            selectedVT.DiscountType = (cbDiscountType.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Percentage";
+            selectedVT.DiscountValue = discount;
+            selectedVT.MinOrderValue = string.IsNullOrWhiteSpace(txtMinOrder.Text)
+                                            ? null
+                                            : decimal.Parse(txtMinOrder.Text);
+            selectedVT.TotalQuantity = qty;
+
+            if (_repo.Update(selectedVT))
+            {
+                MessageBox.Show("Cập nhật thành công.");
+                LoadVoucherTypes();
             }
             else
             {
-                MessageBox.Show("Please select a voucher type to update.");
+                MessageBox.Show("Cập nhật thất bại.");
             }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (dgVoucherTypes.SelectedItem is VoucherType vt)
+            if (selectedVT == null)
             {
-                var confirm = MessageBox.Show($"Are you sure you want to delete '{vt.Name}'?", "Confirm Delete", MessageBoxButton.YesNo);
-                if (confirm == MessageBoxResult.Yes)
-                {
-                    bool success = VoucherTypeDAO.Instance.DeleteVoucherType(vt.VoucherTypeId);
-                    if (success)
-                    {
-                        MessageBox.Show("Voucher type deleted successfully.");
-                        LoadVoucherTypes();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to delete voucher type.");
-                    }
-                }
+                MessageBox.Show("Chọn dòng để xoá.");
+                return;
+            }
+
+            var ok = MessageBox.Show($"Xoá VoucherType '{selectedVT.Name}'?",
+                                     "Xác nhận", MessageBoxButton.YesNo);
+
+            if (ok != MessageBoxResult.Yes) return;
+
+            if (_repo.Delete(selectedVT.VoucherTypeId))
+            {
+                MessageBox.Show("Xoá thành công.");
+                LoadVoucherTypes();
+                ClearForm();
             }
             else
             {
-                MessageBox.Show("Please select a voucher type to delete.");
+                MessageBox.Show("Không thể xoá (đang được dùng?).");
             }
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
+            ClearForm();
             LoadVoucherTypes();
             dgVoucherTypes.SelectedIndex = -1;
         }
-
-
-
-
-
-
-        private void dgVoucherTypes_AddingNewItem(object sender, AddingNewItemEventArgs e)
-        {
-            e.NewItem = new VoucherType
-            {
-                CreatedAt = DateTime.Now,
-                Name = "New Voucher",          // Optional default
-                Description = "",              // Optional default
-                                               // Optional default
-            };
-        }
-
-        private bool ValidateVoucherType(VoucherType vt, out string error)
-        {
-            if (string.IsNullOrWhiteSpace(vt.Name))
-            {
-                error = "Name is required.";
-                return false;
-            }
-            if (vt.DiscountType != "FixedAmount" && vt.DiscountType != "Percentage")
-            {
-                error = "DiscountType must be 'FixedAmount' or 'Percentage'.";
-                return false;
-            }
-            if (vt.DiscountValue < 0)
-            {
-                error = "DiscountValue must be >= 0.";
-                return false;
-            }
-            if (vt.MinOrderValue.HasValue && vt.MinOrderValue < 0)
-            {
-                error = "MinOrderValue must be >= 0.";
-                return false;
-            }
-            if (vt.TotalQuantity < 0)
-            {
-                error = "TotalQuantity must be >= 0.";
-                return false;
-            }
-            if (vt.ValidFrom >= vt.ValidTo)
-            {
-                error = "ValidFrom must be before ValidTo.";
-                return false;
-            }
-            error = string.Empty;
-            return true;
-        }
-
-        private void dgVoucherTypes_RowEditEnding_1(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            dgVoucherTypes.RowEditEnding -= dgVoucherTypes_RowEditEnding_1; // Unsubscribe temporarily
-            try
-            {
-                if (e.EditAction == DataGridEditAction.Commit)
-                {
-                    dgVoucherTypes.CommitEdit(DataGridEditingUnit.Row, true);
-
-                    if (e.Row.Item is VoucherType vt)
-                    {
-                        if (!ValidateVoucherType(vt, out string error))
-                        {
-                            MessageBox.Show(error);
-                            return;
-                        }
-
-
-                        if (vt.VoucherTypeId == 0)
-                        {
-                            vt.CreatedAt = DateTime.Now;
-                            bool success = VoucherTypeDAO.Instance.CreateVoucherType(vt);
-                            if (success)
-                            {
-                                MessageBox.Show("Voucher type added successfully.");
-                                LoadVoucherTypes();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Failed to add voucher type.");
-                            }
-                        }
-                        else
-                        {
-                            VoucherTypeDAO.Instance.UpdateVoucherType(vt);
-                        }
-                    }
-                }
-            }
-            finally
-            {
-                dgVoucherTypes.RowEditEnding += dgVoucherTypes_RowEditEnding_1; // Resubscribe
-            }
-        }
-
     }
 }
