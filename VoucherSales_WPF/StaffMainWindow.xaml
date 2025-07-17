@@ -11,6 +11,14 @@
                 <GradientStop Color="#FF44D696" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
+
+        <TextBlock x:Name="StaffInfoTextBlock"
+           FontWeight="Bold"
+           FontSize="16"
+           Margin="20,3,0,0"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"/>
+
         <!-- User Selection -->
         <StackPanel Orientation="Horizontal" Margin="0,0,0,20" VerticalAlignment="Top" HorizontalAlignment="Right">
             <TextBlock Text="Select User:" FontWeight="SemiBold" FontSize="14" Background="#FF00E3FF" Height="20"/>
@@ -31,7 +39,7 @@
      
 
         <!-- Tabs -->
-        <TabControl Name="MainTabControl" Margin="0,50,0,0" FontWeight="Bold">
+        <TabControl Name="MainTabControl" Margin="0,129,0,0" FontWeight="Bold">
             <!-- Voucher Management -->
             <TabItem Header="Voucher Management">
                 <Grid Margin="10">
@@ -90,5 +98,13 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <Button x:Name="btnLogout" Content="Logout"
+        Width="80"
+        Height="30"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Margin="0,76,25,0"
+        Click="btnLogout_Click" Background="#FFDC3F3F" FontWeight="Bold"/>
+
     </Grid>
 </Window>

@@ -27,8 +27,20 @@ namespace VoucherSales_WPF
             InitializeComponent();
             LoadUsers();
             LoadMetaData();
+            SetStaffInfo();
         }
 
+        private void SetStaffInfo()
+        {
+            if (UserComboBox.Items.Count > 0)
+            {
+                var user = UserComboBox.Items[0] as User;
+                if (user != null)
+                {
+                    StaffInfoTextBlock.Text = $"Staff: {user.UserId}, {user.FullName}";
+                }
+            }
+        }
         private void LoadMetaData()
         {
             _voucherTypes = _voucherTypeRepo.GetAll();
@@ -165,31 +177,19 @@ namespace VoucherSales_WPF
 
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (OrderGrid.SelectedItem is Order selected)
+            if (OrderGrid.SelectedItem is Order selectedOrder)
             {
-                var result = MessageBox.Show("Do you want to save changes to this order?", "Confirm Save", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
+                var detailWindow = new OrderDetailWindow(selectedOrder, _orderRepo);
+                detailWindow.Owner = this;
+                if (detailWindow.ShowDialog() == true)
                 {
-                    var allowed = (List<string>)Resources["PaymentStatusList"];
-                    if (!allowed.Contains(selected.PaymentStatus))
-                    {
-                        MessageBox.Show($"Invalid status '{selected.PaymentStatus}'. Allowed: {string.Join(", ", allowed)}");
-                        return;
-                    }
-                    try
-                    {
-                        _orderRepo.UpdateOrderStatus(selected.OrderId, selected.PaymentStatus);
-                        LoadOrders();
-                    }
-                    catch (SqlException ex)
-                    {
-                        MessageBox.Show($"Error saving order: {ex.Message}");
-                    }
+                    // Reload orders if needed
+                    LoadOrders();
                 }
             }
             else
             {
-                MessageBox.Show("Select an order row to edit, then click Save.", "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Select an order to edit.");
             }
         }
 
@@ -200,7 +200,14 @@ namespace VoucherSales_WPF
                 var result = MessageBox.Show("Are you sure you want to cancel this order?", "Confirm Cancel", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _currentOrders.Remove(selected);
+                    //remove in the database, however if delete an order,user should manually delete all items first, check constraint on this
+                    if (selected.OrderItems.Count > 0)
+                    {
+                        MessageBox.Show("Please delete all order items before cancelling the order.", "Cannot Cancel", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    _orderRepo.DeleteOrder(selected.OrderId);
                     OrderGrid.Items.Refresh();
                 }
             }
@@ -214,6 +221,15 @@ namespace VoucherSales_WPF
         {
             MainTabControl.SelectedIndex = -1;
             MessageBox.Show("Returned to user selection. Select a tab to continue.");
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            //turnback to login windwo
+            var loginWindow = new Login();
+            loginWindow.Show();
+            this.Close(); // Close the current window
+
         }
     }
 }
