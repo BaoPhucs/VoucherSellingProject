@@ -6,6 +6,7 @@ namespace VoucherSales_BO;
 
 public partial class VoucherType
 {
+    public VoucherType() { }
     public int VoucherTypeId { get; set; }
 
     public string Name { get; set; } = null!;
@@ -29,6 +30,8 @@ public partial class VoucherType
     public string Category { get; set; }
 
     public string Location { get; set; }
+
+    public string? ImageUrl { get; set; }
 
     public ICollection<OrderItem> OrderItems { get; set; }
 

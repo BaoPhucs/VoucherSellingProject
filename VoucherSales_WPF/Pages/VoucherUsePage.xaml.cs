@@ -73,9 +73,37 @@ namespace VoucherSales_WPF.Pages
             SelectedLocation = Locations.FirstOrDefault();
         }
 
+        //private void OnConfirmUse(object sender, RoutedEventArgs e)
+        //{
+        //    var sel = Vouchers.Where(v => v.IsSelected).ToList();
+        //    if (!sel.Any())
+        //    {
+        //        MessageBox.Show("Hãy chọn ít nhất 1 voucher để dùng.",
+        //                        "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //        return;
+        //    }
+
+        //    if (string.IsNullOrWhiteSpace(SelectedLocation))
+        //    {
+        //        MessageBox.Show("Please choose a location.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //        return;
+        //    }
+
+        //    foreach (var v in sel)
+        //        _voucherRepo.Redeem(v.VoucherId, SelectedLocation);
+
+        //    MessageBox.Show("Voucher(s) used!", "Success",
+        //                    MessageBoxButton.OK, MessageBoxImage.Information);
+        //    // Quay lại WalletPage để reload
+        //    NavigationService?.GoBack();
+        //}
+
         private void OnConfirmUse(object sender, RoutedEventArgs e)
         {
-            var sel = Vouchers.Where(v => v.IsSelected).ToList();
+            // 1) Lấy danh sách voucher đã tick
+            var sel = Vouchers
+                        .Where(v => v.IsSelected)
+                        .ToList();
             if (!sel.Any())
             {
                 MessageBox.Show("Hãy chọn ít nhất 1 voucher để dùng.",
@@ -85,18 +113,46 @@ namespace VoucherSales_WPF.Pages
 
             if (string.IsNullOrWhiteSpace(SelectedLocation))
             {
-                MessageBox.Show("Please choose a location.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Vui lòng chọn Location.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            foreach (var v in sel)
-                _voucherRepo.Redeem(v.VoucherId, SelectedLocation);
+            // 2) Chuyển sang view-model để show trong popup
+            var vmList = sel
+              .Select(v => new VoucherItemVM
+              {
+                  VoucherId = v.VoucherId,
+                  Code = v.Code,
+                  ValidTo = v.VoucherType.ValidTo,
+                  Location = v.VoucherType.Location,
+                  Category = v.VoucherType.Category,
+                  VoucherTypeName = v.VoucherType.Name
+              })
+              .ToList();
 
-            MessageBox.Show("Voucher(s) used!", "Success",
+            // 3) Khởi tạo và ShowDialog modal
+            var confirmDlg = new VoucherSales_WPF.Pages.ConfirmUseWindow(vmList)
+            {
+                Owner = Window.GetWindow(this)
+            };
+            bool? confirmed = confirmDlg.ShowDialog();
+            if (confirmed != true)
+            {
+                // người dùng bấm Hủy — không làm gì thêm
+                return;
+            }
+
+            // 4) Nếu đồng ý, mới thực thi logic cũ
+            foreach (var v in sel)
+            {
+                _voucherRepo.Redeem(v.VoucherId, SelectedLocation);
+                Vouchers.Remove(v);   // hoặc reload lại dataset
+            }
+
+            MessageBox.Show("Sử dụng voucher thành công!", "Success",
                             MessageBoxButton.OK, MessageBoxImage.Information);
-            // Quay lại WalletPage để reload
-            NavigationService?.GoBack();
         }
+
 
         private void OnCancel(object sender, RoutedEventArgs e)
         {

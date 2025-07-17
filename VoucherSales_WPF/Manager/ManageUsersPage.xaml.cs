@@ -14,6 +14,7 @@ namespace VoucherSales_WPF.Manager
 
         private User? selectedUser;
         private List<User> allUsers = new();
+        private IUserRepository _userRepo = new UserRepository();
 
         public ManageUsersPage()
         {
@@ -25,6 +26,7 @@ namespace VoucherSales_WPF.Manager
         {
             allUsers = _repo.GetAllUsers();
             dgUsers.ItemsSource = allUsers;
+            cmbRoleId.ItemsSource = UserDAO.Instance.GetAllRoleIds(); // Lấy danh sách RoleId từ UserDAO
         }
 
         private void ClearForm()

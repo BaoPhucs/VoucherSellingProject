@@ -51,10 +51,10 @@
                             Binding="{Binding Quantity}"
                             Width="60"/>
                 <DataGridTextColumn Header="Unit Price"
-                            Binding="{Binding UnitPrice, StringFormat=C}"
+                            Binding="{Binding UnitPrice, StringFormat={}{0:N0} VNĐ}"
                             Width="100"/>
                 <DataGridTextColumn Header="Subtotal"
-                            Binding="{Binding Subtotal, StringFormat=C}"
+                            Binding="{Binding Subtotal, StringFormat={}{0:N0} VNĐ}"
                             Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
@@ -72,7 +72,7 @@
                     <TextBlock Text="{Binding CurrentPayment.PaymentMethod}"/>
 
                     <TextBlock Text="Amount:" FontWeight="SemiBold"/>
-                    <TextBlock Text="{Binding CurrentPayment.Amount, StringFormat=C}"/>
+                    <TextBlock Text="{Binding CurrentPayment.Amount, StringFormat={}{0:N0} VNĐ}"/>
 
                     <TextBlock Text="Date:" FontWeight="SemiBold"/>
                     <TextBlock Text="{Binding CurrentPayment.TransactionDate, StringFormat={}{0:dd/MM/yyyy HH:mm}}"/>
