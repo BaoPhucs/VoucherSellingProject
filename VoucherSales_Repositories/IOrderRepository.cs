@@ -23,6 +23,7 @@ namespace VoucherSales_Repositories
         void DeleteOrderItem(int orderItemId);
 
         void CreateOrderItem(OrderItem orderItem);
+        void UpdateOrderItem(OrderItem orderItem);
         List<OrderItem> GetOrderItemsByOrderId(int orderId);
 
 

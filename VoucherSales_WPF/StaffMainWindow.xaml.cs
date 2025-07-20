@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.Data.SqlClient;
 using VoucherSales_BO;
 using VoucherSales_DAO;
@@ -21,6 +22,8 @@ namespace VoucherSales_WPF
         private List<VoucherType> _voucherTypes = new List<VoucherType>();
         private List<User> _users = new List<User>();
 
+        // Add a field to store the logged-in user
+        private readonly User _loggedInUser;
 
         public StaffMainWindow()
         {
@@ -30,16 +33,25 @@ namespace VoucherSales_WPF
             SetStaffInfo();
         }
 
+
+        public StaffMainWindow(User loggedInUser)
+        {
+            _loggedInUser = loggedInUser;
+            InitializeComponent();
+            LoadUsers();
+            LoadMetaData();
+            SetStaffInfo();
+        }
+
         private void SetStaffInfo()
         {
-            if (UserComboBox.Items.Count > 0)
+            if (_loggedInUser != null)
             {
-                var user = UserComboBox.Items[0] as User;
-                if (user != null)
-                {
-                    StaffInfoTextBlock.Text = $"Staff: {user.UserId}, {user.FullName}";
-                }
+                StaffInfoTextBlock.Text = $"Staff: {_loggedInUser.UserId}, {_loggedInUser.FullName}";
             }
+
+
+           
         }
         private void LoadMetaData()
         {
@@ -61,58 +73,18 @@ namespace VoucherSales_WPF
             LoadOrders();
         }
 
+        // load *all* vouchers of the current user, not just unredeemed
+
         private void LoadVouchers()
         {
             if (UserComboBox.SelectedValue is int userId)
             {
                 _currentVouchers = _voucherRepo.GetMyWalletVouchers(userId);
-                   // load *all* vouchers, not just unredeemed
 
                 VoucherGrid.ItemsSource = _currentVouchers;
             }
         }
 
-        private void AddVoucher_Click(object sender, RoutedEventArgs e)
-        {
-            if (UserComboBox.SelectedValue is int userId)
-            {
-                // Prompt user to select a VoucherType
-                var voucherTypeSelectWindow = new VoucherTypeSelectWindow(_voucherTypes);
-                if (voucherTypeSelectWindow.ShowDialog() == true)
-                {
-                    var selectedType = voucherTypeSelectWindow.SelectedVoucherType;
-                    if (selectedType == null)
-                    {
-                        MessageBox.Show("No voucher type selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-
-                    // Generate a unique code (could be improved)
-                    string code = Guid.NewGuid().ToString("N").Substring(0, 10).ToUpper();
-
-                    var voucher = new Voucher
-                    {
-                        VoucherId = Guid.NewGuid(),
-                        VoucherTypeId = selectedType.VoucherTypeId,
-                        Code = code,
-                        IsRedeemed = false,
-                        IssuedToUserId = userId,
-                        CreatedAt = DateTime.Now
-                    };
-
-                    try
-                    {
-                        _voucherRepo.AddVoucher(voucher);
-                        LoadVouchers();
-                        MessageBox.Show("Voucher added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Failed to add voucher: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-            }
-        }
 
         private void EditVoucher_Click(object sender, RoutedEventArgs e)
         {
@@ -142,7 +114,8 @@ namespace VoucherSales_WPF
                 //remove
                 _voucherRepo.DeleteVoucher(selected.VoucherId);
                 MessageBox.Show("Voucher deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                LoadVouchers();            }
+                LoadVouchers();
+            }
             else
             {
                 MessageBox.Show("Please select a voucher to delete.");
@@ -158,22 +131,22 @@ namespace VoucherSales_WPF
             }
         }
 
-        private void AddOrder_Click(object sender, RoutedEventArgs e)
-        {
-            if (UserComboBox.SelectedValue is int userId)
-            {
-                var order = new Order
-                {
-                    UserId = userId,
-                    OrderDate = DateTime.Now,
-                    TotalAmount = 0m,
-                    PaymentStatus = "Pending",
-                    Notes = string.Empty
-                };
-                _orderRepo.CreateOrder(order, new List<OrderItem>());
-                LoadOrders();
-            }
-        }
+        //private void AddOrder_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (UserComboBox.SelectedValue is int userId)
+        //    {
+        //        var order = new Order
+        //        {
+        //            UserId = userId,
+        //            OrderDate = DateTime.Now,
+        //            TotalAmount = 0m,
+        //            PaymentStatus = "Pending",
+        //            Notes = string.Empty
+        //        };
+        //        _orderRepo.CreateOrder(order, new List<OrderItem>());
+        //        LoadOrders();
+        //    }
+        //}
 
         private void EditOrder_Click(object sender, RoutedEventArgs e)
         {
@@ -226,10 +199,31 @@ namespace VoucherSales_WPF
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             //turnback to login windwo
+            //should ask confirmation
+
+
             var loginWindow = new Login();
             loginWindow.Show();
             this.Close(); // Close the current window
 
         }
+        private void OrdersGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (OrderGrid.SelectedItem is Order selectedOrder)
+            {
+                if (selectedOrder.OrderItems == null)
+                {
+                    MessageBox.Show("This order has no items or failed to load items.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                var detailWindow = new OrderDetailWindow(selectedOrder, _orderRepo);
+                detailWindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No order selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
     }
 }

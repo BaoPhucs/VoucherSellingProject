@@ -66,5 +66,12 @@ namespace VoucherSales_Repositories
             if (orderItem.OrderItemId <= 0) throw new ArgumentException("OrderItemId must be greater than zero.", nameof(orderItem.OrderItemId));
             OrderDAO.Instance.CreateOrderItem(orderItem);
         }
+
+        void IOrderRepository.UpdateOrderItem(OrderItem orderItem)
+        {
+            if (orderItem == null) throw new ArgumentNullException(nameof(orderItem));
+            if (orderItem.OrderItemId <= 0) throw new ArgumentException("OrderItemId must be greater than zero.", nameof(orderItem.OrderItemId));
+            OrderDAO.Instance.UpdateOrderItem(orderItem);
+        }
     }
 }
