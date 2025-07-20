@@ -9,7 +9,6 @@ namespace VoucherSales_WPF
     {
         public ObservableCollection<OrderItem> OrderItems { get; set; }
         public Order CurrentOrder { get; set; }
-        public string OrderInfo => $"Order #{CurrentOrder.OrderId} for {CurrentOrder.User.FullName}";
 
         private readonly IOrderRepository _orderRepo;
 
@@ -32,14 +31,28 @@ namespace VoucherSales_WPF
                     if (item.OrderItemId == 0) // New item
                     {
                         // Wrap the single OrderItem into a List<OrderItem> as required by the method signature
-                        _orderRepo.CreateOrderItem(item);
-                        OrderItems.Add(item);
-                        MessageBox.Show("Order item added.");
+                        try
+                        {
+                            _orderRepo.CreateOrderItem(item);
+                            OrderItems.Add(item);
+                            MessageBox.Show("Order item added.");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error adding order item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                     else // Existing item
                     {
-                        _orderRepo.UpdateOrder(item.Order, new List<OrderItem> { item });
-                        MessageBox.Show("Order item updated.");
+                        try
+                        {
+                            _orderRepo.UpdateOrderItem(item);
+                            MessageBox.Show("Order item updated.");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error updating order item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
                 }
             }

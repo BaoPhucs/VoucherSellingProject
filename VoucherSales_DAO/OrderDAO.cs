@@ -89,6 +89,18 @@ namespace VoucherSales_DAO
             _context.OrderItems.Add(item);
             _context.SaveChanges();
         }
+
+        //update an item in an order
+        public void UpdateOrderItem(OrderItem item)
+        {
+            var existingItem = _context.OrderItems.Find(item.OrderItemId);
+            if (existingItem != null)
+            {
+                existingItem.Quantity = item.Quantity;
+                existingItem.VoucherTypeId = item.VoucherTypeId;
+                _context.SaveChanges();
+            }
+        }
         // UI: click an order to see its items
         public List<OrderItem> GetOrderItemsByOrderId(int orderId)
         {
