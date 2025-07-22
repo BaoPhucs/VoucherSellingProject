@@ -8,6 +8,7 @@ namespace VoucherSales_DAO
     public class VoucherTypeDAO
     {
         private static VoucherTypeDAO? _instance;
+        private readonly VoucherSalesDbContext _context = new VoucherSalesDbContext();
         public static VoucherTypeDAO Instance => _instance ??= new VoucherTypeDAO();
 
         private VoucherTypeDAO() { }

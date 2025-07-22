@@ -38,9 +38,9 @@
             <TextBox x:Name="txtOrderSearch"
                      Width="200"
                      TextChanged="OnOrderSearch"/>
-            <TextBlock Text="Search by Order ID or Date..."
+            <TextBlock Text="Search Order..."
                        Foreground="Gray"
-                       Margin="-25,0,30,0"
+                       Margin="0,0,30,0"
                        VerticalAlignment="Center"
                        IsHitTestVisible="False"
                        Visibility="{Binding Text,

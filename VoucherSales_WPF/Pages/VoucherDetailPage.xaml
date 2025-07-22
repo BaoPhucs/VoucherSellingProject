@@ -47,7 +47,7 @@
         <!-- Ảnh / Demo placeholder -->
         <Border Grid.Column="0" Background="#EEE" CornerRadius="8" Padding="10" Margin="5,0,721,389" Grid.ColumnSpan="2">
             <Image Source="{Binding SelectedVoucher.ImageUrl}" 
-             Stretch="Uniform" Margin="0,2,0,0"/>
+             Stretch="Uniform" Margin="0,2,0,0" Width="270" Height="270"/>
         </Border>
 
         <!-- Thông tin chi tiết ở cột phải -->

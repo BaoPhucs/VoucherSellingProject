@@ -76,8 +76,16 @@ namespace VoucherSales_WPF.Pages
         private void OnRemoveFromCart(object sender, RoutedEventArgs e)
         {
             int cartItemId = (int)((Button)sender).Tag;
-            _cartItemRepository.Remove(cartItemId);
-            LoadCart();
+            var result = MessageBox.Show("Are you sure you want to remove this item from the cart?",
+                                         "Confirm Removal",
+                                         MessageBoxButton.YesNo,
+                                         MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                _cartItemRepository.Remove(cartItemId);
+                LoadCart();
+            }
         }
 
         // Checkout chỉ với những hàng đã chọn

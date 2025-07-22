@@ -51,17 +51,20 @@
         <TextBlock Grid.Row="0"
                Text="Use Vouchers"
                FontSize="24" FontWeight="Bold"
-               Margin="25,0,-25,10"/>
+               Margin="5,0,-25,10"/>
 
         <!-- 1) Dòng chọn Location -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="45,0,-45,10">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="65,0,-45,10">
             <TextBlock Text="Location:" 
                  VerticalAlignment="Center" 
-                 Margin="0,0,5,0"/>
-            <ComboBox x:Name="cbLocation"
-                Width="200" Height="30"
-                ItemsSource="{Binding Locations}"
-                SelectedItem="{Binding SelectedLocation, Mode=TwoWay}" Background="#00000000"/>
+                 Margin="0,0,5,0"
+                 FontSize="20"/>
+            <TextBlock Text="{Binding SelectedLocation}" 
+                       Width="200" 
+                       Height="30" 
+                       VerticalAlignment="Center" 
+                       Background="#00000000" Margin="5,5,0,0"
+                       FontSize="20"/>
         </StackPanel>
 
         <!-- 2) DataGrid hiển thị các mã voucher -->
@@ -75,10 +78,12 @@
                                 Width="60"/>
                 <DataGridTextColumn Header="Code"
                             Binding="{Binding Code}"
-                            Width="*"/>
+                            Width="*"
+                            IsReadOnly="True"/>
                 <DataGridTextColumn Header="Valid To"
                             Binding="{Binding VoucherType.ValidTo, StringFormat={}{0:yyyy-MM-dd}}"
-                            Width="*"/>
+                            Width="*"
+                            IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
 
