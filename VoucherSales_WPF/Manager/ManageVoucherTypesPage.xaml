@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:VoucherSales_WPF.Manager"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d">
 
     <Grid Margin="10">
@@ -16,12 +17,9 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <Label Content="Tìm kiếm:" VerticalAlignment="Center"  Margin="5"/>
-                <TextBox x:Name="txtSearch" Width="250" Margin="5"
-                         KeyDown="txtSearch_KeyDown"/>
-                <Button Content="Tìm"     Width="80" Margin="5"
-                        Click="btnSearch_Click"/>
-                <Button Content="Xoá tìm" Width="80" Margin="5"
-                        Click="btnClearSearch_Click"/>
+                <TextBox x:Name="txtSearch" Width="250" Margin="5" KeyDown="txtSearch_KeyDown"/>
+                <Button Content="Tìm"     Width="80" Margin="5" Click="btnSearch_Click"/>
+                <Button Content="Xoá tìm" Width="80" Margin="5" Click="btnClearSearch_Click"/>
             </StackPanel>
 
             <Grid Margin="0,0,0,10">
@@ -35,14 +33,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Content="Tên:" Margin="5" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtName" Margin="5"/>
 
                 <Label Grid.Row="0" Grid.Column="2" Content="Kiểu giảm:" Margin="5" VerticalAlignment="Center"/>
-                <ComboBox Grid.Row="0" Grid.Column="3" x:Name="cbDiscountType"
-                          Margin="5" Width="210">
+                <ComboBox Grid.Row="0" Grid.Column="3" x:Name="cbDiscountType" Margin="5" Width="210">
                     <ComboBoxItem Content="Percentage"/>
                     <ComboBoxItem Content="FixedAmount"/>
                 </ComboBox>
@@ -53,11 +51,17 @@
                 <Label Grid.Row="1" Grid.Column="2" Content="Tổng SL:" Margin="5" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="1" Grid.Column="3" x:Name="txtTotalQty" Margin="5"/>
 
-                <Label Grid.Row="2" Grid.Column="0" Content="Mô tả:" Margin="5" VerticalAlignment="Center"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Mô tả:" Margin="5" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtDescription" Margin="5"/>
 
-                <Label Grid.Row="2" Grid.Column="2" Content="Min Order Value:" Margin="5" VerticalAlignment="Center"/>
+                <Label Grid.Row="2" Grid.Column="2" Content="Giá trị thấp nhất:" Margin="5" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="2" Grid.Column="3" x:Name="txtMinOrder" Margin="5"/>
+
+                <Label Grid.Row="3" Grid.Column="0" Content="Từ ngày:" Margin="5" VerticalAlignment="Center"/>
+                <DatePicker Grid.Row="3" Grid.Column="1" x:Name="dpValidFrom" Margin="5"/>
+
+                <Label Grid.Row="3" Grid.Column="2" Content="Đến ngày:" Margin="5" VerticalAlignment="Center"/>
+                <DatePicker Grid.Row="3" Grid.Column="3" x:Name="dpValidTo" Margin="5"/>
             </Grid>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">

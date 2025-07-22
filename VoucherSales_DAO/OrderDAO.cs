@@ -137,5 +137,15 @@ namespace VoucherSales_DAO
                 _context.SaveChanges();
             }
         }
+        public List<Order> GetOrdersByDateRange(DateTime from, DateTime to)
+        {
+            return _context.Orders
+                .Include(o => o.User)
+                .Where(o => o.OrderDate >= from && o.OrderDate <= to)
+                .OrderByDescending(o => o.OrderDate)
+                .ToList();
+        }
+        
+
     }
 }
