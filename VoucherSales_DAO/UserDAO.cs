@@ -85,5 +85,9 @@ namespace VoucherSales_DAO
             }
         }
 
+        public User? GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

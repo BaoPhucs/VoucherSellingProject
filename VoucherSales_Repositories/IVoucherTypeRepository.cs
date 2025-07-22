@@ -13,10 +13,8 @@ namespace VoucherSales_Repositories
 
         VoucherType GetByID(int id);
 
-        //add what the DAO methods are doing
-        bool CreateVoucherType(VoucherType voucherType);
-        bool UpdateVoucherType(VoucherType voucherType);
-        bool DeleteVoucherType(int id);
-
+        bool Create(VoucherType voucherType);
+        bool Update(VoucherType voucherType);
+        bool Delete(int id);
     }
 }

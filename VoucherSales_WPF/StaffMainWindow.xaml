@@ -11,6 +11,14 @@
                 <GradientStop Color="#FF44D696" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
+
+        <TextBlock x:Name="StaffInfoTextBlock"
+           FontWeight="Bold"
+           FontSize="16"
+           Margin="20,3,0,0"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"/>
+
         <!-- User Selection -->
         <StackPanel Orientation="Horizontal" Margin="0,0,0,20" VerticalAlignment="Top" HorizontalAlignment="Right">
             <TextBlock Text="Select User:" FontWeight="SemiBold" FontSize="14" Background="#FF00E3FF" Height="20"/>
@@ -28,10 +36,10 @@
             </ComboBox>
         </StackPanel>
 
-     
+
 
         <!-- Tabs -->
-        <TabControl Name="MainTabControl" Margin="0,50,0,0" FontWeight="Bold">
+        <TabControl Name="MainTabControl" Margin="0,129,0,0" FontWeight="Bold">
             <!-- Voucher Management -->
             <TabItem Header="Voucher Management">
                 <Grid Margin="10">
@@ -52,7 +60,6 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="Add" Click="AddVoucher_Click" Width="141" Background="#FF28FF00"/>
                             <Button Content="Save" Click="EditVoucher_Click" Width="117" Background="#FFF3FF00"/>
                             <Button Content="Delete" Click="DeleteVoucher_Click" Width="124" Background="Red"/>
                             <Button Content="Close" Click="Close_Click" ToolTip="Return to user selection" Width="57"/>
@@ -66,6 +73,8 @@
                 <Grid Margin="10">
                     <StackPanel Orientation="Vertical">
                         <DataGrid x:Name="OrderGrid"
+                                               MouseDoubleClick="OrdersGrid_MouseDoubleClick"
+
                                   AutoGenerateColumns="False"
                                   CanUserAddRows="True"
                                   CanUserDeleteRows="True"
@@ -81,7 +90,6 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="Add" Click="AddOrder_Click" Width="167" Background="#FF37EE00"/>
                             <Button Content="Save" Click="EditOrder_Click" Width="153" Background="#FFFCFF00"/>
                             <Button Content="Delete" Click="DeleteOrder_Click" Width="154" Background="#FFFD0000"/>
                             <Button Content="Close" Click="Close_Click" ToolTip="Return to user selection" Width="58"/>
@@ -90,5 +98,13 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <Button x:Name="btnLogout" Content="Logout"
+        Width="80"
+        Height="30"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Margin="0,76,25,0"
+        Click="btnLogout_Click" Background="#FFDC3F3F" FontWeight="Bold"/>
+
     </Grid>
 </Window>
