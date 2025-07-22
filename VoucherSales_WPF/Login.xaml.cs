@@ -95,7 +95,24 @@ namespace VoucherSales_WPF
                 return;
             }
 
-            // 3. Gọi repository
+            // 3. Validate email
+            string emailPattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+            if (!System.Text.RegularExpressions.Regex.IsMatch(email, emailPattern))
+            {
+                MessageBox.Show("Please enter a valid email address (e.g., example@domain.com).", "Validation Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // 4. Validate phone (10 số, bắt đầu bằng 0)
+            if (phone.Length != 10 || !phone.StartsWith("0") || !long.TryParse(phone, out _))
+            {
+                MessageBox.Show("Phone number must be 10 digits and start with 0 (e.g., 0123456789).", "Validation Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // 5. Gọi repository
             bool created = _userRepository.Register(fullname, username, email, phone, pass);
             if (!created)
             {
@@ -104,7 +121,7 @@ namespace VoucherSales_WPF
                 return;
             }
 
-            // 4. Thành công
+            // 6. Thành công
             MessageBox.Show("Registration successful! Please log in.", "Success",
                             MessageBoxButton.OK, MessageBoxImage.Information);
 

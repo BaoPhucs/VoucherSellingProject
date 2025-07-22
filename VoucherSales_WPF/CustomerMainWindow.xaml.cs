@@ -23,7 +23,7 @@ namespace VoucherSales_WPF
     public partial class CustomerMainWindow : Window
     {
         private readonly ICartItemRepository _cartItemRepository;
-        private  User _currentUser;
+        private User _currentUser;
 
 
 
@@ -58,16 +58,16 @@ namespace VoucherSales_WPF
             };
         }
 
-     
+
 
         // Call this function in Window_Loaded
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // display welcome User
 
-            if(_currentUser != null)
+            if (_currentUser != null)
             {
-                txtWelcome.Text = $"Welcome, {_currentUser.FullName}!";
+                txtWelcome.Text = $"Welcome, {_currentUser.FullName}";
             }
             else
             {
@@ -76,6 +76,6 @@ namespace VoucherSales_WPF
         }
 
 
-      
+
     }
 }

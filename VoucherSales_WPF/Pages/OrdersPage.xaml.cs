@@ -69,6 +69,10 @@ namespace VoucherSales_WPF.Pages
 
             string kw = txtOrderSearch.Text.Trim();
 
+            // Chuẩn hóa chuỗi nhập vào: loại bỏ dấu phẩy và ký tự không phải số
+            string normalizedKw = new string(kw.Where(char.IsDigit).ToArray());
+            decimal amount;
+            bool isAmount = decimal.TryParse(normalizedKw, NumberStyles.Any, CultureInfo.InvariantCulture, out amount);
             // Chuẩn bị: cố gắng parse kw thành DateTime hoặc decimal
             DateTime dt;
             bool isDate = DateTime.TryParseExact(kw,
@@ -76,9 +80,6 @@ namespace VoucherSales_WPF.Pages
                      CultureInfo.CurrentCulture,
                      DateTimeStyles.None,
                      out dt);
-
-            decimal amount;
-            bool isAmount = decimal.TryParse(kw, NumberStyles.Currency, CultureInfo.CurrentCulture, out amount);
 
             var filtered = _allOrders.Where(o =>
                 // 1) tìm theo OrderId
@@ -88,7 +89,7 @@ namespace VoucherSales_WPF.Pages
                 || o.OrderDate.ToString("dd/MM/yyyy").Contains(kw)
                 // 3) tìm theo tổng tiền (nếu kw parse được số)
                 || (isAmount && o.TotalAmount == amount)
-                || o.TotalAmount.ToString("C").Contains(kw)
+                || o.TotalAmount.ToString("N0").Replace(",", "").Contains(normalizedKw)
             ).ToList();
 
             Orders.Clear();

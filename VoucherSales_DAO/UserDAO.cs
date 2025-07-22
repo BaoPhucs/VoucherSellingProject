@@ -26,18 +26,21 @@ namespace VoucherSales_DAO
         public List<int> GetAllRoleIds()
         {
             return _context.Roles.Select(r => r.RoleId).ToList();
+
         }
 
-        public User? GetById(int userId)
-        {
-            return _context.Users.Include(u => u.Role)
-                                 .FirstOrDefault(u => u.UserId == userId);
-        }
 
-        public User? GetByUsernameAndPassword(string username, string password)
+        public User GetById(int userId) => _context.Users.Include(u => u.Role).FirstOrDefault(u => u.UserId == userId);
+
+        //public User GetByUsernameAndPassword(string username, string password)
+        //{
+        //    return _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
+        //}
+        public User GetByUsernameAndPassword(string username, string password)
         {
-            return _context.Users.Include(u => u.Role)
-                                 .FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
+            var users = _context.Users.Include(u => u.Role).ToList();
+            return users.FirstOrDefault(u => String.Equals(u.Username, username, StringComparison.Ordinal) &&
+                                            String.Equals(u.PasswordHash, password, StringComparison.Ordinal));
         }
 
         public bool CreateUser(User user)
@@ -79,14 +82,5 @@ namespace VoucherSales_DAO
             return _context.Users.Include(u => u.Role).ToList();
         }
 
-        public bool DeleteUser(int userId)
-        {
-            var user = _context.Users.Find(userId);
-            if (user == null) return false;
-
-            _context.Users.Remove(user);
-            _context.SaveChanges();
-            return true;
-        }
     }
 }
