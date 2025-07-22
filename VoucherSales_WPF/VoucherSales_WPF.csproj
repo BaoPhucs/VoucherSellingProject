@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\11-dealtoday-cong-vien-nuoc-Mikazuki-Water-Park-365--2-_26032025144947.jpg" />
     <None Remove="Images\2-dealtoday-cong-vien-nuoc-Mikazuki-Water-Park-365_26032025144943.jpg" />
     <None Remove="Images\4-dealtoday-vu-nhac-kich-duong-dai-tien-sa-show_27032025115357.jpg" />
     <None Remove="Images\6a284f62764e4ba38a5973cc53631c3a.jpg" />
