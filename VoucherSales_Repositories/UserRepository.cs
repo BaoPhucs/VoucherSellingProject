@@ -8,11 +8,10 @@ namespace VoucherSales_Repositories
     public class UserRepository : IUserRepository
     {
         public List<User> GetAllUsers() => UserDAO.Instance.GetAllUsers();
-
-        public User? GetById(int id) => UserDAO.Instance.GetById(id);   // thêm hàm này trong DAO nếu chưa có
+        public User? GetById(int id) => UserDAO.Instance.GetById(id);
 
         public bool Register(string fullname, string username, string email,
-                             string phone, string password)
+                             string phone, string password, int roleId = 3)
         {
             var user = new User
             {
@@ -21,7 +20,7 @@ namespace VoucherSales_Repositories
                 Email = email,
                 Phone = phone,
                 PasswordHash = password,
-                RoleId = 3,       
+                RoleId = roleId,
                 IsActive = true,
                 CreatedAt = DateTime.Now
             };
@@ -51,7 +50,14 @@ namespace VoucherSales_Repositories
                 return false;
             }
         }
+
         public User? ValidateLogin(string username, string password)
             => UserDAO.Instance.GetByUsernameAndPassword(username, password);
+
+        public List<int> GetAllRoleIds()
+            => UserDAO.Instance.GetAllRoleIds();
+
+        public List<Role> GetAllRoles()
+            => UserDAO.Instance.GetAllRoles(); 
     }
 }

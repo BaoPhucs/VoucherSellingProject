@@ -25,57 +25,6 @@ namespace VoucherSales_DAO
             return ctx.VoucherTypes.Find(id);
         }
 
-        public bool CreateVoucherType(VoucherType voucherType)
-        {
-            try
-            {
-                using var ctx = new VoucherSalesDbContext();
-                ctx.VoucherTypes.Add(voucherType);
-                ctx.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool UpdateVoucherType(VoucherType voucherType)
-        {
-            try
-            {
-                using var ctx = new VoucherSalesDbContext();
-                var existing = ctx.VoucherTypes.Find(voucherType.VoucherTypeId);
-                if (existing == null) return false;
-
-                ctx.Entry(existing).CurrentValues.SetValues(voucherType);
-                ctx.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool DeleteVoucherType(int id)
-        {
-            try
-            {
-                using var ctx = new VoucherSalesDbContext();
-                var voucherType = ctx.VoucherTypes.Find(id);
-                if (voucherType == null) return false;
-
-                ctx.VoucherTypes.Remove(voucherType);
-                ctx.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public bool Create(VoucherType vt)
         {
             try
@@ -84,7 +33,7 @@ namespace VoucherSales_DAO
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
@@ -111,7 +60,7 @@ namespace VoucherSales_DAO
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
@@ -128,7 +77,7 @@ namespace VoucherSales_DAO
                 _context.SaveChanges();
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }

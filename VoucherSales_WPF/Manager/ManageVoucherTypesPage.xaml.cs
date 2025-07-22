@@ -5,16 +5,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using VoucherSales_BO;
-using VoucherSales_Repositories;   // <‑‑ nơi đặt VoucherTypeRepository + interface
+using VoucherSales_Repositories;
 
 namespace VoucherSales_WPF.Manager
 {
     public partial class ManageVoucherTypesPage : UserControl
     {
-        /*──────────  DEPENDENCY  ──────────*/
         private readonly IVoucherTypeRepository _repo = new VoucherTypeRepository();
 
-        /*──────────  STATE  ──────────*/
         private VoucherType? selectedVT;
         private List<VoucherType> allVoucherTypes = new();
 
@@ -22,9 +20,10 @@ namespace VoucherSales_WPF.Manager
         {
             InitializeComponent();
             LoadVoucherTypes();
+            dpValidFrom.SelectedDate = DateTime.Now;
+            dpValidTo.SelectedDate = DateTime.Now.AddMonths(6);
         }
 
-        /*────────────  LOAD / RESET  ────────────*/
         private void LoadVoucherTypes()
         {
             allVoucherTypes = _repo.GetAll();
@@ -40,19 +39,20 @@ namespace VoucherSales_WPF.Manager
             txtMinOrder.Text = "";
             txtTotalQty.Text = "";
             txtSearch.Text = "";
+            dpValidFrom.SelectedDate = DateTime.Now;
+            dpValidTo.SelectedDate = DateTime.Now.AddMonths(6);
             selectedVT = null;
         }
 
-        /*────────────  TÌM KIẾM  ────────────*/
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            var kw = txtSearch.Text.Trim().ToLower();
+            string kw = txtSearch.Text.Trim().ToLower();
             dgVoucherTypes.ItemsSource = string.IsNullOrEmpty(kw)
                 ? allVoucherTypes
-                : allVoucherTypes.Where(vt =>
-                        vt.VoucherTypeId.ToString().Contains(kw) ||
-                        (vt.Name?.ToLower().Contains(kw) ?? false))
-                                 .ToList();
+                : allVoucherTypes.Where(v =>
+                    v.VoucherTypeId.ToString().Contains(kw) ||
+                    (v.Name?.ToLower().Contains(kw) ?? false))
+                .ToList();
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -66,7 +66,6 @@ namespace VoucherSales_WPF.Manager
             dgVoucherTypes.ItemsSource = allVoucherTypes;
         }
 
-        /*────────────  CHỌN DÒNG  ────────────*/
         private void dgVoucherTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedVT = dgVoucherTypes.SelectedItem as VoucherType;
@@ -78,16 +77,16 @@ namespace VoucherSales_WPF.Manager
             txtDiscountValue.Text = selectedVT.DiscountValue.ToString();
             txtMinOrder.Text = selectedVT.MinOrderValue?.ToString() ?? "";
             txtTotalQty.Text = selectedVT.TotalQuantity.ToString();
+            dpValidFrom.SelectedDate = selectedVT.ValidFrom;
+            dpValidTo.SelectedDate = selectedVT.ValidTo;
         }
 
-        /*────────────  CRUD  ────────────*/
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             if (!decimal.TryParse(txtDiscountValue.Text, out var discount) ||
                 !int.TryParse(txtTotalQty.Text, out var qty))
             {
-                MessageBox.Show("Giá trị giảm hoặc Tổng SL không hợp lệ.");
-                return;
+                MessageBox.Show("Giá trị giảm hoặc Tổng SL không hợp lệ."); return;
             }
 
             var vt = new VoucherType
@@ -96,13 +95,11 @@ namespace VoucherSales_WPF.Manager
                 Description = txtDescription.Text.Trim(),
                 DiscountType = (cbDiscountType.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Percentage",
                 DiscountValue = discount,
-                MinOrderValue = string.IsNullOrWhiteSpace(txtMinOrder.Text)
-                                    ? null
-                                    : decimal.Parse(txtMinOrder.Text),
+                MinOrderValue = string.IsNullOrWhiteSpace(txtMinOrder.Text) ? null : decimal.Parse(txtMinOrder.Text),
                 TotalQuantity = qty,
+                ValidFrom = dpValidFrom.SelectedDate ?? DateTime.Now,
+                ValidTo = dpValidTo.SelectedDate ?? DateTime.Now.AddMonths(6),
                 CreatedAt = DateTime.Now,
-                ValidFrom = DateTime.Now,
-                ValidTo = DateTime.Now.AddMonths(6),
                 Category = "General",
                 Location = "All"
             };
@@ -115,7 +112,7 @@ namespace VoucherSales_WPF.Manager
             }
             else
             {
-                MessageBox.Show("Tên voucher đã tồn tại?");
+                MessageBox.Show("Không thể thêm. Có thể tên đã tồn tại.");
             }
         }
 
@@ -123,25 +120,23 @@ namespace VoucherSales_WPF.Manager
         {
             if (selectedVT == null)
             {
-                MessageBox.Show("Chọn dòng để cập nhật.");
-                return;
+                MessageBox.Show("Chọn dòng để cập nhật."); return;
             }
 
             if (!decimal.TryParse(txtDiscountValue.Text, out var discount) ||
                 !int.TryParse(txtTotalQty.Text, out var qty))
             {
-                MessageBox.Show("Giá trị giảm hoặc Tổng SL không hợp lệ.");
-                return;
+                MessageBox.Show("Giá trị giảm hoặc Tổng SL không hợp lệ."); return;
             }
 
             selectedVT.Name = txtName.Text.Trim();
             selectedVT.Description = txtDescription.Text.Trim();
             selectedVT.DiscountType = (cbDiscountType.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Percentage";
             selectedVT.DiscountValue = discount;
-            selectedVT.MinOrderValue = string.IsNullOrWhiteSpace(txtMinOrder.Text)
-                                            ? null
-                                            : decimal.Parse(txtMinOrder.Text);
+            selectedVT.MinOrderValue = string.IsNullOrWhiteSpace(txtMinOrder.Text) ? null : decimal.Parse(txtMinOrder.Text);
             selectedVT.TotalQuantity = qty;
+            selectedVT.ValidFrom = dpValidFrom.SelectedDate ?? DateTime.Now;
+            selectedVT.ValidTo = dpValidTo.SelectedDate ?? DateTime.Now.AddMonths(6);
 
             if (_repo.Update(selectedVT))
             {
@@ -158,13 +153,10 @@ namespace VoucherSales_WPF.Manager
         {
             if (selectedVT == null)
             {
-                MessageBox.Show("Chọn dòng để xoá.");
-                return;
+                MessageBox.Show("Chọn dòng để xoá."); return;
             }
 
-            var ok = MessageBox.Show($"Xoá VoucherType '{selectedVT.Name}'?",
-                                     "Xác nhận", MessageBoxButton.YesNo);
-
+            var ok = MessageBox.Show($"Xoá VoucherType '{selectedVT.Name}'?", "Xác nhận", MessageBoxButton.YesNo);
             if (ok != MessageBoxResult.Yes) return;
 
             if (_repo.Delete(selectedVT.VoucherTypeId))

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VoucherSales_BO;
 using VoucherSales_DAO;
 
@@ -19,41 +16,23 @@ namespace VoucherSales_Repositories
         {
             return VoucherTypeDAO.Instance.GetById(id);
         }
-        public bool CreateVoucherType(VoucherType voucherType)
-        {
-            return VoucherTypeDAO.Instance.CreateVoucherType(voucherType);
-        }
-        public bool UpdateVoucherType(VoucherType voucherType)
-        {
-            return VoucherTypeDAO.Instance.UpdateVoucherType(voucherType);
-        }
-        public bool DeleteVoucherType(int id)
-        {
-            return VoucherTypeDAO.Instance.DeleteVoucherType(id);
 
-        }
         public bool Create(VoucherType voucherType)
         {
             return VoucherTypeDAO.Instance.Create(voucherType);
         }
+
         public bool Update(VoucherType voucherType)
         {
             return VoucherTypeDAO.Instance.Update(voucherType);
         }
+
         public bool Delete(int id)
         {
             var voucherType = VoucherTypeDAO.Instance.GetById(id);
             if (voucherType == null) return false;
 
-            try
-            {
-                VoucherTypeDAO.Instance.Delete(id);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return VoucherTypeDAO.Instance.Delete(id);
         }
     }
 }

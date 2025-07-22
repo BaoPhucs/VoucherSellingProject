@@ -12,21 +12,27 @@ namespace VoucherSales_WPF.Manager
     {
         private readonly IUserRepository _repo = new UserRepository();
 
-        private User? selectedUser;
         private List<User> allUsers = new();
-        private IUserRepository _userRepo = new UserRepository();
+        private User? selectedUser;
+        private List<Role> allRoles = new();
 
         public ManageUsersPage()
         {
             InitializeComponent();
+            LoadRoles();
             LoadUsers();
+        }
+
+        private void LoadRoles()
+        {
+            allRoles = _repo.GetAllRoles();
+            cmbRole.ItemsSource = allRoles;
         }
 
         private void LoadUsers()
         {
             allUsers = _repo.GetAllUsers();
             dgUsers.ItemsSource = allUsers;
-            //cmbRoleId.ItemsSource = UserDAO.Instance.GetAllRoleIds(); // Lấy danh sách RoleId từ UserDAO
         }
 
         private void ClearForm()
@@ -36,6 +42,7 @@ namespace VoucherSales_WPF.Manager
             txtFullName.Text = "";
             txtEmail.Text = "";
             txtPhone.Text = "";
+            cmbRole.SelectedIndex = -1;
             txtSearch.Text = "";
             selectedUser = null;
         }
@@ -46,10 +53,10 @@ namespace VoucherSales_WPF.Manager
             dgUsers.ItemsSource = string.IsNullOrEmpty(kw)
                 ? allUsers
                 : allUsers.Where(u =>
-                       u.UserId.ToString().Contains(kw) ||
-                       (u.Username?.ToLower().Contains(kw) ?? false) ||
-                       (u.FullName?.ToLower().Contains(kw) ?? false))
-                         .ToList();
+                    u.UserId.ToString().Contains(kw) ||
+                    (u.Username?.ToLower().Contains(kw) ?? false) ||
+                    (u.FullName?.ToLower().Contains(kw) ?? false))
+                  .ToList();
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
@@ -73,19 +80,26 @@ namespace VoucherSales_WPF.Manager
             txtEmail.Text = selectedUser.Email;
             txtPhone.Text = selectedUser.Phone;
             txtPassword.Password = selectedUser.PasswordHash;
+            cmbRole.SelectedValue = selectedUser.RoleId;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (cmbRole.SelectedValue == null)
+            {
+                MessageBox.Show("Vui lòng chọn vai trò."); return;
+            }
+
             bool ok = _repo.Register(
-                fillname: txtFullName.Text.Trim(),
+                fullname: txtFullName.Text.Trim(),
                 username: txtUsername.Text.Trim(),
                 email: txtEmail.Text.Trim(),
                 phone: txtPhone.Text.Trim(),
-                password: txtPassword.Password);
+                password: txtPassword.Password,
+                roleId: (int)cmbRole.SelectedValue
+            );
 
-            MessageBox.Show(ok ? "Thêm người dùng thành công."
-                               : "Username hoặc Email đã tồn tại.");
+            MessageBox.Show(ok ? "Thêm người dùng thành công." : "Username hoặc Email đã tồn tại.");
             if (ok) { LoadUsers(); ClearForm(); }
         }
 
@@ -99,6 +113,7 @@ namespace VoucherSales_WPF.Manager
             selectedUser.FullName = txtFullName.Text.Trim();
             selectedUser.Email = txtEmail.Text.Trim();
             selectedUser.Phone = txtPhone.Text.Trim();
+            selectedUser.RoleId = (int)(cmbRole.SelectedValue ?? selectedUser.RoleId);
 
             bool ok = _repo.UpdateProfile(selectedUser);
             MessageBox.Show(ok ? "Cập nhật thành công." : "Cập nhật thất bại.");
