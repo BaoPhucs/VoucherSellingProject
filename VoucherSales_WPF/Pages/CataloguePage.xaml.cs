@@ -97,8 +97,7 @@ namespace VoucherSales_WPF.Pages
             var filtered = _voucherTypes.Where(v =>
                 // keyword (tìm trong Name hoặc Description)
                 (string.IsNullOrEmpty(keyword)
-                    || v.Name.ToLower().Contains(keyword)
-                    || (v.Description?.ToLower().Contains(keyword) ?? false))
+                    || v.Name.ToLower().Contains(keyword))
                 // category
                 && (string.IsNullOrEmpty(cat) || v.Category == cat)
                 // location
@@ -111,6 +110,16 @@ namespace VoucherSales_WPF.Pages
 
             // 4. Đưa lên UI
             icVouchers.ItemsSource = filtered;
+
+            // 5. Xóa nội dung của các bộ lọc sau khi áp dụng
+            txtSearch.Clear();
+            cbCategory.SelectedIndex = -1;
+            cbLocation.SelectedIndex = -1;
+            txtMinPrice.Clear();
+            txtMaxPrice.Clear();
+
+            // 6. Hiển thị thông báo nếu không có kết quả
+            txtNoMatchMessage.Visibility = filtered.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void OnViewDetail(object sender, RoutedEventArgs e)

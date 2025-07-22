@@ -42,7 +42,7 @@ namespace VoucherSales_Repositories
         }
         public bool Delete(int id)
         {
-            var voucherType = VoucherTypeDAO.Instance.GetByID(id);
+            var voucherType = VoucherTypeDAO.Instance.GetById(id);
             if (voucherType == null) return false;
 
             try
