@@ -50,7 +50,7 @@ namespace VoucherSales_WPF.Pages
             OrderItems = orderItems;
             Amount = orderItems.Sum(i => i.Subtotal);
             //OrderSummary = $"Order #{order.OrderId} - total {Amount:C}";
-            PaymentMethods = new List<string> { "Credit Card", "E-Wallet", "Cash" };
+            PaymentMethods = new List<string> { "Cash", "E-Wallet", "Credit Card" };
             SelectedMethod = PaymentMethods[0];
 
 
