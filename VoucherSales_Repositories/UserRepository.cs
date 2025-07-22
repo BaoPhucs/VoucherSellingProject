@@ -51,10 +51,6 @@ namespace VoucherSales_Repositories
                 return false;
             }
         }
-        public User? GetById(int userId)
-        {
-            return UserDAO.Instance.GetById(userId);
-
         public User? ValidateLogin(string username, string password)
             => UserDAO.Instance.GetByUsernameAndPassword(username, password);
     }
