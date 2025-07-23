@@ -50,7 +50,7 @@ namespace VoucherSales_WPF
                     break;
 
                 case "Staff":
-                    nextWindow = new StaffMainWindow();
+                    nextWindow = new StaffMainWindow(user);
                     break;
 
                 case "Customer":

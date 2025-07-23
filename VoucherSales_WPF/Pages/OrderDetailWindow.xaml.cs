@@ -16,8 +16,10 @@ namespace VoucherSales_WPF
         {
             InitializeComponent();
             CurrentOrder = order;
-            OrderItems = new ObservableCollection<OrderItem>(order.OrderItems);
+            OrderItems = new ObservableCollection<OrderItem>(order?.OrderItems ?? new List<OrderItem>());
             _orderRepo = orderRepo;
+            //_allOrderItems = order.OrderItems?.ToList() ?? new List<OrderItem>();
+
             DataContext = this;
         }
 
@@ -34,8 +36,10 @@ namespace VoucherSales_WPF
                         try
                         {
                             _orderRepo.CreateOrderItem(item);
-                            OrderItems.Add(item);
+                            _orderRepo.UpdateOrderTotal(CurrentOrder.OrderId); // Update the total amount of the order
                             MessageBox.Show("Order item added.");
+                            CurrentOrder = _orderRepo.GetByID(CurrentOrder.OrderId); // Refresh order
+
                         }
                         catch (Exception ex)
                         {
@@ -47,7 +51,11 @@ namespace VoucherSales_WPF
                         try
                         {
                             _orderRepo.UpdateOrderItem(item);
+                            // Update the order with the modified item
+                            _orderRepo.UpdateOrderTotal(CurrentOrder.OrderId); // Update the total amount of the order
                             MessageBox.Show("Order item updated.");
+                            CurrentOrder = _orderRepo.GetByID(CurrentOrder.OrderId); // Refresh order
+
                         }
                         catch (Exception ex)
                         {
@@ -66,10 +74,23 @@ namespace VoucherSales_WPF
         {
             if (OrderItemGrid.SelectedItem is OrderItem selected)
             {
+                try
+                {
+                    _orderRepo.DeleteOrderItem(selected.OrderItemId); // Remove from DB
+                    OrderItems.Remove(selected); // Remove from the ObservableCollection
+
+                    // Update the order with remaining items
+                    _orderRepo.UpdateOrder(CurrentOrder, OrderItems.ToList());
+                    CurrentOrder = _orderRepo.GetByID(CurrentOrder.OrderId); // Refresh order
 
                 _orderRepo.DeleteOrderItem(selected.OrderItemId); // Remove from DB
                 OrderItems.Remove(selected);
                 MessageBox.Show("Order item deleted.");
+            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting order item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -91,6 +112,34 @@ namespace VoucherSales_WPF
 
             OrderItemGrid.ItemsSource = OrderItems;
 
+        }
+
+        //private List<OrderItem> _allOrderItems;
+
+
+        private void txtSearch_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            
+
+            string searchText = txtSearchOrderItem.Text?.Trim().ToLower() ?? string.Empty;
+
+            // Defensive: ensure _orderRepo and CurrentOrder are not null
+            if (_orderRepo == null || CurrentOrder.OrderId == 0)
+                return;
+
+            var orderItems = _orderRepo.GetOrderItemsByOrderId(CurrentOrder.OrderId);
+            if (orderItems == null)
+                return;
+
+            var filtered = orderItems
+                .Where(item =>
+                    (item?.VoucherType?.VoucherTypeId.ToString().Contains(searchText) ?? false) ||
+                    item?.OrderItemId.ToString().Contains(searchText) == true
+                ).ToList();
+
+            OrderItems.Clear();
+            foreach (var item in filtered)
+                OrderItems.Add(item); //add to list for loading
         }
     }
 }
