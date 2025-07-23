@@ -73,5 +73,52 @@ namespace VoucherSales_Repositories
         {
             return OrderDAO.Instance.GetOrdersByDateRange(from, to);
         }
+
+
+        public bool DeleteOrder(int orderId)
+        {
+            if (orderId <= 0) throw new ArgumentException("OrderId must be greater than zero.", nameof(orderId));
+            return OrderDAO.Instance.DeleteOrder(orderId);
+        }
+
+        void IOrderRepository.UpdateOrder(Order order, List<OrderItem> items)
+        {
+            if (order == null) throw new ArgumentNullException(nameof(order));
+            if (order.OrderId <= 0) throw new ArgumentException("OrderId must be greater than zero.", nameof(order.OrderId));
+            OrderDAO.Instance.UpdateOrder(order, items);
+        }
+
+
+
+        void IOrderRepository.DeleteOrderItem(int orderItemId)
+        {
+            if (orderItemId <= 0) throw new ArgumentException("OrderItemId must be greater than zero.", nameof(orderItemId));
+            OrderDAO.Instance.DeleteOrderItem(orderItemId);
+        }
+
+        List<OrderItem> IOrderRepository.GetOrderItemsByOrderId(int orderId)
+        {
+
+            if (orderId <= 0) throw new ArgumentException("OrderId must be greater than zero.", nameof(orderId));
+            return OrderDAO.Instance.GetOrderItemsByOrderId(orderId);
+        }
+
+        void IOrderRepository.CreateOrderItem(OrderItem orderItem)
+        {
+
+            if (orderItem == null) throw new ArgumentNullException(nameof(orderItem));
+            if (orderItem.OrderItemId <= 0) throw new ArgumentException("OrderItemId must be greater than zero.", nameof(orderItem.OrderItemId));
+            OrderDAO.Instance.CreateOrderItem(orderItem);
+        }
+
+        void IOrderRepository.UpdateOrderItem(OrderItem orderItem)
+        {
+            if (orderItem == null) throw new ArgumentNullException(nameof(orderItem));
+            if (orderItem.OrderItemId <= 0) throw new ArgumentException("OrderItemId must be greater than zero.", nameof(orderItem.OrderItemId));
+            OrderDAO.Instance.UpdateOrderItem(orderItem);
+        }
+        void IOrderRepository.UpdateOrderTotal(int orderId) =>
+            OrderDAO.Instance.UpdateOrderTotal(orderId);
     }
+    
 }

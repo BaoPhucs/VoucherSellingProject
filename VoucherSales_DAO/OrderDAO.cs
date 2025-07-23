@@ -147,5 +147,17 @@ namespace VoucherSales_DAO
         }
         
 
+
+        public void UpdateOrderTotal(int orderId)
+        {
+            var order = _context.Orders
+                   .Include(o => o.OrderItems)
+                   .FirstOrDefault(o => o.OrderId == orderId);
+            if (order != null)
+            {
+                order.TotalAmount = order.OrderItems.Sum(oi => oi.Subtotal);
+                _context.SaveChanges();
+            }
+        }
     }
 }

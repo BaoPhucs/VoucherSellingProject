@@ -11,7 +11,6 @@ namespace VoucherSales_WPF
             InitializeComponent();
             lbAdminMenu.SelectedIndex = 0;
         }
-
         private void lbAdminMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lbAdminMenu.SelectedItem is not ListBoxItem selectedItem)
@@ -32,11 +31,14 @@ namespace VoucherSales_WPF
                 case "Báo cáo Doanh thu":
                     ccAdminContent.Content = new RevenueReportPage();
                     break;
-
+                case "Đăng xuất":
+                    this.Close();
+                    break;
                 default:
                     ccAdminContent.Content = null;
                     break;
             }
+
         }
     }
 }

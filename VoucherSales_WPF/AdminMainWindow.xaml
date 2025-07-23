@@ -11,14 +11,16 @@
     <DockPanel>
 
         <ListBox x:Name="lbAdminMenu"
-                 DockPanel.Dock="Left"
-                 Width="200"
-                 SelectionChanged="lbAdminMenu_SelectionChanged"
-                 FontSize="14" FontWeight="Bold" Margin="0">
+         DockPanel.Dock="Left"
+         Width="200"
+         SelectionChanged="lbAdminMenu_SelectionChanged"
+         FontSize="14" FontWeight="Bold" Margin="0">
             <ListBoxItem Content="Quản lý Người dùng"/>
             <ListBoxItem Content="Quản lý Loại Voucher"/>
             <ListBoxItem Content="Báo cáo Doanh thu"/>
+            <ListBoxItem Content="Đăng xuất" Tag="logout"/>
         </ListBox>
+
 
         <ContentControl x:Name="ccAdminContent" Margin="10"/>
     </DockPanel>
