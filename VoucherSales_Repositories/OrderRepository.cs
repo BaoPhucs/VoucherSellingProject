@@ -19,13 +19,7 @@ namespace VoucherSales_Repositories
         public void UpdateOrderStatus(int orderId, string newStatus) =>
             OrderDAO.Instance.UpdateOrderStatus(orderId, newStatus);
 
-        public void DeleteOrder(int orderId)
-        {
-            if (orderId <= 0)
-                throw new ArgumentException("OrderId must be greater than zero.", nameof(orderId));
-
-            OrderDAO.Instance.DeleteOrder(orderId);
-        }
+      
 
         public void UpdateOrder(Order order, List<OrderItem> items)
         {
