@@ -20,6 +20,7 @@ namespace VoucherSales_WPF.Manager
             InitializeComponent();
             SetDefaultDates();
             LoadReport();
+            _orderRepo = new OrderRepository();
         }
 
         private void SetDefaultDates()

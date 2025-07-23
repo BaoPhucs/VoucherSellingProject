@@ -68,6 +68,7 @@ namespace VoucherSales_Repositories
             return OrderDAO.Instance.GetOrdersByDateRange(from, to);
         }
 
+
         public bool DeleteOrder(int orderId)
         {
             //delete an order
