@@ -43,35 +43,41 @@
             <!-- Voucher Management -->
             <TabItem Header="Voucher Management">
                 <Grid Margin="10">
-                    <StackPanel Orientation="Vertical">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="51*"/>
+                        <ColumnDefinition Width="175*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Margin="0,73,0,0" Grid.ColumnSpan="2">
                         <DataGrid x:Name="VoucherGrid"
                                   AutoGenerateColumns="False"
                                   CanUserAddRows="True"
                                   CanUserDeleteRows="True"
                                   IsReadOnly="False"
-                                  Height="300" Margin="0,0,0,10">
+                                  Height="251" Width="899">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Voucher ID" Binding="{Binding VoucherId}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Type" Binding="{Binding VoucherTypeId}"/>
                                 <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
                                 <DataGridCheckBoxColumn Header="Redeemed" Binding="{Binding IsRedeemed}"/>
-                                <DataGridTextColumn Header="Issued To" Binding="{Binding IssuedToUser.FullName}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" IsReadOnly="True"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="Save" Click="EditVoucher_Click" Width="117" Background="#FFF3FF00"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="34">
+                            <Button Content="Mark Redeem" Click="EditVoucher_Click" Width="148" Background="#FFF3FF00" Height="34"/>
                             <Button Content="Delete" Click="DeleteVoucher_Click" Width="124" Background="Red"/>
-                            <Button Content="Close" Click="Close_Click" ToolTip="Return to user selection" Width="57"/>
+                            <Button Click="Close_Click" ToolTip="Return to user selection" Width="57" Content="Close"/>
                         </StackPanel>
+                        <Button x:Name="RefreshVouchers" Content="Refresh" Width="208" Height="38" Background="#FFFCC61E" Click="RefreshVouchers_Click"/>
                     </StackPanel>
+                    <Label Content="Search items:" HorizontalAlignment="Left" Margin="63,21,0,0" VerticalAlignment="Top" Width="108" Background="#FFE9FF00"/>
+                    <TextBox x:Name="txtSearchVoucher" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Search by Code" VerticalAlignment="Top" Width="380" Height="29" Margin="191,19,0,0" SelectionBrush="#FF399BE8" BorderBrush="#FF1B3B9D" Background="#FFABEBE9" Grid.ColumnSpan="2" TextChanged="txtSearchVoucher_TextChanged"/>
                 </Grid>
             </TabItem>
 
             <!-- Order Management -->
             <TabItem Header="Order Management">
-                <Grid Margin="10">
-                    <StackPanel Orientation="Vertical">
+                <Grid Margin="10,0,10,0" Height="421">
+                    <StackPanel Orientation="Vertical" Margin="0,88,0,0">
                         <DataGrid x:Name="OrderGrid"
                                                MouseDoubleClick="OrdersGrid_MouseDoubleClick"
 
@@ -79,10 +85,9 @@
                                   CanUserAddRows="True"
                                   CanUserDeleteRows="True"
                                   IsReadOnly="False"
-                                  Height="300" Margin="0,0,0,10">
+                                  Height="243" Margin="0,0,0,10">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Order ID" Binding="{Binding OrderId}" IsReadOnly="True"/>
-                                <DataGridTextColumn Header="User" Binding="{Binding User.FullName}" IsReadOnly="True"/>
                                 <DataGridTextColumn Header="Date" Binding="{Binding OrderDate}"/>
                                 <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount}"/>
                                 <DataGridTextColumn Header="Status" Binding="{Binding PaymentStatus}"/>
@@ -94,16 +99,20 @@
                             <Button Content="Delete" Click="DeleteOrder_Click" Width="154" Background="#FFFD0000"/>
                             <Button Content="Close" Click="Close_Click" ToolTip="Return to user selection" Width="58"/>
                         </StackPanel>
+                        <Button x:Name="RefreshOrders" Content="Refresh" Width="154" Height="44" Background="#FFFCC61E" Click="RefreshOrders_Click"/>
                     </StackPanel>
+                    <TextBox x:Name="txtSearchOrder" HorizontalAlignment="Left" Margin="254,30,0,0" TextWrapping="Wrap" Text="by OrderID" VerticalAlignment="Top" Width="333" Height="27" TextChanged="txtSearchOrder_TextChanged" Background="#FFB7EEE6"/>
+                    <Label Content="Search orders:" HorizontalAlignment="Left" Margin="131,31,0,0" VerticalAlignment="Top" Width="108" Background="#FFE6FF5D"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="btnLogout" Content="Logout"
+        <Button x:Name="btnLogout"
         Width="80"
         Height="30"
         HorizontalAlignment="Right"
         VerticalAlignment="Top"
         Margin="0,76,25,0"
+                Content="Log Out"
         Click="btnLogout_Click" Background="#FFDC3F3F" FontWeight="Bold"/>
 
     </Grid>

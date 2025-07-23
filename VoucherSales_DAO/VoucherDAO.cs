@@ -35,7 +35,7 @@ namespace VoucherSales_DAO
         {
             return _ctx.Vouchers
                 .Include(v => v.VoucherType)
-                .Where(v => v.IssuedToUserId == userId)
+                .Where(v => v.IssuedToUserId == userId && !v.IsRedeemed)
                 .ToList();
         }
 

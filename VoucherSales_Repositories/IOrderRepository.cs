@@ -15,7 +15,7 @@ namespace VoucherSales_Repositories
         Order GetByID(int orderId);
         void UpdateOrderStatus(int orderId, string newStatus);
 
-        void DeleteOrder(int orderId);
+        bool DeleteOrder(int orderId);
         void UpdateOrder(Order order, List<OrderItem> items);
 
         //write update OrderItem and DeleteOrderItem
@@ -26,13 +26,15 @@ namespace VoucherSales_Repositories
         void UpdateOrderItem(OrderItem orderItem);
         List<OrderItem> GetOrderItemsByOrderId(int orderId);
 
-
-     
-
-      
+        void UpdateOrderTotal(int orderId);
 
 
-     
+
+
+
+
+
+
 
     }
 }

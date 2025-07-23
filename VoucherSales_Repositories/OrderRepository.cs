@@ -10,7 +10,8 @@ namespace VoucherSales_Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        public void CreateOrder(Order order, List<OrderItem> items) => 
+        private VoucherSalesDbContext _context;
+        public void CreateOrder(Order order, List<OrderItem> items) =>
             OrderDAO.Instance.CreateOrder(order, items);
 
         public Order GetByID(int orderId)
@@ -26,11 +27,12 @@ namespace VoucherSales_Repositories
             OrderDAO.Instance.UpdateOrderStatus(orderId, newStatus);
         }
 
-       void IOrderRepository.DeleteOrder(int orderId)
+        public bool DeleteOrder(int orderId)
         {
             //delete an order
             if (orderId <= 0) throw new ArgumentException("OrderId must be greater than zero.", nameof(orderId));
-            OrderDAO.Instance.DeleteOrder(orderId);
+            return OrderDAO.Instance.DeleteOrder(orderId);
+
 
         }
 
@@ -42,7 +44,7 @@ namespace VoucherSales_Repositories
             OrderDAO.Instance.UpdateOrder(order, items);
         }
         // item crud
-   
+
 
 
         void IOrderRepository.DeleteOrderItem(int orderItemId)
@@ -51,7 +53,7 @@ namespace VoucherSales_Repositories
             if (orderItemId <= 0) throw new ArgumentException("OrderItemId must be greater than zero.", nameof(orderItemId));
             OrderDAO.Instance.DeleteOrderItem(orderItemId);
         }
-    
+
         List<OrderItem> IOrderRepository.GetOrderItemsByOrderId(int orderId)
         {
 
@@ -73,5 +75,9 @@ namespace VoucherSales_Repositories
             if (orderItem.OrderItemId <= 0) throw new ArgumentException("OrderItemId must be greater than zero.", nameof(orderItem.OrderItemId));
             OrderDAO.Instance.UpdateOrderItem(orderItem);
         }
+
+        //implement in repo
+        void IOrderRepository.UpdateOrderTotal(int orderId) =>
+            OrderDAO.Instance.UpdateOrderTotal(orderId);
     }
 }

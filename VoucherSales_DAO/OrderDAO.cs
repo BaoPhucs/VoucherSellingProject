@@ -34,14 +34,24 @@ namespace VoucherSales_DAO
         }
 
         //DeleteOrder()
-        public void DeleteOrder(int orderId)
+        public bool DeleteOrder(int orderId)
         {
             var order = _context.Orders.Find(orderId);
             if (order != null)
             {
+                // Check for related payments
+                bool hasPayments = _context.Payments.Any(p => p.OrderId == orderId);
+                if (hasPayments)
+                {
+                    // Cannot delete, payments exist
+                    return false;
+                }
+
                 _context.Orders.Remove(order);
                 _context.SaveChanges();
+                return true;
             }
+            return false;
         }
 
         //UpdateOrder()
@@ -80,6 +90,7 @@ namespace VoucherSales_DAO
             {
                 _context.OrderItems.Remove(item);
                 _context.SaveChanges();
+
             }
         }
 
@@ -137,5 +148,18 @@ namespace VoucherSales_DAO
                 _context.SaveChanges();
             }
         }
+
+        public void UpdateOrderTotal(int orderId)
+        {
+            var order = _context.Orders
+                   .Include(o => o.OrderItems)
+                   .FirstOrDefault(o => o.OrderId == orderId);
+            if (order != null)
+            {
+                order.TotalAmount = order.OrderItems.Sum(oi => oi.Subtotal);
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

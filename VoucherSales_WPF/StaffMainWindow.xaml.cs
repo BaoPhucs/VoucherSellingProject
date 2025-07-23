@@ -49,9 +49,6 @@ namespace VoucherSales_WPF
             {
                 StaffInfoTextBlock.Text = $"Staff: {_loggedInUser.UserId}, {_loggedInUser.FullName}";
             }
-
-
-           
         }
         private void LoadMetaData()
         {
@@ -124,6 +121,7 @@ namespace VoucherSales_WPF
 
         private void LoadOrders()
         {
+
             if (UserComboBox.SelectedValue is int userId)
             {
                 _currentOrders = _orderRepo.GetByUser(userId);
@@ -173,14 +171,19 @@ namespace VoucherSales_WPF
                 var result = MessageBox.Show("Are you sure you want to cancel this order?", "Confirm Cancel", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
-                    //remove in the database, however if delete an order,user should manually delete all items first, check constraint on this
                     if (selected.OrderItems.Count > 0)
                     {
                         MessageBox.Show("Please delete all order items before cancelling the order.", "Cannot Cancel", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
 
-                    _orderRepo.DeleteOrder(selected.OrderId);
+                    // Try to delete and inform user if not possible
+                    bool deleted = _orderRepo.DeleteOrder(selected.OrderId);
+                    if (!deleted)
+                    {
+                        MessageBox.Show("Cannot cancel this order because it has related payments.", "Cannot Cancel", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
                     OrderGrid.Items.Refresh();
                 }
             }
@@ -218,6 +221,7 @@ namespace VoucherSales_WPF
                 }
                 var detailWindow = new OrderDetailWindow(selectedOrder, _orderRepo);
                 detailWindow.ShowDialog();
+                LoadOrders();
             }
             else
             {
@@ -225,5 +229,34 @@ namespace VoucherSales_WPF
             }
         }
 
+
+
+        private void txtSearchOrder_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = txtSearchOrder.Text.Trim().ToLower();
+            var filtered = _currentOrders.Where(order =>
+                order.OrderId.ToString().Contains(searchText)).ToList();
+
+            OrderGrid.ItemsSource = filtered;
+        }
+
+        private void txtSearchVoucher_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = txtSearchVoucher.Text.Trim().ToLower();
+            var filtered = _currentVouchers.Where(v =>
+                (v.Code?.ToLower().Contains(searchText) == true) ).ToList();
+
+            VoucherGrid.ItemsSource = filtered;
+        }
+
+        private void RefreshOrders_Click(object sender, RoutedEventArgs e)
+        {
+            LoadOrders();
+        }
+
+        private void RefreshVouchers_Click(object sender, RoutedEventArgs e)
+        {
+            LoadVouchers();
+        }
     }
 }
