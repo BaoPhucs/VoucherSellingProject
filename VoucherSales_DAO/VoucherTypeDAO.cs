@@ -8,8 +8,10 @@ namespace VoucherSales_DAO
     public class VoucherTypeDAO
     {
         private static VoucherTypeDAO? _instance;
+        private readonly VoucherSalesDbContext _context = new VoucherSalesDbContext();
         public static VoucherTypeDAO Instance => _instance ??= new VoucherTypeDAO();
 
+        private readonly VoucherSalesDbContext _context = new VoucherSalesDbContext();
         private VoucherTypeDAO() { }
 
         public List<VoucherType> GetAllVoucherTypes()
@@ -24,13 +26,12 @@ namespace VoucherSales_DAO
             return ctx.VoucherTypes.Find(id);
         }
 
-        public bool CreateVoucherType(VoucherType voucherType)
+        public bool Create(VoucherType vt)
         {
             try
             {
-                using var ctx = new VoucherSalesDbContext();
-                ctx.VoucherTypes.Add(voucherType);
-                ctx.SaveChanges();
+                _context.VoucherTypes.Add(vt);
+                _context.SaveChanges();
                 return true;
             }
             catch
@@ -39,16 +40,25 @@ namespace VoucherSales_DAO
             }
         }
 
-        public bool UpdateVoucherType(VoucherType voucherType)
+        public bool Update(VoucherType vt)
         {
             try
             {
-                using var ctx = new VoucherSalesDbContext();
-                var existing = ctx.VoucherTypes.Find(voucherType.VoucherTypeId);
+                var existing = _context.VoucherTypes.FirstOrDefault(x => x.VoucherTypeId == vt.VoucherTypeId);
                 if (existing == null) return false;
 
-                ctx.Entry(existing).CurrentValues.SetValues(voucherType);
-                ctx.SaveChanges();
+                existing.Name = vt.Name;
+                existing.Description = vt.Description;
+                existing.DiscountType = vt.DiscountType;
+                existing.DiscountValue = vt.DiscountValue;
+                existing.MinOrderValue = vt.MinOrderValue;
+                existing.TotalQuantity = vt.TotalQuantity;
+                existing.ValidFrom = vt.ValidFrom;
+                existing.ValidTo = vt.ValidTo;
+                existing.Category = vt.Category;
+                existing.Location = vt.Location;
+
+                _context.SaveChanges();
                 return true;
             }
             catch
@@ -57,16 +67,15 @@ namespace VoucherSales_DAO
             }
         }
 
-        public bool DeleteVoucherType(int id)
+        public bool Delete(int id)
         {
             try
             {
-                using var ctx = new VoucherSalesDbContext();
-                var voucherType = ctx.VoucherTypes.Find(id);
-                if (voucherType == null) return false;
+                var vt = _context.VoucherTypes.Find(id);
+                if (vt == null) return false;
 
-                ctx.VoucherTypes.Remove(voucherType);
-                ctx.SaveChanges();
+                _context.VoucherTypes.Remove(vt);
+                _context.SaveChanges();
                 return true;
             }
             catch

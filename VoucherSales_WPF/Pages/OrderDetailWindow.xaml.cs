@@ -66,9 +66,9 @@ namespace VoucherSales_WPF
             }
         }
 
+     
 
-
-
+        
 
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
@@ -83,8 +83,10 @@ namespace VoucherSales_WPF
                     _orderRepo.UpdateOrder(CurrentOrder, OrderItems.ToList());
                     CurrentOrder = _orderRepo.GetByID(CurrentOrder.OrderId); // Refresh order
 
-                    MessageBox.Show("Order item deleted.");
-                }
+                _orderRepo.DeleteOrderItem(selected.OrderItemId); // Remove from DB
+                OrderItems.Remove(selected);
+                MessageBox.Show("Order item deleted.");
+            }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error deleting order item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

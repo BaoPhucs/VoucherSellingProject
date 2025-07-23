@@ -45,9 +45,9 @@
         </Grid.ColumnDefinitions>
 
         <!-- Ảnh / Demo placeholder -->
-        <Border Grid.Column="0" Background="#EEE" CornerRadius="8" Padding="10" Margin="5,0,721,270" Grid.ColumnSpan="2">
+        <Border Grid.Column="0" Background="#EEE" CornerRadius="8" Padding="10" Margin="5,0,721,389" Grid.ColumnSpan="2">
             <Image Source="{Binding SelectedVoucher.ImageUrl}" 
-             Stretch="Uniform" Margin="0,78,0,0"/>
+             Stretch="Uniform" Margin="0,2,0,0" Width="270" Height="270"/>
         </Border>
 
         <!-- Thông tin chi tiết ở cột phải -->
@@ -99,7 +99,7 @@
                     </TextBox.Text>
                 </TextBox>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" >
+            <StackPanel Orientation="Horizontal">
                 <Button Content="Add to Cart"
                     Style="{StaticResource PrimaryButton}"
                     Width="120"
@@ -122,7 +122,7 @@
                 <Button Content="← Back to Catalogue"
                     Style="{StaticResource PrimaryButton}"
                     Width="130"
-                    Click="OnBackToCatalogue" Height="30" Margin="0,100,10,10" Background="#FFA1A7AB"/>
+                    Click="OnBackToCatalogue" Height="30" Margin="250,150,10,10" Background="#FFA1A7AB"/>
             </StackPanel>
         </StackPanel>
 

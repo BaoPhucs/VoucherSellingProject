@@ -6,9 +6,8 @@
         xmlns:local="clr-namespace:VoucherSales_WPF"
         mc:Ignorable="d"
         Title="Voucher Sales"
-        Height="600
-        " Width="900
-        "
+        Height="650"
+        Width="900"
         Background="#F0F4F8"
         WindowStartupLocation="CenterScreen">
 
@@ -55,7 +54,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Style cho TextBox và PasswordBox -->
+        <!-- Style cho TextBox -->
         <Style TargetType="TextBox">
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="0,5,0,0"/>
@@ -64,7 +63,16 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Background" Value="White"/>
         </Style>
-        <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type TextBox}}"/>
+
+        <!-- Style cho PasswordBox -->
+        <Style TargetType="PasswordBox">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="0,5,0,0"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="BorderBrush" Value="#CCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
 
         <!-- Style cho TabControl -->
         <Style TargetType="TabControl">
@@ -105,29 +113,34 @@
 
             <StackPanel Margin="0,14,0,1">
                 <!-- Logo / Tựa đề -->
-                <!-- Logo / Tựa đề -->
                 <TextBlock x:Name="tbVoucherSales"
                            FontSize="26"
                            FontWeight="Bold"
-                           Foreground="{StaticResource AccentBrush}" Width="251" Text="Vouchers Shopping " Height="49"/>
-                <TabControl x:Name="tabControlLoginRegister" Height="400" Width="282">
+                           Foreground="{StaticResource AccentBrush}" 
+                           Width="251" 
+                           Text="Vouchers Shopping " 
+                           Height="49"/>
+                <TabControl x:Name="tabControlLoginRegister" Width="282">
                     <!-- Login Tab -->
                     <TabItem x:Name="tbiLogin" Header="Login">
-                        <StackPanel Height="250">
+                        <StackPanel>
                             <TextBlock x:Name="tbUserNameLogin" Text="Username" Margin="0,15,0,0"/>
                             <TextBox x:Name="txtLoginUsername" Height="30"/>
 
                             <TextBlock x:Name="tbPasswordLogin" Text="Password" Margin="0,15,0,0"/>
-                            <TextBox x:Name="txtLoginPassword" Height="30"/>
+                            <PasswordBox x:Name="pwdLoginPassword" Height="30" PasswordChanged="pwdLoginPassword_PasswordChanged"/>
+                            <CheckBox x:Name="chkShowPasswordLogin" Content="Show Password" Margin="0,5,0,0" Checked="chkShowPasswordLogin_Checked" Unchecked="chkShowPasswordLogin_Unchecked"/>
                             <Button x:Name="btnLogin" Content="Login"
                                     Style="{StaticResource PrimaryButton}"
-                                    Command="{Binding LoginCommand}" Height="25" Click="btnLogin_Click"/>
+                                    Command="{Binding LoginCommand}" 
+                                    Height="25" 
+                                    Click="btnLogin_Click"/>
                         </StackPanel>
                     </TabItem>
 
                     <!-- Register Tab -->
                     <TabItem x:Name="tbiRegister" Header="Register">
-                        <StackPanel Height="351">
+                        <StackPanel>
                             <TextBlock x:Name="tbUserNameRegister" Text="Username" Margin="0,5,0,0"/>
                             <TextBox x:Name="txtRegisterUsername" Height="30" Margin="0,0,0,0"/>
 
@@ -141,18 +154,21 @@
                             <TextBox x:Name="txtRegisterPhone" Height="30" BorderBrush="#FFCCCCCC" Margin="0,0,0,0"/>
 
                             <TextBlock x:Name="tbPasswordRegister" Text="Password" Margin="0,5,0,0"/>
-                            <TextBox x:Name="txtRegisterPassword" Height="30" Background="White" BorderBrush="#FFB3B3B3" Margin="0,0,0,0"/>
+                            <PasswordBox x:Name="pwdRegisterPassword" Height="30" Background="White" BorderBrush="#FFB3B3B3" Margin="0,0,0,0" PasswordChanged="pwdRegisterPassword_PasswordChanged"/>
+                            <CheckBox x:Name="chkShowPasswordRegister" Content="Show Password" Margin="0,5,0,0" Checked="chkShowPasswordRegister_Checked" Unchecked="chkShowPasswordRegister_Unchecked"/>
 
                             <TextBlock x:Name="tbConfirmPasswordRegister" Text="Confirm Password" Margin="0,5,0,0"/>
-                            <TextBox x:Name="txtRegisterConfirmPassword" Height="30" BorderBrush="#FFCCCCCC" Margin="0,0,0,0"/>
+                            <PasswordBox x:Name="pwdRegisterConfirmPassword" Height="30" BorderBrush="#FFCCCCCC" Margin="0,0,0,0" PasswordChanged="pwdRegisterConfirmPassword_PasswordChanged"/>
+                            <CheckBox x:Name="chkShowConfirmPasswordRegister" Content="Show Password" Margin="0,5,0,0" Checked="chkShowConfirmPasswordRegister_Checked" Unchecked="chkShowConfirmPasswordRegister_Unchecked"/>
                             <Button x:Name="btnRegister" Content="Register"
                                     Style="{StaticResource PrimaryButton}"
-                                    Command="{Binding RegisterCommand}" Height="25" Margin="0,15,0,0" Click="btnRegister_Click"/>
+                                    Command="{Binding RegisterCommand}" 
+                                    Height="25" 
+                                    Margin="0,15,0,0" 
+                                    Click="btnRegister_Click"/>
                         </StackPanel>
                     </TabItem>
                 </TabControl>
-
-                <!-- Tab cho Login / Register -->
             </StackPanel>
         </Border>
     </Grid>

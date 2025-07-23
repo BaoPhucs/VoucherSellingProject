@@ -4,7 +4,7 @@
        Title="OrderItem Details" Height="442" Width="656" WindowStartupLocation="CenterOwner">
     <Grid Margin="10,10,10,10">
         <StackPanel Margin="0,45,0,0">
-            <DataGrid x:Name="OrderItemGrid"
+           <DataGrid x:Name="OrderItemGrid"
                      RowEditEnding="OrderItemGrid_RowEditEnding"
                      AutoGenerateColumns="False"
                      CanUserAddRows="True"
@@ -12,14 +12,14 @@
                      IsReadOnly="False"
                      Height="247"
                      ItemsSource="{Binding OrderItems}" Loaded="OrderItemGrid_Loaded" Width="572">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Item ID" Binding="{Binding OrderItemId}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Voucher Type" Binding="{Binding VoucherTypeId}"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
-                    <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}"/>
+               <DataGrid.Columns>
+                   <DataGridTextColumn Header="Item ID" Binding="{Binding OrderItemId}" IsReadOnly="True"/>
+                   <DataGridTextColumn Header="Voucher Type" Binding="{Binding VoucherTypeId}"/>
+                   <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                   <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice}"/>
                     <DataGridTextColumn Header="Subtotal" Binding="{Binding Subtotal}" />
-                </DataGrid.Columns>
-            </DataGrid>
+               </DataGrid.Columns>
+           </DataGrid>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Delete Item" Width="122" Margin="0,0,10,0" Click="DeleteItem_Click" RenderTransformOrigin="0.5,0.5" Background="#FFFF1E1E" FontWeight="Bold">
                     <Button.RenderTransform>
@@ -31,10 +31,10 @@
                         </TransformGroup>
                     </Button.RenderTransform>
                 </Button>
-                <Button Content="Close" Width="46" Click="Close_Click"/>
-            </StackPanel>
-        </StackPanel>
+               <Button Content="Close" Width="46" Click="Close_Click"/>
+           </StackPanel>
+       </StackPanel>
         <TextBlock Text="Search Item(s):" FontWeight="Bold" FontSize="16" Width="126" HorizontalAlignment="Left" Margin="25,7,0,327"/>
         <TextBox x:Name="txtSearchOrderItem" TextWrapping="Wrap" Text="Search by Item or VoucherType" Margin="167,7,111,366" TextChanged="txtSearch_TextChanged"/>
-    </Grid>
+   </Grid>
 </Window>

@@ -52,7 +52,7 @@ namespace VoucherSales_WPF.Pages
             Vouchers.Clear();
             // Lấy tất cả mã unused, rồi filter theo Type:
             var list = _voucherRepo.GetMyWalletVouchers(App.CurrentUser.UserId)
-                                   .Where(v => v.VoucherTypeId == _voucherTypeId);
+                                   .Where(v => v.VoucherTypeId == _voucherTypeId && !v.IsRedeemed);
             foreach (var v in list)
                 Vouchers.Add(v);
 
@@ -61,42 +61,16 @@ namespace VoucherSales_WPF.Pages
 
         private void LoadLocations()
         {
-            // Ví dụ: lấy tất cả location từ voucher types
-            var locs = _voucherRepo
-                          .GetMyWalletVouchers(App.CurrentUser.UserId)
-                          .Select(v => v.VoucherType.Location)
-                          .Distinct()
+            var vouchers = _voucherRepo.GetMyWalletVouchers(App.CurrentUser.UserId)
+                          .Where(v => v.VoucherTypeId == _voucherTypeId)
                           .ToList();
-            Locations.Clear();
-            foreach (var l in locs) Locations.Add(l);
-            // Không bắt buộc chọn ngay
-            SelectedLocation = Locations.FirstOrDefault();
+            if (vouchers.Any())
+            {
+                Locations.Clear();
+                Locations.Add(vouchers.First().VoucherType.Location);
+                SelectedLocation = Locations.FirstOrDefault();
+            }
         }
-
-        //private void OnConfirmUse(object sender, RoutedEventArgs e)
-        //{
-        //    var sel = Vouchers.Where(v => v.IsSelected).ToList();
-        //    if (!sel.Any())
-        //    {
-        //        MessageBox.Show("Hãy chọn ít nhất 1 voucher để dùng.",
-        //                        "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-        //        return;
-        //    }
-
-        //    if (string.IsNullOrWhiteSpace(SelectedLocation))
-        //    {
-        //        MessageBox.Show("Please choose a location.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-        //        return;
-        //    }
-
-        //    foreach (var v in sel)
-        //        _voucherRepo.Redeem(v.VoucherId, SelectedLocation);
-
-        //    MessageBox.Show("Voucher(s) used!", "Success",
-        //                    MessageBoxButton.OK, MessageBoxImage.Information);
-        //    // Quay lại WalletPage để reload
-        //    NavigationService?.GoBack();
-        //}
 
         private void OnConfirmUse(object sender, RoutedEventArgs e)
         {

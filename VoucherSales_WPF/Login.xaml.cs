@@ -18,6 +18,8 @@ namespace VoucherSales_WPF
     public partial class Login : Window
     {
         private IUserRepository _userRepository = new UserRepository();
+        private TextBox txtLoginPassword, txtRegisterPassword, txtRegisterConfirmPassword;
+
         public Login()
         {
             InitializeComponent();
@@ -26,7 +28,7 @@ namespace VoucherSales_WPF
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             string username = txtLoginUsername.Text.Trim();
-            string password = txtLoginPassword.Text;
+            string password = pwdLoginPassword.Password;
 
             var user = _userRepository.ValidateLogin(username, password);
 
@@ -72,8 +74,8 @@ namespace VoucherSales_WPF
             string fullname = txtRegisterFullName.Text.Trim();
             string email = txtRegisterEmail.Text.Trim();
             string phone = txtRegisterPhone.Text.Trim();
-            string pass = txtRegisterPassword.Text;
-            string confirm = txtRegisterConfirmPassword.Text;
+            string pass = pwdRegisterPassword.Password;
+            string confirm = pwdRegisterConfirmPassword.Password;
 
             // 2. Validate cơ bản
             if (string.IsNullOrWhiteSpace(username) ||
@@ -93,7 +95,24 @@ namespace VoucherSales_WPF
                 return;
             }
 
-            // 3. Gọi repository
+            // 3. Validate email
+            string emailPattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+            if (!System.Text.RegularExpressions.Regex.IsMatch(email, emailPattern))
+            {
+                MessageBox.Show("Please enter a valid email address (e.g., example@domain.com).", "Validation Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // 4. Validate phone (10 số, bắt đầu bằng 0)
+            if (phone.Length != 10 || !phone.StartsWith("0") || !long.TryParse(phone, out _))
+            {
+                MessageBox.Show("Phone number must be 10 digits and start with 0 (e.g., 0123456789).", "Validation Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // 5. Gọi repository
             bool created = _userRepository.Register(fullname, username, email, phone, pass);
             if (!created)
             {
@@ -102,7 +121,7 @@ namespace VoucherSales_WPF
                 return;
             }
 
-            // 4. Thành công
+            // 6. Thành công
             MessageBox.Show("Registration successful! Please log in.", "Success",
                             MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -110,10 +129,135 @@ namespace VoucherSales_WPF
             txtRegisterUsername.Clear();
             txtRegisterEmail.Clear();
             txtRegisterPhone.Clear();
-            txtRegisterPassword.Clear();
-            txtRegisterConfirmPassword.Clear();
+            pwdRegisterPassword.Clear();
+            pwdRegisterConfirmPassword.Clear();
             tbiLogin.IsSelected = true;
         }
 
+        private void pwdLoginPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtLoginPassword != null)
+                txtLoginPassword.Text = ((PasswordBox)sender).Password;
+        }
+
+        private void pwdRegisterPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtRegisterPassword != null)
+                txtRegisterPassword.Text = ((PasswordBox)sender).Password;
+        }
+
+        private void pwdRegisterConfirmPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtRegisterConfirmPassword != null)
+                txtRegisterConfirmPassword.Text = ((PasswordBox)sender).Password;
+        }
+
+        private void chkShowPasswordLogin_Checked(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = pwdLoginPassword;
+            txtLoginPassword = new TextBox
+            {
+                Text = passwordBox.Password,
+                Height = 30,
+                Margin = passwordBox.Margin,
+                BorderBrush = passwordBox.BorderBrush,
+                Background = passwordBox.Background
+            };
+            txtLoginPassword.TextChanged += (s, args) => passwordBox.Password = txtLoginPassword.Text; // Thay PasswordChanged bằng TextChanged
+            var parent = (StackPanel)passwordBox.Parent;
+            int index = parent.Children.IndexOf(passwordBox);
+            parent.Children.Remove(passwordBox);
+            parent.Children.Insert(index, txtLoginPassword);
+        }
+
+        private void chkShowPasswordLogin_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = new PasswordBox
+            {
+                Password = txtLoginPassword.Text,
+                Height = 30,
+                Margin = txtLoginPassword.Margin,
+                BorderBrush = txtLoginPassword.BorderBrush,
+                Background = txtLoginPassword.Background
+            };
+            passwordBox.PasswordChanged += pwdLoginPassword_PasswordChanged;
+            var parent = (StackPanel)txtLoginPassword.Parent;
+            int index = parent.Children.IndexOf(txtLoginPassword);
+            parent.Children.Remove(txtLoginPassword);
+            parent.Children.Insert(index, passwordBox);
+            pwdLoginPassword = passwordBox;
+        }
+
+        private void chkShowPasswordRegister_Checked(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = pwdRegisterPassword;
+            txtRegisterPassword = new TextBox
+            {
+                Text = passwordBox.Password,
+                Height = 30,
+                Margin = passwordBox.Margin,
+                BorderBrush = passwordBox.BorderBrush,
+                Background = passwordBox.Background
+            };
+            txtRegisterPassword.TextChanged += (s, args) => passwordBox.Password = txtRegisterPassword.Text; // Thay PasswordChanged bằng TextChanged
+            var parent = (StackPanel)passwordBox.Parent;
+            int index = parent.Children.IndexOf(passwordBox);
+            parent.Children.Remove(passwordBox);
+            parent.Children.Insert(index, txtRegisterPassword);
+        }
+
+        private void chkShowPasswordRegister_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = new PasswordBox
+            {
+                Password = txtRegisterPassword.Text,
+                Height = 30,
+                Margin = txtRegisterPassword.Margin,
+                BorderBrush = txtRegisterPassword.BorderBrush,
+                Background = txtRegisterPassword.Background
+            };
+            passwordBox.PasswordChanged += pwdRegisterPassword_PasswordChanged;
+            var parent = (StackPanel)txtRegisterPassword.Parent;
+            int index = parent.Children.IndexOf(txtRegisterPassword);
+            parent.Children.Remove(txtRegisterPassword);
+            parent.Children.Insert(index, passwordBox);
+            pwdRegisterPassword = passwordBox;
+        }
+
+        private void chkShowConfirmPasswordRegister_Checked(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = pwdRegisterConfirmPassword;
+            txtRegisterConfirmPassword = new TextBox
+            {
+                Text = passwordBox.Password,
+                Height = 30,
+                Margin = passwordBox.Margin,
+                BorderBrush = passwordBox.BorderBrush,
+                Background = passwordBox.Background
+            };
+            txtRegisterConfirmPassword.TextChanged += (s, args) => passwordBox.Password = txtRegisterConfirmPassword.Text; // Thay PasswordChanged bằng TextChanged
+            var parent = (StackPanel)passwordBox.Parent;
+            int index = parent.Children.IndexOf(passwordBox);
+            parent.Children.Remove(passwordBox);
+            parent.Children.Insert(index, txtRegisterConfirmPassword);
+        }
+
+        private void chkShowConfirmPasswordRegister_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = new PasswordBox
+            {
+                Password = txtRegisterConfirmPassword.Text,
+                Height = 30,
+                Margin = txtRegisterConfirmPassword.Margin,
+                BorderBrush = txtRegisterConfirmPassword.BorderBrush,
+                Background = txtRegisterConfirmPassword.Background
+            };
+            passwordBox.PasswordChanged += pwdRegisterConfirmPassword_PasswordChanged;
+            var parent = (StackPanel)txtRegisterConfirmPassword.Parent;
+            int index = parent.Children.IndexOf(txtRegisterConfirmPassword);
+            parent.Children.Remove(txtRegisterConfirmPassword);
+            parent.Children.Insert(index, passwordBox);
+            pwdRegisterConfirmPassword = passwordBox;
+        }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VoucherSales_BO;
 using VoucherSales_DAO;
 
@@ -10,7 +7,11 @@ namespace VoucherSales_Repositories
 {
     public class UserRepository : IUserRepository
     {
-        public bool Register(string fullname, string username, string email, string phone, string password)
+        public List<User> GetAllUsers() => UserDAO.Instance.GetAllUsers();
+        public User? GetById(int id) => UserDAO.Instance.GetById(id);
+
+        public bool Register(string fullname, string username, string email,
+                             string phone, string password, int roleId = 3)
         {
             var user = new User
             {
@@ -19,7 +20,7 @@ namespace VoucherSales_Repositories
                 Email = email,
                 Phone = phone,
                 PasswordHash = password,
-                RoleId = 3,            // mặc định Customer
+                RoleId = roleId,
                 IsActive = true,
                 CreatedAt = DateTime.Now
             };
@@ -27,27 +28,36 @@ namespace VoucherSales_Repositories
         }
 
         public bool UpdateProfile(User user)
+            => UserDAO.Instance.UpdateProfile(user);
+
+        public bool ChangePassword(int userId, string currentPassword, string newPassword)
+            => UserDAO.Instance.ChangePassword(userId, currentPassword, newPassword);
+
+        public bool Delete(int id)
         {
-            return UserDAO.Instance.UpdateProfile(user);
+            try
+            {
+                using var ctx = new VoucherSalesDbContext();
+                var entity = ctx.Users.Find(id);
+                if (entity == null) return false;
+
+                ctx.Users.Remove(entity);
+                ctx.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public User? ValidateLogin(string username, string password)
-        {
-            return UserDAO.Instance.GetByUsernameAndPassword(username, password);
-        }
+            => UserDAO.Instance.GetByUsernameAndPassword(username, password);
 
-        public bool ChangePassword(int userId, string currentPassword, string newPassword)
-        {
-            return UserDAO.Instance.ChangePassword(userId, currentPassword, newPassword);
-        }
-        public List<User> GetAllUsers()
-        {
-            return UserDAO.Instance.GetAllUsers();
-        }
-        public User? GetById(int userId)
-        {
-            return UserDAO.Instance.GetById(userId);
+        public List<int> GetAllRoleIds()
+            => UserDAO.Instance.GetAllRoleIds();
 
-        }
+        public List<Role> GetAllRoles()
+            => UserDAO.Instance.GetAllRoles(); 
     }
 }
