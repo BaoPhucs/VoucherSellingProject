@@ -199,17 +199,6 @@ namespace VoucherSales_WPF
             MessageBox.Show("Returned to user selection. Select a tab to continue.");
         }
 
-        private void btnLogout_Click(object sender, RoutedEventArgs e)
-        {
-            //turnback to login windwo
-            //should ask confirmation
-
-
-            var loginWindow = new Login();
-            loginWindow.Show();
-            this.Close(); // Close the current window
-
-        }
         private void OrdersGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (OrderGrid.SelectedItem is Order selectedOrder)
@@ -269,23 +258,6 @@ namespace VoucherSales_WPF
             loginWindow.Show();
             this.Close(); // Close the current window
 
-        }
-        private void OrdersGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (OrderGrid.SelectedItem is Order selectedOrder)
-            {
-                if (selectedOrder.OrderItems == null)
-                {
-                    MessageBox.Show("This order has no items or failed to load items.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                var detailWindow = new OrderDetailWindow(selectedOrder, _orderRepo);
-                detailWindow.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("No order selected.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
         }
 
     }

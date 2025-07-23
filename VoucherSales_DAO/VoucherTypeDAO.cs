@@ -11,7 +11,6 @@ namespace VoucherSales_DAO
         private readonly VoucherSalesDbContext _context = new VoucherSalesDbContext();
         public static VoucherTypeDAO Instance => _instance ??= new VoucherTypeDAO();
 
-        private readonly VoucherSalesDbContext _context = new VoucherSalesDbContext();
         private VoucherTypeDAO() { }
 
         public List<VoucherType> GetAllVoucherTypes()
