@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Background="#FFE1F5F9">
 
-    <Grid Margin="10">
+    <Grid Margin="10" Background="#FFE9F3FF">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" Background="#FFF3FF9E">
             <Label Content="Từ ngày:" VerticalAlignment="Center" Margin="5"/>
             <DatePicker x:Name="dpFrom" Margin="5"/>
             <Label Content="Đến ngày:" VerticalAlignment="Center" Margin="5"/>
@@ -21,7 +21,7 @@
             <Button Content="Reset" Margin="5" Width="80" Click="btnReset_Click"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" Background="#FFADE5D9">
             <TextBlock x:Name="txtTotalRevenue"
                        FontSize="16"
                        FontWeight="Bold"
@@ -38,7 +38,7 @@
                       Margin="5"
                       IsReadOnly="True"
                       CanUserAddRows="False"
-                      SelectionMode="Single">
+                      SelectionMode="Single" Background="#FFE8F3BD">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Mã đơn" Binding="{Binding OrderId}" Width="80"/>
                     <DataGridTextColumn Header="Ngày tạo" Binding="{Binding OrderDate, StringFormat=d}" Width="120"/>
