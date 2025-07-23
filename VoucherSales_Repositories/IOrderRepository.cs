@@ -22,6 +22,7 @@ namespace VoucherSales_Repositories
         void CreateOrderItem(OrderItem orderItem);
         void UpdateOrderItem(OrderItem orderItem);
         List<OrderItem> GetOrderItemsByOrderId(int orderId);
+        List<Order> GetOrdersByDateRange(DateTime from, DateTime to);
 
         void UpdateOrderTotal(int orderId);
 

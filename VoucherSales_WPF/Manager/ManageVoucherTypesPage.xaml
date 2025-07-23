@@ -5,9 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:VoucherSales_WPF.Manager"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d">
+             mc:Ignorable="d" Background="#FFEAEEB9" FontWeight="Bold">
 
-    <Grid Margin="10">
+    <Grid Margin="10" Background="#FF9EEEAC">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -75,11 +75,11 @@
         <DataGrid x:Name="dgVoucherTypes"
                   Grid.Row="1"
                   AutoGenerateColumns="False"
-                  SelectionChanged="dgVoucherTypes_SelectionChanged">
+                  SelectionChanged="dgVoucherTypes_SelectionChanged" FontWeight="Normal">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"            Binding="{Binding VoucherTypeId}" Width="50"/>
+                <DataGridTextColumn Header="ID"            Binding="{Binding VoucherTypeId}" Width="50" FontWeight="Bold"/>
                 <DataGridTextColumn Header="Tên"           Binding="{Binding Name}"          Width="150"/>
-                <DataGridTextColumn Header="Mô tả"         Binding="{Binding Description}"   Width="200"/>
+                <DataGridTextColumn Header="Mô tả"         Binding="{Binding Description}"   Width="200" FontStyle="Italic"/>
                 <DataGridTextColumn Header="Kiểu giảm"     Binding="{Binding DiscountType}" Width="100"/>
                 <DataGridTextColumn Header="Giá trị"       Binding="{Binding DiscountValue}" Width="80"/>
                 <DataGridTextColumn Header="MinOrder"      Binding="{Binding MinOrderValue}" Width="80"/>
